@@ -17,6 +17,7 @@ const SliderStyles = styled.div`
     max-height: ${(props) => props.heightOnWideScreenVH}vh;
     width: ${(props) => props.widthOnWideScreenVW}vw;
     object-fit: contain;
+    border-radius: 5%;
   }
   .arrows {
     display: flex;

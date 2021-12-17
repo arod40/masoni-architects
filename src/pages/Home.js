@@ -51,6 +51,7 @@ const indexPage = 1;
 const contactPage = images.length - 1;
 
 const HomeLayout = styled.div`
+  background-color: black;
   display: grid;
   grid-template-rows: ${100 - wideScreenFooterHeightVH}vh ${wideScreenFooterHeightVH}vh;
   grid-template-columns: ${wideScreenNavWidthVW}vw ${100 -
