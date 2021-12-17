@@ -27,6 +27,28 @@ const wideScreenNavWidthVW = 10;
 const wideScreenFooterHeightVH = 10;
 const strechScreenNavHeight = 10;
 const strechScreenFooterHeight = 10;
+const images = [
+  pr1,
+  pr2,
+  pr3,
+  pr4,
+  pr5,
+  pr6,
+  pr7,
+  pr8,
+  pr9,
+  pr10,
+  pr11,
+  pr12,
+  pr13,
+  pr14,
+  pr15,
+  pr16,
+  pr17,
+];
+const homePage = 0;
+const indexPage = 1;
+const contactPage = images.length - 1;
 
 const HomeLayout = styled.div`
   display: grid;
@@ -77,33 +99,47 @@ export default function Home() {
     <HomeLayout>
       <div className="menu-bar">
         <IconsMenu mediaQueryLimitPixels={mediaQueryLimitPixels}>
-          <MdHome size="40" />
-          <MdList size="40" />
-          <MdPerson size="40" />
-          <MdFullscreen size="40" />
+          <div
+            key="home-icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => setCounter(homePage)}
+            onKeyDown={() => setCounter(homePage)}
+          >
+            <MdHome size="40" />
+          </div>
+          <div
+            key="list-icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => setCounter(indexPage)}
+            onKeyDown={() => setCounter(indexPage)}
+          >
+            <MdList size="40" />
+          </div>
+          <div
+            key="person-icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => setCounter(contactPage)}
+            onKeyDown={() => setCounter(contactPage)}
+          >
+            <MdPerson size="40" />
+          </div>
+          <div
+            key="fullscre-icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => console.log('Fullscreen hit')}
+            onKeyDown={() => () => console.log('Fullscreen hit')}
+          >
+            <MdFullscreen size="40" />
+          </div>
         </IconsMenu>
       </div>
       <div className="images-area">
         <ImagesSlider
-          images={[
-            pr1,
-            pr2,
-            pr3,
-            pr4,
-            pr5,
-            pr6,
-            pr7,
-            pr8,
-            pr9,
-            pr10,
-            pr11,
-            pr12,
-            pr13,
-            pr14,
-            pr15,
-            pr16,
-            pr17,
-          ]}
+          images={images}
           mediaQueryLimitPixels={mediaQueryLimitPixels}
           widthOnWideScreenVW={widthOnWideScreenVW}
           widthOnStrechScreenVW={widthOnStrechScreenVW}
