@@ -1,18 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowRight,
-  MdFullscreen,
-} from 'react-icons/md';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const SliderStyles = styled.div`
   position: relative;
   .slider {
     display: flex;
     flex-wrap: nowrap;
-    transition: transform 0.8s ease-out;
-    transform: translate3d(-${(props) => props.translateOnWideScreen}vw, 0, 0);
     align-items: center;
     height: ${(props) => props.heightOnWideScreenVH}vh;
   }
@@ -41,6 +36,29 @@ const SliderStyles = styled.div`
       transform: scale(1.3);
       transform: translateY(-1em);
     }
+  }
+
+  .fade-enter {
+    opacity: 0;
+    transform: scale(0.96);
+    z-index: 1;
+  }
+  .fade-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: 250ms ease-in;
+    transition-property: transform, opacity;
+    z-index: 1;
+  }
+  .fade-exit {
+    transform: scale(1);
+    opacity: 1;
+  }
+  .fade-exit-active {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: 200ms ease-in;
+    transition-property: transform, opacity;
   }
 
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
@@ -115,13 +133,20 @@ export default class ImagesSlider extends React.Component {
             <MdKeyboardArrowRight size="60" />
           </div>
         </div>
-        <ul className="slider">
+        <div className="slider">
+          <SwitchTransition component={null}>
+            <CSSTransition key={counter} timeout={300} classNames="fade">
+              <img src={images[counter]} alt="" />
+            </CSSTransition>
+          </SwitchTransition>
+        </div>
+        {/* <ul className="slider">
           {images.map((image) => (
             <li className="slide">
               <img src={image} alt="" />
             </li>
           ))}
-        </ul>
+        </ul> */}
       </SliderStyles>
     );
   }
