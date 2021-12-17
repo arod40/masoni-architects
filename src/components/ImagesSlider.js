@@ -63,12 +63,15 @@ const SliderStyles = styled.div`
 
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
     .slider {
-      transform: translate3d(
-        -${(props) => props.translateOnStrechScreen}vw,
-        0,
-        0
-      );
       height: ${(props) => props.heightOnStrechScreenVH}vh;
+    }
+    .arrows {
+      width: ${(props) => props.widthOnStrechScreenVW}vw;
+    }
+    .icon {
+      &:hover {
+        transform: translateY(0);
+      }
     }
     img {
       max-height: ${(props) => props.heightOnStrechScreenVH}vh;
@@ -105,8 +108,6 @@ export default class ImagesSlider extends React.Component {
     } = this.props;
     return (
       <SliderStyles
-        translateOnWideScreen={widthOnWideScreenVW * counter}
-        translateOnStrechScreen={widthOnStrechScreenVW * counter}
         widthOnWideScreenVW={widthOnWideScreenVW}
         widthOnStrechScreenVW={widthOnStrechScreenVW}
         heightOnWideScreenVH={heightOnWideScreenVH}
