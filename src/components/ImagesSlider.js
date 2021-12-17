@@ -7,7 +7,7 @@ const SliderStyles = styled.div`
     display: flex;
     flex-wrap: nowrap;
     transition: transform 1s ease-out;
-    transform: translate3d(-${(props) => props.translate}vw, 0, 0);
+    transform: translate3d(-${(props) => props.translateOnWideScreen}vw, 0, 0);
     align-items: center;
     height: ${(props) => props.heightOnWideScreenVH}vh;
   }
@@ -21,7 +21,12 @@ const SliderStyles = styled.div`
 
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
     .slider {
-      height: ${(props) => props.heightOnWideScreenVH}vh;
+      transform: translate3d(
+        -${(props) => props.translateOnStrechScreen}vw,
+        0,
+        0
+      );
+      height: ${(props) => props.heightOnStrechScreenVH}vh;
     }
     img {
       max-height: ${(props) => props.heightOnStrechScreenVH}vh;
@@ -35,40 +40,20 @@ export default class ImagesSlider extends React.Component {
     super(props);
     this.state = {
       counter: 0,
-      areaVW: this.calculateAvailableWidth(),
     };
   }
 
-  calculateAvailableWidth = (
-    mediaQueryLimitPixels,
-    widthOnWideScreenVW,
-    widthOnStrechScreenVW
-  ) =>
-    window.screen.availWidth <= mediaQueryLimitPixels
-      ? widthOnStrechScreenVW
-      : widthOnWideScreenVW;
-
   handleClick = () => {
     const { counter } = this.state;
-    const {
-      images,
-      mediaQueryLimitPixels,
-      widthOnWideScreenVW,
-      widthOnStrechScreenVW,
-    } = this.props;
+    const { images } = this.props;
 
     this.setState({
       counter: (counter + 1) % images.length,
-      areaVW: this.calculateAvailableWidth(
-        mediaQueryLimitPixels,
-        widthOnWideScreenVW,
-        widthOnStrechScreenVW
-      ),
     });
   };
 
   render() {
-    const { counter, areaVW } = this.state;
+    const { counter } = this.state;
     const {
       images,
       mediaQueryLimitPixels,
@@ -77,10 +62,10 @@ export default class ImagesSlider extends React.Component {
       heightOnWideScreenVH,
       heightOnStrechScreenVH,
     } = this.props;
-    const translate = areaVW * counter;
     return (
       <SliderStyles
-        translate={translate}
+        translateOnWideScreen={widthOnWideScreenVW * counter}
+        translateOnStrechScreen={widthOnStrechScreenVW * counter}
         widthOnWideScreenVW={widthOnWideScreenVW}
         widthOnStrechScreenVW={widthOnStrechScreenVW}
         heightOnWideScreenVH={heightOnWideScreenVH}
