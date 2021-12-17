@@ -80,75 +80,60 @@ const SliderStyles = styled.div`
   }
 `;
 
-export default class ImagesSlider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      counter: 0,
-    };
-  }
-
-  handleClick = (inc) => {
-    const { counter } = this.state;
-    const { images } = this.props;
-    this.setState({
-      counter: (counter + inc + images.length) % images.length,
-    });
-  };
-
-  render() {
-    const { counter } = this.state;
-    const {
-      images,
-      mediaQueryLimitPixels,
-      widthOnWideScreenVW,
-      widthOnStrechScreenVW,
-      heightOnWideScreenVH,
-      heightOnStrechScreenVH,
-    } = this.props;
-    return (
-      <SliderStyles
-        widthOnWideScreenVW={widthOnWideScreenVW}
-        widthOnStrechScreenVW={widthOnStrechScreenVW}
-        heightOnWideScreenVH={heightOnWideScreenVH}
-        heightOnStrechScreenVH={heightOnStrechScreenVH}
-        mediaQueryLimitPixels={mediaQueryLimitPixels}
-      >
-        <div className="arrows">
-          <div
-            className="icon arrow back"
-            role="button"
-            tabIndex={0}
-            onClick={() => this.handleClick(-1)}
-            onKeyDown={() => this.handleClick(-1)}
-          >
-            <MdKeyboardArrowLeft size="60" />
-          </div>
-          <div
-            className="icon arrow forward"
-            role="button"
-            tabIndex={0}
-            onClick={() => this.handleClick(1)}
-            onKeyDown={() => this.handleClick(1)}
-          >
-            <MdKeyboardArrowRight size="60" />
-          </div>
+export default function ImagesSlider(props) {
+  const {
+    images,
+    counter,
+    setCounter,
+    mediaQueryLimitPixels,
+    widthOnWideScreenVW,
+    widthOnStrechScreenVW,
+    heightOnWideScreenVH,
+    heightOnStrechScreenVH,
+  } = props;
+  return (
+    <SliderStyles
+      widthOnWideScreenVW={widthOnWideScreenVW}
+      widthOnStrechScreenVW={widthOnStrechScreenVW}
+      heightOnWideScreenVH={heightOnWideScreenVH}
+      heightOnStrechScreenVH={heightOnStrechScreenVH}
+      mediaQueryLimitPixels={mediaQueryLimitPixels}
+    >
+      <div className="arrows">
+        <div
+          className="icon arrow back"
+          role="button"
+          tabIndex={0}
+          onClick={() =>
+            setCounter((counter - 1 + images.length) % images.length)
+          }
+          onKeyDown={() =>
+            setCounter((counter - 1 + images.length) % images.length)
+          }
+        >
+          <MdKeyboardArrowLeft size="60" />
         </div>
-        <div className="slider">
-          <SwitchTransition component={null}>
-            <CSSTransition key={counter} timeout={300} classNames="fade">
-              <img src={images[counter]} alt="" />
-            </CSSTransition>
-          </SwitchTransition>
+        <div
+          className="icon arrow forward"
+          role="button"
+          tabIndex={0}
+          onClick={() =>
+            setCounter((counter + 1 + images.length) % images.length)
+          }
+          onKeyDown={() =>
+            setCounter((counter + 1 + images.length) % images.length)
+          }
+        >
+          <MdKeyboardArrowRight size="60" />
         </div>
-        {/* <ul className="slider">
-          {images.map((image) => (
-            <li className="slide">
-              <img src={image} alt="" />
-            </li>
-          ))}
-        </ul> */}
-      </SliderStyles>
-    );
-  }
+      </div>
+      <div className="slider">
+        <SwitchTransition component={null}>
+          <CSSTransition key={counter} timeout={300} classNames="fade">
+            <img src={images[counter]} alt="" />
+          </CSSTransition>
+        </SwitchTransition>
+      </div>
+    </SliderStyles>
+  );
 }

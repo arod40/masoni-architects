@@ -1,6 +1,4 @@
-import React from 'react';
-
-// import Carousel from '../components/Carousel';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 import { MdHome, MdPerson, MdFullscreen, MdList } from 'react-icons/md';
@@ -69,6 +67,7 @@ const HomeLayout = styled.div`
 `;
 
 export default function Home() {
+  const [counter, setCounter] = useState(0);
   const widthOnWideScreenVW = 100 - wideScreenNavWidthVW;
   const widthOnStrechScreenVW = 100;
   const heightOnWideScreenVH = 100 - strechScreenFooterHeight;
@@ -110,6 +109,8 @@ export default function Home() {
           widthOnStrechScreenVW={widthOnStrechScreenVW}
           heightOnWideScreenVH={heightOnWideScreenVH}
           heightOnStrechScreenVH={heightOnStrechScreenVH}
+          counter={counter}
+          setCounter={setCounter}
         />
       </div>
       <div className="footer" />
