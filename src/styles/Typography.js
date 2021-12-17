@@ -19,7 +19,6 @@ const Typography = createGlobalStyle`
   }
   *{
     font-family: var(--typo-text);
-    color: var(--black);
   }
   h1,h2,h3,h4,h5,h6{
     font-family: var(--typo-main);

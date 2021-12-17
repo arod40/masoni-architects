@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const SliderStyles = styled.div`
   .slider {
-    background-color: yellow;
     display: flex;
     flex-wrap: nowrap;
     transition: transform 1s ease-out;
