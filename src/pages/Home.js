@@ -91,6 +91,7 @@ const HomeLayout = styled.div`
 
 export default function Home() {
   const [counter, setCounter] = useState(0);
+  const [fullscreen, setFullScreen] = useState(false);
   const widthOnWideScreenVW = 100 - wideScreenNavWidthVW;
   const widthOnStrechScreenVW = 100;
   const heightOnWideScreenVH = 100 - strechScreenFooterHeight;
@@ -131,8 +132,8 @@ export default function Home() {
             key="fullscreen-icon"
             role="button"
             tabIndex={0}
-            onClick={() => console.log('Fullscreen hit')}
-            onKeyDown={() => () => console.log('Fullscreen hit')}
+            onClick={() => setFullScreen(true)}
+            onKeyDown={() => () => setFullScreen(true)}
           >
             <MdFullscreen size="40" />
           </div>
@@ -148,6 +149,8 @@ export default function Home() {
           heightOnStrechScreenVH={heightOnStrechScreenVH}
           counter={counter}
           setCounter={setCounter}
+          fullscreen={fullscreen}
+          setFullScreen={setFullScreen}
         />
       </div>
       <div className="footer" />

@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import {
+  MdFullscreenExit,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+} from 'react-icons/md';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const SliderStyles = styled.div`
@@ -11,13 +15,46 @@ const SliderStyles = styled.div`
     align-items: center;
     height: ${(props) => props.heightOnWideScreenVH}vh;
   }
-  .slide {
-  }
   img {
     max-height: ${(props) => props.heightOnWideScreenVH}vh;
     width: ${(props) => props.widthOnWideScreenVW}vw;
     object-fit: contain;
     border-radius: 5%;
+  }
+  img.fullscreen {
+    max-height: 100vh;
+    width: 100vw;
+    margin: auto;
+    z-index: 200;
+  }
+  .fullscreen-modal {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    background-color: black;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    padding-bottom: 60px;
+  }
+  .hidden {
+    display: none;
+  }
+  .exitfullscreen-icon {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: white;
+    transition: 0.25s ease;
+    &:hover {
+      transform: scale(1.3);
+      transform: translateY(-1em);
+      filter: drop-shadow(3px 5px 2px rgb(255 255 255 / 0.4));
+    }
+    z-index: 200;
   }
   .arrows {
     display: flex;
@@ -27,6 +64,13 @@ const SliderStyles = styled.div`
     top: 50%;
     position: absolute;
     z-index: 100;
+  }
+  .arrows.fullscreen {
+    z-index: 300;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    width: 100vw;
   }
   .icon {
     color: white;
@@ -38,7 +82,6 @@ const SliderStyles = styled.div`
       transform: translateY(-1em);
     }
   }
-
   .fade-enter {
     opacity: 0;
     transform: scale(0.96);
@@ -105,6 +148,8 @@ export default class ImagesSlider extends React.Component {
       widthOnStrechScreenVW,
       heightOnWideScreenVH,
       heightOnStrechScreenVH,
+      fullscreen,
+      setFullScreen,
     } = this.props;
     return (
       <SliderStyles
@@ -114,7 +159,7 @@ export default class ImagesSlider extends React.Component {
         heightOnStrechScreenVH={heightOnStrechScreenVH}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
       >
-        <div className="arrows">
+        <div className={fullscreen ? 'arrows fullscreen' : 'arrows'}>
           <div
             className="icon arrow back"
             role="button"
@@ -142,12 +187,27 @@ export default class ImagesSlider extends React.Component {
             <MdKeyboardArrowRight size="60" />
           </div>
         </div>
-        <div className="slider">
-          <SwitchTransition component={null}>
-            <CSSTransition key={counter} timeout={300} classNames="fade">
-              <img src={this.cacheImages[counter].src} alt="" />
-            </CSSTransition>
-          </SwitchTransition>
+        <div className={fullscreen ? 'fullscreen-modal' : ''}>
+          <div className="slider">
+            <SwitchTransition component={null}>
+              <CSSTransition key={counter} timeout={300} classNames="fade">
+                <img
+                  src={this.cacheImages[counter].src}
+                  alt=""
+                  className={fullscreen ? 'fullscreen' : ''}
+                />
+              </CSSTransition>
+            </SwitchTransition>
+          </div>
+          <div
+            className={fullscreen ? 'exitfullscreen-icon' : 'hidden'}
+            role="button"
+            tabIndex={0}
+            onClick={() => setFullScreen(false)}
+            onKeyDown={() => () => setFullScreen(false)}
+          >
+            <MdFullscreenExit size="40" />
+          </div>
         </div>
       </SliderStyles>
     );
