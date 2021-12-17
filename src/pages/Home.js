@@ -127,7 +127,7 @@ export default function Home() {
             <MdPerson size="40" />
           </div>
           <div
-            key="fullscre-icon"
+            key="fullscreen-icon"
             role="button"
             tabIndex={0}
             onClick={() => console.log('Fullscreen hit')}
