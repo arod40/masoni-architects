@@ -24,7 +24,7 @@ const SliderStyles = styled.div`
   img.fullscreen {
     max-height: 100vh;
     width: 100vw;
-    margin: auto;
+    padding: 1%;
     z-index: 200;
   }
   .fullscreen-modal {
@@ -85,14 +85,12 @@ const SliderStyles = styled.div`
   .fade-enter {
     opacity: 0;
     transform: scale(0.96);
-    z-index: 1;
   }
   .fade-enter-active {
     opacity: 1;
     transform: scale(1);
-    transition: 250ms ease-in;
+    transition: 300ms ease-in;
     transition-property: transform, opacity;
-    z-index: 1;
   }
   .fade-exit {
     transform: scale(1);
@@ -190,7 +188,7 @@ export default class ImagesSlider extends React.Component {
         <div className={fullscreen ? 'fullscreen-modal' : ''}>
           <div className="slider">
             <SwitchTransition component={null}>
-              <CSSTransition key={counter} timeout={300} classNames="fade">
+              <CSSTransition key={counter} timeout={400} classNames="fade">
                 <img
                   src={this.cacheImages[counter].src}
                   alt=""
