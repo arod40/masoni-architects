@@ -4,11 +4,23 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { MdHome, MdPerson, MdFullscreen, MdList } from 'react-icons/md';
-import pr1 from '../assets/pictures/pr1.jpg';
-import pr2 from '../assets/pictures/pr2.jpg';
-import pr3 from '../assets/pictures/pr3.jpg';
-import pr4 from '../assets/pictures/pr4.jpg';
-import pr5 from '../assets/pictures/pr5.jpg';
+import pr1 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0001.jpg';
+import pr2 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0002.jpg';
+import pr3 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0003.jpg';
+import pr4 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0004.jpg';
+import pr5 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0005.jpg';
+import pr6 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0006.jpg';
+import pr7 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0007.jpg';
+import pr8 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0008.jpg';
+import pr9 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0009.jpg';
+import pr10 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0010.jpg';
+import pr11 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0011.jpg';
+import pr12 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0012.jpg';
+import pr13 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0013.jpg';
+import pr14 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0014.jpg';
+import pr15 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0015.jpg';
+import pr16 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0016.jpg';
+import pr17 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0017.jpg';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
 
@@ -74,7 +86,25 @@ export default function Home() {
       </div>
       <div className="images-area">
         <ImagesSlider
-          images={[pr1, pr2, pr3, pr4, pr5]}
+          images={[
+            pr1,
+            pr2,
+            pr3,
+            pr4,
+            pr5,
+            pr6,
+            pr7,
+            pr8,
+            pr9,
+            pr10,
+            pr11,
+            pr12,
+            pr13,
+            pr14,
+            pr15,
+            pr16,
+            pr17,
+          ]}
           mediaQueryLimitPixels={mediaQueryLimitPixels}
           widthOnWideScreenVW={widthOnWideScreenVW}
           widthOnStrechScreenVW={widthOnStrechScreenVW}
