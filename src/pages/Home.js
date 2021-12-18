@@ -71,7 +71,7 @@ const HomeLayout = styled.div`
     wideScreenNavWidthVW}vw;
   grid-template-areas:
     'menu images'
-    'footer footer';
+    'menu footer';
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -82,7 +82,8 @@ const HomeLayout = styled.div`
   }
   .footer {
     grid-area: footer;
-    background-color: white;
+    background-color: black;
+    padding-bottom: 1%;
   }
   .images-area {
     grid-area: images;

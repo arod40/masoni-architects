@@ -8,12 +8,17 @@ const ContactsStyle = styled.div`
   justify-content: flex-end;
   height: 100%;
   text-align: end;
+  background-color: white;
+  border-radius: 10px;
+  margin: 0 1%;
   .contacts {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     justify-content: space-around;
     padding-right: 1%;
+    overflow-x: auto;
+    overflow-y: hidden;
     .contact {
       padding: 10px;
       font-size: 2vh;
