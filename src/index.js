@@ -6,6 +6,10 @@ import Typography from './styles/Typography';
 
 ReactDOM.render(
   <>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <GlobalStyles />
     <Typography />
     <App />

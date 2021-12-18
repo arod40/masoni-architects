@@ -20,12 +20,13 @@ const SliderStyles = styled.div`
     width: ${(props) => props.widthOnWideScreenVW}vw;
     object-fit: contain;
     border-radius: 5%;
+    padding: 1%;
   }
   img.fullscreen {
     max-height: 100vh;
     width: 100vw;
-    padding: 1%;
     z-index: 200;
+    border-radius: 0;
   }
   .fullscreen-modal {
     width: 100vw;

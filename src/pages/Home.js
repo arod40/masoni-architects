@@ -21,6 +21,7 @@ import pr16 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0016.jpg';
 import pr17 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0017.jpg';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
+import ContactsFooter from '../components/ContactsFooter';
 
 const mediaQueryLimitPixels = 600;
 const wideScreenNavWidthVW = 10;
@@ -49,6 +50,18 @@ const images = [
 const homePage = 0;
 const indexPage = 1;
 const contactPage = images.length - 1;
+const contacts = [
+  {
+    name: 'Alessandro Masoni',
+    email: 'example1@gmail.com',
+    phone: '1824812945',
+  },
+  {
+    name: 'Alessandro Masoni',
+    email: 'example2@gmail.com',
+    phone: '1824812945',
+  },
+];
 
 const HomeLayout = styled.div`
   background-color: black;
@@ -153,7 +166,9 @@ export default function Home() {
           setFullScreen={setFullScreen}
         />
       </div>
-      <div className="footer" />
+      <div className="footer">
+        <ContactsFooter contacts={contacts} />
+      </div>
     </HomeLayout>
   );
 }
