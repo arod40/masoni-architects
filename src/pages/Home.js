@@ -64,7 +64,6 @@ const contacts = [
 ];
 
 const HomeLayout = styled.div`
-  background-color: black;
   display: grid;
   grid-template-rows: ${100 - wideScreenFooterHeightVH}vh ${wideScreenFooterHeightVH}vh;
   grid-template-columns: ${wideScreenNavWidthVW}vw ${100 -
@@ -82,14 +81,12 @@ const HomeLayout = styled.div`
   }
   .footer {
     grid-area: footer;
-    background-color: black;
-    padding-bottom: 1%;
   }
   .images-area {
     grid-area: images;
-    background-color: black;
     margin: auto;
     height: ${100 - wideScreenFooterHeightVH}vh;
+    width: ${100 - wideScreenNavWidthVW}vw;
   }
   @media (max-width: ${mediaQueryLimitPixels}px) {
     grid-template-rows: ${strechScreenNavHeight}vh ${100 -
@@ -100,6 +97,10 @@ const HomeLayout = styled.div`
       'menu '
       'images'
       'footer';
+    .images-area {
+      height: ${100 - strechScreenNavHeight - strechScreenFooterHeight}vh;
+      width: 100vw;
+    }
   }
 `;
 

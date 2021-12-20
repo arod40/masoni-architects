@@ -8,8 +8,6 @@ const ContactsStyle = styled.div`
   justify-content: flex-end;
   height: 100%;
   text-align: end;
-  background-color: white;
-  border-radius: 10px;
   margin: 0 1%;
   .contacts {
     display: flex;

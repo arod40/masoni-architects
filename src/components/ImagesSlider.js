@@ -13,20 +13,19 @@ const SliderStyles = styled.div`
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
+    justify-content: center;
     height: ${(props) => props.heightOnWideScreenVH}vh;
   }
   img {
-    max-height: ${(props) => props.heightOnWideScreenVH}vh;
-    width: ${(props) => props.widthOnWideScreenVW}vw;
+    max-height: ${(props) => props.heightOnWideScreenVH - 2}vh;
+    max-width: ${(props) => props.widthOnWideScreenVW - 2}vw;
     object-fit: contain;
-    border-radius: 5%;
-    padding: 1%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
   img.fullscreen {
     max-height: 100vh;
     width: 100vw;
     z-index: 200;
-    border-radius: 0;
   }
   .fullscreen-modal {
     width: 100vw;
@@ -38,8 +37,9 @@ const SliderStyles = styled.div`
     background-color: black;
     z-index: 200;
     display: flex;
-    align-items: center;
     padding-bottom: 60px;
+    align-items: center;
+    justify-content: center;
   }
   .hidden {
     display: none;
@@ -117,8 +117,8 @@ const SliderStyles = styled.div`
       }
     }
     img {
-      max-height: ${(props) => props.heightOnStrechScreenVH}vh;
-      width: ${(props) => props.widthOnStrechScreenVW}vw;
+      max-height: ${(props) => props.heightOnStrechScreenVH - 2}vh;
+      max-width: ${(props) => props.widthOnStrechScreenVW}vw;
     }
   }
 `;
