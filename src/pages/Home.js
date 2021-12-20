@@ -62,6 +62,7 @@ const HomeLayout = styled.div`
     margin: auto;
     height: ${100 - wideScreenFooterHeightVH}vh;
     width: ${100 - wideScreenNavWidthVW}vw;
+    overflow-y: auto;
   }
   @media (max-width: ${mediaQueryLimitPixels}px) {
     grid-template-rows: ${strechScreenNavHeight}vh ${100 -
