@@ -147,7 +147,11 @@ export default function Home() {
       </div>
       <div className="images-area">
         {showIndex ? (
-          <Index data={data} />
+          <Index
+            data={data}
+            setCounter={setCounter}
+            setShowIndex={setShowIndex}
+          />
         ) : (
           <ImagesSlider
             images={images}

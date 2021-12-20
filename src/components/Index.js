@@ -39,10 +39,29 @@ const IndexCardStyle = styled.div`
 `;
 
 function IndexCard(props) {
-  const { pages, header, year, subheader, thumbnail } = props;
+  const {
+    pages,
+    header,
+    year,
+    subheader,
+    thumbnail,
+    setCounter,
+    setShowIndex,
+  } = props;
 
   return (
-    <IndexCardStyle>
+    <IndexCardStyle
+      role="button"
+      tabIndex={0}
+      onClick={() => {
+        setCounter(pages[0]);
+        setShowIndex(false);
+      }}
+      onKeyDown={() => {
+        setCounter(pages[0]);
+        setShowIndex(false);
+      }}
+    >
       <div className="card-grid">
         <div className="thumbnail">
           <img src={thumbnail} alt="" />
@@ -69,7 +88,7 @@ const IndexStyle = styled.div`
 `;
 
 export default function Index(props) {
-  const { data } = props;
+  const { data, setCounter, setShowIndex } = props;
   return (
     <IndexStyle>
       <h1> Index </h1>
@@ -79,13 +98,15 @@ export default function Index(props) {
           .map((page) => {
             const pageData = data.pages[page];
             return (
-              <li>
+              <li key={page}>
                 <IndexCard
                   thumbnail={pageData.file}
                   header={pageData.header}
                   year={pageData.year}
                   subheader={pageData.subheader}
                   pages={pageData.pages}
+                  setCounter={setCounter}
+                  setShowIndex={setShowIndex}
                 />
               </li>
             );
