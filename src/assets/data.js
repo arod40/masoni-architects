@@ -1,13 +1,18 @@
+import im1 from './pictures/2017_AM_Potfolio_DiDa_page-0001.jpg';
+import im2 from './pictures/2017_AM_Potfolio_DiDa_page-0002.jpg';
+import im3 from './pictures/2017_AM_Potfolio_DiDa_page-0003.jpg';
+import im17 from './pictures/2017_AM_Potfolio_DiDa_page-0017.jpg';
+
 const data = {
   home: {
-    filename: '2017_AM_Potfolio_DiDa_page-0001.jpg',
+    file: im1,
   },
   contact: {
-    filename: '2017_AM_Potfolio_DiDa_page-0017.jpg',
+    file: im17,
   },
   pages: {
     1: {
-      filename: '2017_AM_Potfolio_DiDa_page-0002.jpg',
+      file: im2,
       header: 'Consultancy for Elcimai Ingenierie',
       subheader:
         '"Maestro de Obra" for the extension of the Havana Club rum factory in San José de las Lajas',
@@ -15,7 +20,7 @@ const data = {
       index: true,
     },
     2: {
-      filename: '2017_AM_Potfolio_DiDa_page-0003.jpg',
+      file: im3,
       header: 'Women Centers',
       subheader:
         'Prototype: for 17 rural communities in Swaziland. Built 1st stage in Mambane and Lwandle',
