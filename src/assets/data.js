@@ -29,6 +29,33 @@ const data = {
       index: true,
       pages: [2],
     },
+    3: {
+      file: im3,
+      header: 'Women Centers',
+      subheader:
+        'Prototype: for 17 rural communities in Swaziland. Built 1st stage in Mambane and Lwandle',
+      year: 2017,
+      index: true,
+      pages: [2],
+    },
+    4: {
+      file: im3,
+      header: 'Women Centers',
+      subheader:
+        'Prototype: for 17 rural communities in Swaziland. Built 1st stage in Mambane and Lwandle',
+      year: 2017,
+      index: true,
+      pages: [2],
+    },
+    5: {
+      file: im3,
+      header: 'Women Centers',
+      subheader:
+        'Prototype: for 17 rural communities in Swaziland. Built 1st stage in Mambane and Lwandle',
+      year: 2017,
+      index: true,
+      pages: [2],
+    },
   },
 };
 

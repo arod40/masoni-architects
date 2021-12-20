@@ -14,22 +14,26 @@ const IndexCardStyle = styled.div`
   }
   .thumbnail {
     grid-area: thumbnail;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .header {
     grid-area: header;
-    font-size: 4vh;
+    font-size: 3vw;
+    margin: 0 10% 0 5%;
   }
   .subheader {
     grid-area: subheader;
-    font-size: 2vh;
+    font-size: 1.5vw;
+    margin: 0 10% 0 5%;
   }
   .pages {
     grid-area: pages;
-    font-size: 3vh;
+    font-size: 2vw;
   }
   img {
     max-width: 20vw;
-    max-height: 20vh;
     object-fit: contain;
   }
 `;
@@ -57,12 +61,18 @@ function IndexCard(props) {
   );
 }
 
-const IndexStyle = styled.div``;
+const IndexStyle = styled.div`
+  h1 {
+    text-align: center;
+    margin: 2% 0;
+  }
+`;
 
 export default function Index(props) {
   const { data } = props;
   return (
     <IndexStyle>
+      <h1> Index </h1>
       <ul style={{ display: 'block' }}>
         {Object.keys(data.pages)
           .filter((page) => data.pages[page].index)
