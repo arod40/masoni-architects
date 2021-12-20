@@ -22,6 +22,8 @@ import pr17 from '../assets/pictures/2017_AM_Potfolio_DiDa_page-0017.jpg';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
 import ContactsFooter from '../components/ContactsFooter';
+import Index from '../components/Index';
+import data from '../assets';
 
 const mediaQueryLimitPixels = 600;
 const wideScreenNavWidthVW = 10;
@@ -48,7 +50,6 @@ const images = [
   pr17,
 ];
 const homePage = 0;
-const indexPage = 1;
 const contactPage = images.length - 1;
 const contacts = [
   {
@@ -107,6 +108,8 @@ const HomeLayout = styled.div`
 export default function Home() {
   const [counter, setCounter] = useState(0);
   const [fullscreen, setFullScreen] = useState(false);
+  const [showIndex, setShowIndex] = useState(false);
+
   const widthOnWideScreenVW = 100 - wideScreenNavWidthVW;
   const widthOnStrechScreenVW = 100;
   const heightOnWideScreenVH = 100 - strechScreenFooterHeight;
@@ -120,8 +123,14 @@ export default function Home() {
             key="home-icon"
             role="button"
             tabIndex={0}
-            onClick={() => setCounter(homePage)}
-            onKeyDown={() => setCounter(homePage)}
+            onClick={() => {
+              setCounter(homePage);
+              setShowIndex(false);
+            }}
+            onKeyDown={() => {
+              setCounter(homePage);
+              setShowIndex(false);
+            }}
           >
             <MdHome size="40" />
           </div>
@@ -129,8 +138,8 @@ export default function Home() {
             key="list-icon"
             role="button"
             tabIndex={0}
-            onClick={() => setCounter(indexPage)}
-            onKeyDown={() => setCounter(indexPage)}
+            onClick={() => setShowIndex(true)}
+            onKeyDown={() => setShowIndex(true)}
           >
             <MdList size="40" />
           </div>
@@ -138,8 +147,14 @@ export default function Home() {
             key="person-icon"
             role="button"
             tabIndex={0}
-            onClick={() => setCounter(contactPage)}
-            onKeyDown={() => setCounter(contactPage)}
+            onClick={() => {
+              setCounter(contactPage);
+              setShowIndex(false);
+            }}
+            onKeyDown={() => {
+              setCounter(contactPage);
+              setShowIndex(false);
+            }}
           >
             <MdPerson size="40" />
           </div>
@@ -155,18 +170,22 @@ export default function Home() {
         </IconsMenu>
       </div>
       <div className="images-area">
-        <ImagesSlider
-          images={images}
-          mediaQueryLimitPixels={mediaQueryLimitPixels}
-          widthOnWideScreenVW={widthOnWideScreenVW}
-          widthOnStrechScreenVW={widthOnStrechScreenVW}
-          heightOnWideScreenVH={heightOnWideScreenVH}
-          heightOnStrechScreenVH={heightOnStrechScreenVH}
-          counter={counter}
-          setCounter={setCounter}
-          fullscreen={fullscreen}
-          setFullScreen={setFullScreen}
-        />
+        {showIndex ? (
+          <Index data={data} />
+        ) : (
+          <ImagesSlider
+            images={images}
+            mediaQueryLimitPixels={mediaQueryLimitPixels}
+            widthOnWideScreenVW={widthOnWideScreenVW}
+            widthOnStrechScreenVW={widthOnStrechScreenVW}
+            heightOnWideScreenVH={heightOnWideScreenVH}
+            heightOnStrechScreenVH={heightOnStrechScreenVH}
+            counter={counter}
+            setCounter={setCounter}
+            fullscreen={fullscreen}
+            setFullScreen={setFullScreen}
+          />
+        )}
       </div>
       <div className="footer">
         <ContactsFooter contacts={contacts} />
