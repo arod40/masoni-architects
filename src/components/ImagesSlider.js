@@ -16,9 +16,12 @@ const SliderStyles = styled.div`
     justify-content: center;
     height: ${(props) => props.heightOnWideScreenVH}vh;
   }
+  .two-images {
+    display: inline-block;
+  }
   img {
     max-height: ${(props) => props.heightOnWideScreenVH - 2}vh;
-    max-width: ${(props) => props.widthOnWideScreenVW - 2}vw;
+    max-width: ${(props) => (props.widthOnWideScreenVW - 2) / 2}vw;
     object-fit: contain;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
@@ -72,6 +75,13 @@ const SliderStyles = styled.div`
     top: 50%;
     left: 0;
     width: 100vw;
+  }
+  .arrow.back {
+    visibility: ${(props) => (props.counter === 0 ? 'hidden' : 'visible')};
+  }
+  .arrow.forward {
+    visibility: ${(props) =>
+      props.counter === props.lastPage ? 'hidden' : 'visible'};
   }
   .icon {
     color: white;
@@ -127,7 +137,7 @@ export default class ImagesSlider extends React.Component {
   constructor(props) {
     super(props);
 
-    const { images } = this.props;
+    const { images, mediaQueryLimitPixels } = this.props;
     this.cacheImages = Array.from(
       images.map((image) => {
         const img = new Image();
@@ -135,6 +145,7 @@ export default class ImagesSlider extends React.Component {
         return img;
       })
     );
+    this.isHorizontal = window.screen.availWidth > mediaQueryLimitPixels;
   }
 
   render() {
@@ -150,6 +161,8 @@ export default class ImagesSlider extends React.Component {
       fullscreen,
       setFullScreen,
     } = this.props;
+
+    const increment = !this.isHorizontal || counter === 0 ? 1 : 2;
     return (
       <SliderStyles
         widthOnWideScreenVW={widthOnWideScreenVW}
@@ -157,6 +170,8 @@ export default class ImagesSlider extends React.Component {
         heightOnWideScreenVH={heightOnWideScreenVH}
         heightOnStrechScreenVH={heightOnStrechScreenVH}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
+        counter={counter}
+        lastPage={images.length - 1}
       >
         <div className={fullscreen ? 'arrows fullscreen' : 'arrows'}>
           <div
@@ -164,10 +179,10 @@ export default class ImagesSlider extends React.Component {
             role="button"
             tabIndex={0}
             onClick={() =>
-              setCounter((counter - 1 + images.length) % images.length)
+              setCounter((counter - increment + images.length) % images.length)
             }
             onKeyDown={() =>
-              setCounter((counter - 1 + images.length) % images.length)
+              setCounter((counter - increment + images.length) % images.length)
             }
           >
             <MdKeyboardArrowLeft size="60" />
@@ -177,10 +192,10 @@ export default class ImagesSlider extends React.Component {
             role="button"
             tabIndex={0}
             onClick={() =>
-              setCounter((counter + 1 + images.length) % images.length)
+              setCounter((counter + increment + images.length) % images.length)
             }
             onKeyDown={() =>
-              setCounter((counter + 1 + images.length) % images.length)
+              setCounter((counter + increment + images.length) % images.length)
             }
           >
             <MdKeyboardArrowRight size="60" />
@@ -190,11 +205,30 @@ export default class ImagesSlider extends React.Component {
           <div className="slider">
             <SwitchTransition component={null}>
               <CSSTransition key={counter} timeout={400} classNames="fade">
-                <img
-                  src={this.cacheImages[counter].src}
-                  alt=""
-                  className={fullscreen ? 'fullscreen' : ''}
-                />
+                {this.isHorizontal ? (
+                  <div className="two-images">
+                    <img
+                      src={this.cacheImages[counter].src}
+                      alt=""
+                      className={fullscreen ? 'fullscreen' : ''}
+                    />
+                    {counter !== 0 && counter !== images.length - 1 ? (
+                      <img
+                        src={this.cacheImages[counter + 1].src}
+                        alt=""
+                        className={fullscreen ? 'fullscreen' : ''}
+                      />
+                    ) : (
+                      <div />
+                    )}
+                  </div>
+                ) : (
+                  <img
+                    src={this.cacheImages[counter].src}
+                    alt=""
+                    className={fullscreen ? 'fullscreen' : ''}
+                  />
+                )}
               </CSSTransition>
             </SwitchTransition>
           </div>
