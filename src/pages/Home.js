@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 import { MdHome, MdPerson, MdFullscreen, MdList } from 'react-icons/md';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
 import ContactsFooter from '../components/ContactsFooter';
@@ -63,6 +64,26 @@ const HomeLayout = styled.div`
     height: ${100 - wideScreenFooterHeightVH}vh;
     width: ${100 - wideScreenNavWidthVW}vw;
     overflow-y: auto;
+  }
+  .fade-enter {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  .fade-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: 300ms ease-in;
+    transition-property: transform, opacity;
+  }
+  .fade-exit {
+    transform: scale(1);
+    opacity: 1;
+  }
+  .fade-exit-active {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: 200ms ease-in;
+    transition-property: transform, opacity;
   }
   @media (max-width: ${mediaQueryLimitPixels}px) {
     grid-template-rows: ${strechScreenNavHeight}vh ${100 -
@@ -146,26 +167,30 @@ export default function Home() {
         </IconsMenu>
       </div>
       <div className="images-area">
-        {showIndex ? (
-          <Index
-            data={data}
-            setCounter={setCounter}
-            setShowIndex={setShowIndex}
-          />
-        ) : (
-          <ImagesSlider
-            images={images}
-            mediaQueryLimitPixels={mediaQueryLimitPixels}
-            widthOnWideScreenVW={widthOnWideScreenVW}
-            widthOnStrechScreenVW={widthOnStrechScreenVW}
-            heightOnWideScreenVH={heightOnWideScreenVH}
-            heightOnStrechScreenVH={heightOnStrechScreenVH}
-            counter={counter}
-            setCounter={setCounter}
-            fullscreen={fullscreen}
-            setFullScreen={setFullScreen}
-          />
-        )}
+        <SwitchTransition component={null}>
+          <CSSTransition key={showIndex} timeout={400} classNames="fade">
+            {showIndex ? (
+              <Index
+                data={data}
+                setCounter={setCounter}
+                setShowIndex={setShowIndex}
+              />
+            ) : (
+              <ImagesSlider
+                images={images}
+                mediaQueryLimitPixels={mediaQueryLimitPixels}
+                widthOnWideScreenVW={widthOnWideScreenVW}
+                widthOnStrechScreenVW={widthOnStrechScreenVW}
+                heightOnWideScreenVH={heightOnWideScreenVH}
+                heightOnStrechScreenVH={heightOnStrechScreenVH}
+                counter={counter}
+                setCounter={setCounter}
+                fullscreen={fullscreen}
+                setFullScreen={setFullScreen}
+              />
+            )}
+          </CSSTransition>
+        </SwitchTransition>
       </div>
       <div className="footer">
         <ContactsFooter contacts={contacts} />
