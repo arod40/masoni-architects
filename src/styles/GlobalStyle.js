@@ -13,8 +13,8 @@ const GlobalStyles = createGlobalStyle`
     --gray-2: #363636;
     --white : white;
     --black: black;
-    --typo-main: 'Open Sans Condensed';
-    --typo-text: 'Dancing Script';
+    --typo-main: Helvetica, Arial, sans-serif;
+    --typo-text: Courier, sans-serif;
   }
   html{
     font-size: 10px;
