@@ -162,7 +162,14 @@ export default class ImagesSlider extends React.Component {
       setFullScreen,
     } = this.props;
 
-    const increment = !this.isHorizontal || counter === 0 ? 1 : 2;
+    const incrementBack =
+      !this.isHorizontal || counter === images.length - 1 || counter === 1
+        ? 1
+        : 2;
+    const incrementForward =
+      !this.isHorizontal || counter === images.length - 2 || counter === 0
+        ? 1
+        : 2;
     return (
       <SliderStyles
         widthOnWideScreenVW={widthOnWideScreenVW}
@@ -179,10 +186,14 @@ export default class ImagesSlider extends React.Component {
             role="button"
             tabIndex={0}
             onClick={() =>
-              setCounter((counter - increment + images.length) % images.length)
+              setCounter(
+                (counter - incrementBack + images.length) % images.length
+              )
             }
             onKeyDown={() =>
-              setCounter((counter - increment + images.length) % images.length)
+              setCounter(
+                (counter - incrementBack + images.length) % images.length
+              )
             }
           >
             <MdKeyboardArrowLeft size="60" />
@@ -192,10 +203,14 @@ export default class ImagesSlider extends React.Component {
             role="button"
             tabIndex={0}
             onClick={() =>
-              setCounter((counter + increment + images.length) % images.length)
+              setCounter(
+                (counter + incrementForward + images.length) % images.length
+              )
             }
             onKeyDown={() =>
-              setCounter((counter + increment + images.length) % images.length)
+              setCounter(
+                (counter + incrementForward + images.length) % images.length
+              )
             }
           >
             <MdKeyboardArrowRight size="60" />
