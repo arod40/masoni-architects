@@ -6,7 +6,7 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
 import ContactsFooter from '../components/ContactsFooter';
-import Index from '../components/Index';
+import IndexPage from '../components/IndexPage';
 import data from '../assets/data';
 
 const mediaQueryLimitPixels = 600;
@@ -104,7 +104,6 @@ const HomeLayout = styled.div`
 export default function Home() {
   const [counter, setCounter] = useState(0);
   const [fullscreen, setFullScreen] = useState(false);
-  const [showIndex, setShowIndex] = useState(false);
 
   const widthOnWideScreenVW = 100 - wideScreenNavWidthVW;
   const widthOnStrechScreenVW = 100;
@@ -122,11 +121,9 @@ export default function Home() {
             tabIndex={0}
             onClick={() => {
               setCounter(homePage);
-              setShowIndex(false);
             }}
             onKeyDown={() => {
               setCounter(homePage);
-              setShowIndex(false);
             }}
           >
             <MdHome size="40" />
@@ -135,8 +132,8 @@ export default function Home() {
             key="list-icon"
             role="button"
             tabIndex={0}
-            onClick={() => setShowIndex(true)}
-            onKeyDown={() => setShowIndex(true)}
+            onClick={() => setCounter(1)}
+            onKeyDown={() => setCounter(1)}
           >
             <MdList size="40" />
           </div>
@@ -146,11 +143,9 @@ export default function Home() {
             tabIndex={0}
             onClick={() => {
               setCounter(contactPage);
-              setShowIndex(false);
             }}
             onKeyDown={() => {
               setCounter(contactPage);
-              setShowIndex(false);
             }}
           >
             <MdPerson size="40" />
@@ -167,30 +162,19 @@ export default function Home() {
         </IconsMenu>
       </div>
       <div className="images-area">
-        <SwitchTransition component={null}>
-          <CSSTransition key={showIndex} timeout={400} classNames="fade">
-            {showIndex ? (
-              <Index
-                data={data}
-                setCounter={setCounter}
-                setShowIndex={setShowIndex}
-              />
-            ) : (
-              <ImagesSlider
-                images={images}
-                mediaQueryLimitPixels={mediaQueryLimitPixels}
-                widthOnWideScreenVW={widthOnWideScreenVW}
-                widthOnStrechScreenVW={widthOnStrechScreenVW}
-                heightOnWideScreenVH={heightOnWideScreenVH}
-                heightOnStrechScreenVH={heightOnStrechScreenVH}
-                counter={counter}
-                setCounter={setCounter}
-                fullscreen={fullscreen}
-                setFullScreen={setFullScreen}
-              />
-            )}
-          </CSSTransition>
-        </SwitchTransition>
+        <ImagesSlider
+          images={images}
+          mediaQueryLimitPixels={mediaQueryLimitPixels}
+          widthOnWideScreenVW={widthOnWideScreenVW}
+          widthOnStrechScreenVW={widthOnStrechScreenVW}
+          heightOnWideScreenVH={heightOnWideScreenVH}
+          heightOnStrechScreenVH={heightOnStrechScreenVH}
+          counter={counter}
+          setCounter={setCounter}
+          fullscreen={fullscreen}
+          setFullScreen={setFullScreen}
+          pagesData={data}
+        />
       </div>
       <div className="footer">
         <ContactsFooter contacts={contacts} />

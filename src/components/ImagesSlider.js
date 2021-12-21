@@ -7,6 +7,182 @@ import {
 } from 'react-icons/md';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
+const IndexCardStyle = styled.div`
+  padding: 1%;
+  margin: 1% 1%;
+  .card-grid {
+    display: grid;
+    grid-template-areas:
+      'thumbnail header pages'
+      'thumbnail subheader pages';
+  }
+  .thumbnail {
+    grid-area: thumbnail;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .header {
+    grid-area: header;
+    margin: 0 10% 0 5%;
+  }
+  .subheader {
+    grid-area: subheader;
+    margin: 0 10% 0 5%;
+  }
+  .pages {
+    grid-area: pages;
+  }
+  img {
+    max-width: 20vw;
+    object-fit: contain;
+  }
+`;
+
+function IndexCard(props) {
+  const { pages, header, year, subheader, thumbnail, setCounter } = props;
+
+  return (
+    <IndexCardStyle
+      role="button"
+      tabIndex={0}
+      onClick={() => {
+        setCounter(pages[0]);
+      }}
+      onKeyDown={() => {
+        setCounter(pages[0]);
+      }}
+    >
+      <div className="card-grid">
+        {/* <div className="thumbnail">
+          <img src={thumbnail} alt="" />
+        </div> */}
+        <div className="header">
+          {header}-{year}
+        </div>
+        <div className="subheader">{subheader}</div>
+        <div className="pages">
+          {pages.length > 1
+            ? `${pages[0].toString()}-${pages[pages.length - 1]}`
+            : pages[0]}
+        </div>
+      </div>
+    </IndexCardStyle>
+  );
+}
+
+const IndexPageStyle = styled.div`
+  h1 {
+    text-align: center;
+    margin: 2% 0;
+  }
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+`;
+
+function IndexPage(props) {
+  const { data, setCounter, height, width } = props;
+  return (
+    <IndexPageStyle height={height} width={width}>
+      <h1> Index </h1>
+      <ul style={{ display: 'block' }}>
+        {Object.keys(data.pages)
+          .filter((page) => data.pages[page].index)
+          .map((page) => {
+            const pageData = data.pages[page];
+            return (
+              <li key={page}>
+                <IndexCard
+                  thumbnail={pageData.file}
+                  year={pageData.year}
+                  subheader={pageData.subheader}
+                  pages={pageData.pages}
+                  setCounter={setCounter}
+                />
+              </li>
+            );
+          })}
+      </ul>
+    </IndexPageStyle>
+  );
+}
+
+const PageStyle = styled.div``;
+
+function Page(props) {
+  const {
+    pagesData,
+    isHorizontal,
+    isIndex,
+    counter,
+    setCounter,
+    images,
+    fullscreen,
+  } = props;
+  const height = 616;
+  const width = 492;
+
+  if (isHorizontal) {
+    return (
+      <PageStyle>
+        {isIndex ? (
+          <div className="two-images">
+            <IndexPage
+              data={pagesData}
+              setCounter={setCounter}
+              height={height}
+              width={width}
+            />
+            <IndexPage
+              data={pagesData}
+              setCounter={setCounter}
+              height={height}
+              width={width}
+            />
+          </div>
+        ) : (
+          <div className="two-images">
+            <img
+              src={images[counter].src}
+              alt=""
+              className={fullscreen ? 'fullscreen' : ''}
+            />
+            {counter !== 0 && counter !== images.length - 1 ? (
+              <img
+                src={images[counter + 1].src}
+                alt=""
+                className={fullscreen ? 'fullscreen' : ''}
+              />
+            ) : (
+              <div />
+            )}
+          </div>
+        )}
+      </PageStyle>
+    );
+  }
+
+  return (
+    <PageStyle>
+      {isIndex ? (
+        <IndexPage
+          data={pagesData}
+          setCounter={setCounter}
+          height={height}
+          width={width}
+        />
+      ) : (
+        <img
+          src={images[counter].src}
+          alt=""
+          className={fullscreen ? 'fullscreen' : ''}
+        />
+      )}
+    </PageStyle>
+  );
+}
+
 const SliderStyles = styled.div`
   position: relative;
   .slider {
@@ -17,7 +193,9 @@ const SliderStyles = styled.div`
     height: ${(props) => props.heightOnWideScreenVH}vh;
   }
   .two-images {
-    display: inline-block;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
   }
   img {
     max-height: ${(props) => props.heightOnWideScreenVH - 2}vh;
@@ -137,7 +315,7 @@ export default class ImagesSlider extends React.Component {
   constructor(props) {
     super(props);
 
-    const { images, mediaQueryLimitPixels } = this.props;
+    const { images } = this.props;
     this.cacheImages = Array.from(
       images.map((image) => {
         const img = new Image();
@@ -145,12 +323,17 @@ export default class ImagesSlider extends React.Component {
         return img;
       })
     );
-    this.isHorizontal = window.screen.availWidth > mediaQueryLimitPixels;
+    // Leaving room for index pages
+    this.cacheImages = [
+      this.cacheImages[0],
+      undefined,
+      undefined,
+      ...this.cacheImages.slice(1),
+    ];
   }
 
   render() {
     const {
-      images,
       counter,
       setCounter,
       mediaQueryLimitPixels,
@@ -160,16 +343,16 @@ export default class ImagesSlider extends React.Component {
       heightOnStrechScreenVH,
       fullscreen,
       setFullScreen,
+      pagesData,
     } = this.props;
 
+    const isHorizontal = window.screen.availWidth > mediaQueryLimitPixels;
+    const isIndex = counter === 1;
+    const numberOfPages = this.cacheImages.length;
     const incrementBack =
-      !this.isHorizontal || counter === images.length - 1 || counter === 1
-        ? 1
-        : 2;
+      !isHorizontal || counter === numberOfPages - 1 || counter === 1 ? 1 : 2;
     const incrementForward =
-      !this.isHorizontal || counter === images.length - 2 || counter === 0
-        ? 1
-        : 2;
+      !isHorizontal || counter === numberOfPages - 2 || counter === 0 ? 1 : 2;
     return (
       <SliderStyles
         widthOnWideScreenVW={widthOnWideScreenVW}
@@ -178,7 +361,7 @@ export default class ImagesSlider extends React.Component {
         heightOnStrechScreenVH={heightOnStrechScreenVH}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         counter={counter}
-        lastPage={images.length - 1}
+        lastPage={numberOfPages - 1}
       >
         <div className={fullscreen ? 'arrows fullscreen' : 'arrows'}>
           <div
@@ -187,12 +370,12 @@ export default class ImagesSlider extends React.Component {
             tabIndex={0}
             onClick={() =>
               setCounter(
-                (counter - incrementBack + images.length) % images.length
+                (counter - incrementBack + numberOfPages) % numberOfPages
               )
             }
             onKeyDown={() =>
               setCounter(
-                (counter - incrementBack + images.length) % images.length
+                (counter - incrementBack + numberOfPages) % numberOfPages
               )
             }
           >
@@ -204,12 +387,12 @@ export default class ImagesSlider extends React.Component {
             tabIndex={0}
             onClick={() =>
               setCounter(
-                (counter + incrementForward + images.length) % images.length
+                (counter + incrementForward + numberOfPages) % numberOfPages
               )
             }
             onKeyDown={() =>
               setCounter(
-                (counter + incrementForward + images.length) % images.length
+                (counter + incrementForward + numberOfPages) % numberOfPages
               )
             }
           >
@@ -220,30 +403,15 @@ export default class ImagesSlider extends React.Component {
           <div className="slider">
             <SwitchTransition component={null}>
               <CSSTransition key={counter} timeout={400} classNames="fade">
-                {this.isHorizontal ? (
-                  <div className="two-images">
-                    <img
-                      src={this.cacheImages[counter].src}
-                      alt=""
-                      className={fullscreen ? 'fullscreen' : ''}
-                    />
-                    {counter !== 0 && counter !== images.length - 1 ? (
-                      <img
-                        src={this.cacheImages[counter + 1].src}
-                        alt=""
-                        className={fullscreen ? 'fullscreen' : ''}
-                      />
-                    ) : (
-                      <div />
-                    )}
-                  </div>
-                ) : (
-                  <img
-                    src={this.cacheImages[counter].src}
-                    alt=""
-                    className={fullscreen ? 'fullscreen' : ''}
-                  />
-                )}
+                <Page
+                  images={this.cacheImages}
+                  isHorizontal={isHorizontal}
+                  isIndex={isIndex}
+                  counter={counter}
+                  setCounter={setCounter}
+                  fullscreen={fullscreen}
+                  pagesData={pagesData}
+                />
               </CSSTransition>
             </SwitchTransition>
           </div>
