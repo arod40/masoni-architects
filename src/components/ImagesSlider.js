@@ -76,15 +76,14 @@ const IndexPageStyle = styled.div`
     text-align: center;
     margin: 2% 0;
   }
-  height: ${(props) => props.height}px;
-  width: ${(props) => props.width}px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  height: 100%;
+  width: 100%;
 `;
 
 function IndexPage(props) {
-  const { data, setCounter, height, width } = props;
+  const { data, setCounter } = props;
   return (
-    <IndexPageStyle height={height} width={width}>
+    <IndexPageStyle>
       <h1> Index </h1>
       <ul style={{ display: 'block' }}>
         {Object.keys(data.pages)
@@ -108,7 +107,43 @@ function IndexPage(props) {
   );
 }
 
-const PageStyle = styled.div``;
+const PageStyle = styled.div`
+  max-height: ${(props) => props.heightOnWideScreenVH - 2}vh;
+  max-width: ${(props) => props.widthOnWideScreenVW - 2}vw;
+  width: ${(props) => props.widthOnWideScreenVW - 2}vw;
+  height: ${(props) => (props.widthOnWideScreenVW - 2) * 0.6}vw;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+
+  .image-wrapper {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .image-wrapper.left {
+    justify-content: flex-end;
+  }
+  .image-wrapper.right {
+    justify-content: flex-start;
+  }
+  .image-wrapper.center {
+    justify-content: center;
+  }
+
+  @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
+    max-height: ${(props) => props.heightOnStrechScreenVH - 2}vh;
+    max-width: ${(props) => props.widthOnStrechScreenVW}vw;
+    width: ${(props) => props.widthOnStrechScreenVW - 2}vw;
+    height: ${(props) => props.widthOnStrechScreenVW * 1.2}vw;
+
+    .image-wrapper {
+      width: 100%;
+    }
+  }
+`;
 
 function Page(props) {
   const {
@@ -119,41 +154,44 @@ function Page(props) {
     setCounter,
     images,
     fullscreen,
+    mediaQueryLimitPixels,
+    widthOnWideScreenVW,
+    widthOnStrechScreenVW,
+    heightOnWideScreenVH,
+    heightOnStrechScreenVH,
   } = props;
-  const height = 616;
-  const width = 492;
 
   if (isHorizontal) {
     return (
-      <PageStyle>
+      <PageStyle
+        mediaQueryLimitPixels={mediaQueryLimitPixels}
+        widthOnWideScreenVW={widthOnWideScreenVW}
+        widthOnStrechScreenVW={widthOnStrechScreenVW}
+        heightOnWideScreenVH={heightOnWideScreenVH}
+        heightOnStrechScreenVH={heightOnStrechScreenVH}
+      >
         {isIndex ? (
           <div className="two-images">
-            <IndexPage
-              data={pagesData}
-              setCounter={setCounter}
-              height={height}
-              width={width}
-            />
-            <IndexPage
-              data={pagesData}
-              setCounter={setCounter}
-              height={height}
-              width={width}
-            />
+            <IndexPage data={pagesData} setCounter={setCounter} />
+            <IndexPage data={pagesData} setCounter={setCounter} />
           </div>
         ) : (
           <div className="two-images">
-            <img
-              src={images[counter].src}
-              alt=""
-              className={fullscreen ? 'fullscreen' : ''}
-            />
-            {counter !== 0 && counter !== images.length - 1 ? (
+            <div className="image-wrapper left">
               <img
-                src={images[counter + 1].src}
+                src={images[counter].src}
                 alt=""
                 className={fullscreen ? 'fullscreen' : ''}
               />
+            </div>
+            {counter !== 0 && counter !== images.length - 1 ? (
+              <div className="image-wrapper right">
+                <img
+                  src={images[counter + 1].src}
+                  alt=""
+                  className={fullscreen ? 'fullscreen' : ''}
+                />
+              </div>
             ) : (
               <div />
             )}
@@ -164,21 +202,24 @@ function Page(props) {
   }
 
   return (
-    <PageStyle>
-      {isIndex ? (
-        <IndexPage
-          data={pagesData}
-          setCounter={setCounter}
-          height={height}
-          width={width}
-        />
-      ) : (
-        <img
-          src={images[counter].src}
-          alt=""
-          className={fullscreen ? 'fullscreen' : ''}
-        />
-      )}
+    <PageStyle
+      mediaQueryLimitPixels={mediaQueryLimitPixels}
+      widthOnWideScreenVW={widthOnWideScreenVW}
+      widthOnStrechScreenVW={widthOnStrechScreenVW}
+      heightOnWideScreenVH={heightOnWideScreenVH}
+      heightOnStrechScreenVH={heightOnStrechScreenVH}
+    >
+      <div className="image-wrapper center">
+        {isIndex ? (
+          <IndexPage data={pagesData} setCounter={setCounter} />
+        ) : (
+          <img
+            src={images[counter].src}
+            alt=""
+            className={fullscreen ? 'fullscreen' : ''}
+          />
+        )}
+      </div>
     </PageStyle>
   );
 }
@@ -195,13 +236,16 @@ const SliderStyles = styled.div`
   .two-images {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
   }
   img {
-    max-height: ${(props) => props.heightOnWideScreenVH - 2}vh;
-    max-width: ${(props) => (props.widthOnWideScreenVW - 2) / 2}vw;
+    max-height: 100%;
+    max-width: 100%;
     object-fit: contain;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
   img.fullscreen {
     max-height: 100vh;
@@ -304,10 +348,6 @@ const SliderStyles = styled.div`
         transform: translateY(0);
       }
     }
-    img {
-      max-height: ${(props) => props.heightOnStrechScreenVH - 2}vh;
-      max-width: ${(props) => props.widthOnStrechScreenVW}vw;
-    }
   }
 `;
 
@@ -323,13 +363,6 @@ export default class ImagesSlider extends React.Component {
         return img;
       })
     );
-    // Leaving room for index pages
-    this.cacheImages = [
-      this.cacheImages[0],
-      undefined,
-      undefined,
-      ...this.cacheImages.slice(1),
-    ];
   }
 
   render() {
@@ -347,10 +380,9 @@ export default class ImagesSlider extends React.Component {
     } = this.props;
 
     const isHorizontal = window.screen.availWidth > mediaQueryLimitPixels;
-    const isIndex = counter === 1;
+    const isIndex = counter === 1 || counter === 2;
     const numberOfPages = this.cacheImages.length;
-    const incrementBack =
-      !isHorizontal || counter === numberOfPages - 1 || counter === 1 ? 1 : 2;
+    const incrementBack = !isHorizontal || counter === 1 ? 1 : 2;
     const incrementForward =
       !isHorizontal || counter === numberOfPages - 2 || counter === 0 ? 1 : 2;
     return (
@@ -411,6 +443,11 @@ export default class ImagesSlider extends React.Component {
                   setCounter={setCounter}
                   fullscreen={fullscreen}
                   pagesData={pagesData}
+                  mediaQueryLimitPixels={mediaQueryLimitPixels}
+                  widthOnWideScreenVW={widthOnWideScreenVW}
+                  widthOnStrechScreenVW={widthOnStrechScreenVW}
+                  heightOnWideScreenVH={heightOnWideScreenVH}
+                  heightOnStrechScreenVH={heightOnStrechScreenVH}
                 />
               </CSSTransition>
             </SwitchTransition>

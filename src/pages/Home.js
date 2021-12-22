@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 import { MdHome, MdPerson, MdFullscreen, MdList } from 'react-icons/md';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
 import ContactsFooter from '../components/ContactsFooter';
-import IndexPage from '../components/IndexPage';
 import data from '../assets/data';
 
 const mediaQueryLimitPixels = 600;
@@ -14,7 +12,7 @@ const wideScreenNavWidthVW = 10;
 const wideScreenFooterHeightVH = 10;
 const strechScreenNavHeight = 10;
 const strechScreenFooterHeight = 10;
-const images = [
+let images = [
   data.home.file,
   ...Array.from(
     Object.keys(data.pages).map((page) => [page, data.pages[page].file])
@@ -23,7 +21,8 @@ const images = [
     .map((elem) => elem[1]),
   data.contact.file,
 ];
-
+// Leaving room for index pages
+images = [images[0], undefined, undefined, ...images.slice(1)];
 const homePage = 0;
 const contactPage = images.length - 1;
 const contacts = [
