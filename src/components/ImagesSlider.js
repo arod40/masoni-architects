@@ -117,19 +117,34 @@ const PageStyle = styled.div`
   justify-content: center;
   align-items: center;
 
-  .image-wrapper {
+  .double-page {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .page-wrapper {
     width: 50%;
     height: 100%;
     display: flex;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
-  .image-wrapper.left {
+  .page-wrapper.left {
     justify-content: flex-end;
   }
-  .image-wrapper.right {
+  .page-wrapper.right {
     justify-content: flex-start;
   }
-  .image-wrapper.center {
+  .page-wrapper.center {
     justify-content: center;
   }
 
@@ -139,7 +154,7 @@ const PageStyle = styled.div`
     width: ${(props) => props.widthOnStrechScreenVW - 2}vw;
     height: ${(props) => props.widthOnStrechScreenVW * 1.2}vw;
 
-    .image-wrapper {
+    .page-wrapper {
       width: 100%;
     }
   }
@@ -171,13 +186,17 @@ function Page(props) {
         heightOnStrechScreenVH={heightOnStrechScreenVH}
       >
         {isIndex ? (
-          <div className="two-images">
-            <IndexPage data={pagesData} setCounter={setCounter} />
-            <IndexPage data={pagesData} setCounter={setCounter} />
+          <div className="double-page">
+            <div className="page-wrapper left">
+              <IndexPage data={pagesData} setCounter={setCounter} />
+            </div>
+            <div className="page-wrapper right">
+              <IndexPage data={pagesData} setCounter={setCounter} />
+            </div>
           </div>
         ) : (
-          <div className="two-images">
-            <div className="image-wrapper left">
+          <div className="double-page">
+            <div className="page-wrapper left">
               <img
                 src={images[counter].src}
                 alt=""
@@ -185,7 +204,7 @@ function Page(props) {
               />
             </div>
             {counter !== 0 && counter !== images.length - 1 ? (
-              <div className="image-wrapper right">
+              <div className="page-wrapper right">
                 <img
                   src={images[counter + 1].src}
                   alt=""
@@ -209,7 +228,7 @@ function Page(props) {
       heightOnWideScreenVH={heightOnWideScreenVH}
       heightOnStrechScreenVH={heightOnStrechScreenVH}
     >
-      <div className="image-wrapper center">
+      <div className="page-wrapper center">
         {isIndex ? (
           <IndexPage data={pagesData} setCounter={setCounter} />
         ) : (
@@ -232,20 +251,6 @@ const SliderStyles = styled.div`
     align-items: center;
     justify-content: center;
     height: ${(props) => props.heightOnWideScreenVH}vh;
-  }
-  .two-images {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-  img {
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain;
   }
   img.fullscreen {
     max-height: 100vh;
