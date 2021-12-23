@@ -9,6 +9,9 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const SliderStyles = styled.div`
   position: relative;
+  .cache {
+    display: none;
+  }
   .slider {
     display: flex;
     flex-wrap: nowrap;
@@ -145,6 +148,12 @@ export default function ImagesSlider(props) {
       counter={counter}
       lastPage={numberOfPages - 1}
     >
+      {/* Rendering all pages beforehand so they are cached by browser */}
+      <div className="cache">
+        {pages.map((page) => (
+          <div>{page}</div>
+        ))}
+      </div>
       <div className={fullscreen ? 'arrows fullscreen' : 'arrows'}>
         <div
           className="icon arrow back"
