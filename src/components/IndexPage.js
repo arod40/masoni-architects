@@ -3,6 +3,12 @@ import styled from 'styled-components';
 const IndexCardStyle = styled.div`
   padding: 1%;
   margin: 1% 1%;
+  transition: 0.3s ease;
+  transition-property: box-shadow background-color;
+  &:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: lightgray;
+  }
   .card-grid {
     display: grid;
     grid-template-areas:
@@ -27,7 +33,7 @@ const IndexCardStyle = styled.div`
     grid-area: pages;
   }
   img {
-    max-height: 5vw;
+    max-height: 4.2vw;
     object-fit: contain;
   }
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
@@ -86,7 +92,7 @@ const IndexPageStyle = styled.div`
   grid-template-rows: 1fr 9fr;
   h1 {
     text-align: center;
-    margin: 2% 0;
+    margin: 5% 0 2% 0;
     grid-area: title;
   }
   h1.hidden {
@@ -97,12 +103,19 @@ const IndexPageStyle = styled.div`
   .index-entries {
     grid-area: index-entries;
   }
-  li {
-    font-size: 1.17vw;
+  .li {
+    font-size: 0.95vw;
   }
+  .subheader {
+    font-size: 0.7vw;
+  }
+
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
     li {
       font-size: 2.7vw;
+    }
+    .subheader {
+      font-size: 2vw;
     }
   }
 `;

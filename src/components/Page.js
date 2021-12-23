@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 const PageStyle = styled.div`
-  max-width: ${(props) => props.widthOnWideScreenVW - 2}vw;
-  width: ${(props) => props.widthOnWideScreenVW - 2}vw;
-  height: ${(props) => (props.widthOnWideScreenVW - 2) * 0.6}vw;
+  max-width: ${(props) => props.widthOnWideScreenVW - 20}vw;
+  width: ${(props) => props.widthOnWideScreenVW - 20}vw;
+  height: ${(props) => (props.widthOnWideScreenVW - 20) * 0.6}vw;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -41,7 +41,6 @@ const PageStyle = styled.div`
   }
 
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
-    max-height: ${(props) => props.heightOnStrechScreenVH - 2}vh;
     max-width: ${(props) => props.widthOnStrechScreenVW}vw;
     width: ${(props) => props.widthOnStrechScreenVW - 2}vw;
     height: ${(props) => props.widthOnStrechScreenVW * 1.2}vw;

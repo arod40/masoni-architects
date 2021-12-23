@@ -54,28 +54,22 @@ const SliderStyles = styled.div`
     }
     z-index: 200;
   }
-  .arrows {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    width: ${(props) => props.widthOnWideScreenVW}vw;
-    top: 50%;
+  .arrow {
     position: absolute;
-    z-index: 100;
+    top: 50%;
   }
-  .arrows.fullscreen {
+  .arrow.fullscreen {
     z-index: 300;
     position: fixed;
-    top: 50%;
-    left: 0;
-    width: 100vw;
   }
   .arrow.back {
     visibility: ${(props) => (props.counter === 0 ? 'hidden' : 'visible')};
+    left: 0;
   }
   .arrow.forward {
     visibility: ${(props) =>
       props.counter === props.lastPage ? 'hidden' : 'visible'};
+    right: 0;
   }
   .icon {
     color: white;
@@ -111,9 +105,6 @@ const SliderStyles = styled.div`
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
     .slider {
       height: ${(props) => props.heightOnStrechScreenVH}vh;
-    }
-    .arrows {
-      width: ${(props) => props.widthOnStrechScreenVW}vw;
     }
     .icon {
       &:hover {
@@ -154,33 +145,36 @@ export default function ImagesSlider(props) {
           <div>{page}</div>
         ))}
       </div>
-      <div className={fullscreen ? 'arrows fullscreen' : 'arrows'}>
-        <div
-          className="icon arrow back"
-          role="button"
-          tabIndex={0}
-          onClick={() =>
-            setCounter((counter - 1 + numberOfPages) % numberOfPages)
-          }
-          onKeyDown={() =>
-            setCounter((counter - 1 + numberOfPages) % numberOfPages)
-          }
-        >
-          <MdKeyboardArrowLeft size="60" />
-        </div>
-        <div
-          className="icon arrow forward"
-          role="button"
-          tabIndex={0}
-          onClick={() =>
-            setCounter((counter + 1 + numberOfPages) % numberOfPages)
-          }
-          onKeyDown={() =>
-            setCounter((counter + 1 + numberOfPages) % numberOfPages)
-          }
-        >
-          <MdKeyboardArrowRight size="60" />
-        </div>
+
+      <div
+        className={
+          fullscreen ? 'icon arrow back fullscreen' : 'icon arrow back'
+        }
+        role="button"
+        tabIndex={0}
+        onClick={() =>
+          setCounter((counter - 1 + numberOfPages) % numberOfPages)
+        }
+        onKeyDown={() =>
+          setCounter((counter - 1 + numberOfPages) % numberOfPages)
+        }
+      >
+        <MdKeyboardArrowLeft size="60" />
+      </div>
+      <div
+        className={
+          fullscreen ? 'icon arrow forward fullscreen' : 'icon arrow forward'
+        }
+        role="button"
+        tabIndex={0}
+        onClick={() =>
+          setCounter((counter + 1 + numberOfPages) % numberOfPages)
+        }
+        onKeyDown={() =>
+          setCounter((counter + 1 + numberOfPages) % numberOfPages)
+        }
+      >
+        <MdKeyboardArrowRight size="60" />
       </div>
       <div className={fullscreen ? 'fullscreen-modal' : ''}>
         <div className="slider">
