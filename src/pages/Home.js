@@ -136,9 +136,22 @@ export default class Home extends React.Component {
       />
     );
 
+    const indexablePages = Object.keys(data.pages)
+      .filter((page) => data.pages[page].index)
+      .map((page) => data.pages[page]);
+
     const pagesContent = [
-      <IndexPage data={data} setCounter={this.setCounter} />,
-      <IndexPage data={data} setCounter={this.setCounter} />,
+      <IndexPage
+        indexes={indexablePages.slice(0, 7)}
+        setCounter={this.setCounter}
+        mediaQueryLimitPixels={mediaQueryLimitPixels}
+        isTitlePage
+      />,
+      <IndexPage
+        indexes={indexablePages.slice(7)}
+        setCounter={this.setCounter}
+        mediaQueryLimitPixels={mediaQueryLimitPixels}
+      />,
       ...images
         .slice(1, images.length - 1)
         .map((image) => <img src={image} alt="" />),

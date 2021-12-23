@@ -65,36 +65,51 @@ function IndexCard(props) {
 }
 
 const IndexPageStyle = styled.div`
+  display: grid;
+  grid-template-areas:
+    'title'
+    'index-entries';
+  grid-template-rows: 1fr 9fr;
   h1 {
     text-align: center;
     margin: 2% 0;
+    grid-area: title;
+  }
+  h1.hidden {
+    visibility: hidden;
   }
   height: 100%;
   width: 100%;
+  .index-entries {
+    grid-area: index-entries;
+  }
+  li {
+    font-size: 1.17vw;
+  }
+  @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
+    li {
+      font-size: 2.7vw;
+    }
+  }
 `;
 
 export default function IndexPage(props) {
-  const { data, setCounter } = props;
+  const { indexes, setCounter, mediaQueryLimitPixels, isTitlePage } = props;
   return (
-    <IndexPageStyle>
-      <h1> Index </h1>
-      <ul style={{ display: 'block' }}>
-        {Object.keys(data.pages)
-          .filter((page) => data.pages[page].index)
-          .map((page) => {
-            const pageData = data.pages[page];
-            return (
-              <li key={page}>
-                <IndexCard
-                  thumbnail={pageData.file}
-                  year={pageData.year}
-                  subheader={pageData.subheader}
-                  pages={pageData.pages}
-                  setCounter={setCounter}
-                />
-              </li>
-            );
-          })}
+    <IndexPageStyle mediaQueryLimitPixels={mediaQueryLimitPixels}>
+      <h1 className={isTitlePage ? '' : 'hidden'}> Index </h1>
+      <ul className="index-entries">
+        {indexes.map((pageData) => (
+          <li key={pageData.file}>
+            <IndexCard
+              thumbnail={pageData.file}
+              year={pageData.year}
+              subheader={pageData.subheader}
+              pages={pageData.pages}
+              setCounter={setCounter}
+            />
+          </li>
+        ))}
       </ul>
     </IndexPageStyle>
   );

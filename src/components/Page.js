@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const PageStyle = styled.div`
-  max-height: ${(props) => props.heightOnWideScreenVH - 2}vh;
   max-width: ${(props) => props.widthOnWideScreenVW - 2}vw;
   width: ${(props) => props.widthOnWideScreenVW - 2}vw;
   height: ${(props) => (props.widthOnWideScreenVW - 2) * 0.6}vw;
