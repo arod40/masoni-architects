@@ -52,6 +52,7 @@ function IndexCard(props) {
     thumbnail,
     setCounter,
     mediaQueryLimitPixels,
+    pageToCounter,
   } = props;
 
   return (
@@ -59,10 +60,10 @@ function IndexCard(props) {
       role="button"
       tabIndex={0}
       onClick={() => {
-        setCounter(pages[0]);
+        setCounter(pageToCounter[pages[0]]);
       }}
       onKeyDown={() => {
-        setCounter(pages[0]);
+        setCounter(pageToCounter[pages[0]]);
       }}
       mediaQueryLimitPixels={mediaQueryLimitPixels}
     >
@@ -121,7 +122,13 @@ const IndexPageStyle = styled.div`
 `;
 
 export default function IndexPage(props) {
-  const { indexes, setCounter, mediaQueryLimitPixels, isTitlePage } = props;
+  const {
+    indexes,
+    setCounter,
+    mediaQueryLimitPixels,
+    isTitlePage,
+    pageToCounter,
+  } = props;
   return (
     <IndexPageStyle mediaQueryLimitPixels={mediaQueryLimitPixels}>
       <h1 className={isTitlePage ? '' : 'hidden'}> Index </h1>
@@ -136,6 +143,7 @@ export default function IndexPage(props) {
               pages={pageData.pages}
               setCounter={setCounter}
               mediaQueryLimitPixels={mediaQueryLimitPixels}
+              pageToCounter={pageToCounter}
             />
           </li>
         ))}

@@ -140,17 +140,31 @@ export default class Home extends React.Component {
       .filter((page) => data.pages[page].index)
       .map((page) => data.pages[page]);
 
+    //   Dictionary to jump correctly when clicking index entries
+    const pageToCounter = [0];
+    if (isHorizontal) {
+      for (let i = 1; i < images.length; i += 1) {
+        pageToCounter.push(Math.floor((i + 1) / 2) + 1);
+      }
+    } else {
+      for (let i = 1; i < images.length; i += 1) {
+        pageToCounter.push(i + 2);
+      }
+    }
+
     const pagesContent = [
       <IndexPage
         indexes={indexablePages.slice(0, 7)}
         setCounter={this.setCounter}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         isTitlePage
+        pageToCounter={pageToCounter}
       />,
       <IndexPage
         indexes={indexablePages.slice(7)}
         setCounter={this.setCounter}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
+        pageToCounter={pageToCounter}
       />,
       ...images
         .slice(1, images.length - 1)
