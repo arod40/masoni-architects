@@ -27,13 +27,26 @@ const IndexCardStyle = styled.div`
     grid-area: pages;
   }
   img {
-    max-width: 20vw;
+    max-height: 5vw;
     object-fit: contain;
+  }
+  @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
+    img {
+      max-height: 12vw;
+    }
   }
 `;
 
 function IndexCard(props) {
-  const { pages, header, year, subheader, thumbnail, setCounter } = props;
+  const {
+    pages,
+    header,
+    year,
+    subheader,
+    thumbnail,
+    setCounter,
+    mediaQueryLimitPixels,
+  } = props;
 
   return (
     <IndexCardStyle
@@ -45,11 +58,12 @@ function IndexCard(props) {
       onKeyDown={() => {
         setCounter(pages[0]);
       }}
+      mediaQueryLimitPixels={mediaQueryLimitPixels}
     >
       <div className="card-grid">
-        {/* <div className="thumbnail">
+        <div className="thumbnail">
           <img src={thumbnail} alt="" />
-        </div> */}
+        </div>
         <div className="header">
           {header}-{year}
         </div>
@@ -103,10 +117,12 @@ export default function IndexPage(props) {
           <li key={pageData.file}>
             <IndexCard
               thumbnail={pageData.file}
+              header={pageData.header}
               year={pageData.year}
               subheader={pageData.subheader}
               pages={pageData.pages}
               setCounter={setCounter}
+              mediaQueryLimitPixels={mediaQueryLimitPixels}
             />
           </li>
         ))}
