@@ -104,7 +104,7 @@ const IndexPageStyle = styled.div`
   .index-entries {
     grid-area: index-entries;
   }
-  .li {
+  li {
     font-size: 0.95vw;
   }
   .subheader {
