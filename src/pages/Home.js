@@ -34,7 +34,6 @@ const HomeLayout = styled.div`
   overflow: hidden;
   .menu-bar {
     grid-area: menu;
-    background-color: black;
     z-index: 100;
   }
   .footer {

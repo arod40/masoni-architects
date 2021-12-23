@@ -31,7 +31,7 @@ const SliderStyles = styled.div`
     top: 0;
     left: 0;
     opacity: 1;
-    background-color: black;
+    background-color: var(--gray-1);
     z-index: 200;
     display: flex;
     padding-bottom: 60px;
