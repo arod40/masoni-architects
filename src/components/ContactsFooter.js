@@ -37,6 +37,9 @@ const ContactsStyle = styled.div`
       li {
         display: inline-block;
       }
+      .email-span {
+        cursor: pointer;
+      }
       .email-span:hover {
         text-shadow: 2px 2px 4px #000000;
       }
@@ -46,7 +49,6 @@ const ContactsStyle = styled.div`
 
 export default function ContactsFooter(props) {
   const { contacts } = props;
-  const [emailCopied, setEmailCopied] = useState(false);
   return (
     <ContactsStyle>
       <div className="contacts">
@@ -55,21 +57,24 @@ export default function ContactsFooter(props) {
             <ul>
               <li>{contact.name}:</li>
               <li>
-                <ReactTooltip effect="solid" />
+                <ReactTooltip
+                  effect="solid"
+                  afterShow={() => setTimeout(ReactTooltip.hide, 1200)}
+                  type="success"
+                />
                 <span
                   className="email-span"
                   key="hola"
                   onClick={() => {
                     navigator.clipboard.writeText(contact.email);
-                    setEmailCopied(true);
                   }}
                   onKeyDown={() => {
                     navigator.clipboard.writeText(contact.email);
-                    setEmailCopied(true);
                   }}
                   role="button"
                   tabIndex={0}
-                  data-tip="Copy email to clipboard"
+                  data-tip="Email copied!"
+                  data-event="click"
                 >
                   {contact.email}
                 </span>
