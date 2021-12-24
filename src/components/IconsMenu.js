@@ -8,7 +8,7 @@ const IconsMenuStyle = styled.div`
   justify-content: center;
   margin-top: 50%;
   .icon {
-    margin: 20px;
+    margin: 20px 0 20px 0;
     color: white;
     transition: 0.25s ease;
     &:hover {
@@ -16,12 +16,19 @@ const IconsMenuStyle = styled.div`
       transform: translateY(-1em);
       filter: drop-shadow(3px 5px 2px rgb(255 255 255 / 0.4));
     }
+    svg {
+      max-height: 10vh;
+      max-width: 10vw;
+    }
   }
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
     flex-direction: row;
     justify-content: flex-end;
     margin-right: 1%;
     margin-top: 0;
+    .icon {
+      margin: 0 20px 0 20px;
+    }
   }
 `;
 
