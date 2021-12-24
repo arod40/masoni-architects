@@ -1,7 +1,6 @@
 import React from 'react';
 import { MdEmail } from 'react-icons/md';
 import ReactTooltip from 'react-tooltip';
-import { useState } from 'react/cjs/react.development';
 import styled from 'styled-components';
 
 const ContactsStyle = styled.div`
