@@ -1,5 +1,7 @@
 import React from 'react';
 import { MdEmail } from 'react-icons/md';
+import ReactTooltip from 'react-tooltip';
+import { useState } from 'react/cjs/react.development';
 import styled from 'styled-components';
 
 const ContactsStyle = styled.div`
@@ -32,28 +34,48 @@ const ContactsStyle = styled.div`
         top: 3px;
         font-size: 18px;
       }
+      li {
+        display: inline-block;
+      }
+      .email-span:hover {
+        text-shadow: 2px 2px 4px #000000;
+      }
     }
   }
 `;
 
 export default function ContactsFooter(props) {
   const { contacts } = props;
+  const [emailCopied, setEmailCopied] = useState(false);
   return (
     <ContactsStyle>
       <div className="contacts">
         {contacts.map((contact) => (
           <div key={contact.name} className="contact">
             <ul>
-              <li>{contact.name}</li>
+              <li>{contact.name}:</li>
               <li>
+                <ReactTooltip effect="solid" />
+                <span
+                  className="email-span"
+                  key="hola"
+                  onClick={() => {
+                    navigator.clipboard.writeText(contact.email);
+                    setEmailCopied(true);
+                  }}
+                  onKeyDown={() => {
+                    navigator.clipboard.writeText(contact.email);
+                    setEmailCopied(true);
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  data-tip="Copy email to clipboard"
+                >
+                  {contact.email}
+                </span>
                 <span>
                   <MdEmail />
                 </span>
-                <span>{contact.email}</span>
-              </li>
-              <li>
-                <span className="material-icons">whatsapp</span>
-                <span>{contact.phone}</span>
               </li>
             </ul>
           </div>

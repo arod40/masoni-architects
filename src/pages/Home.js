@@ -124,12 +124,10 @@ export default class Home extends React.Component {
       {
         name: 'Alessandro Masoni',
         email: 'example1@gmail.com',
-        phone: '1824812945',
       },
       {
         name: 'Alessandro Masoni',
         email: 'example2@gmail.com',
-        phone: '1824812945',
       },
     ];
   }
