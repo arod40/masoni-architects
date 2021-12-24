@@ -9,9 +9,6 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 const SliderStyles = styled.div`
   position: relative;
-  .cache {
-    display: none;
-  }
   .slider {
     display: flex;
     flex-wrap: nowrap;
@@ -19,12 +16,16 @@ const SliderStyles = styled.div`
     justify-content: center;
     height: ${(props) => props.heightOnWideScreenVH}vh;
   }
-  img.fullscreen {
+  .slider.fullscreen {
+    height: 100vh;
+    width: 100vw;
+  }
+  /* img.fullscreen {
     max-height: 100vh;
     width: 100vw;
     z-index: 200;
-  }
-  .fullscreen-modal {
+  } */
+  /* .fullscreen-modal {
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -37,7 +38,7 @@ const SliderStyles = styled.div`
     padding-bottom: 60px;
     align-items: center;
     justify-content: center;
-  }
+  } */
   .hidden {
     display: none;
   }
@@ -140,12 +141,11 @@ export default function ImagesSlider(props) {
       lastPage={numberOfPages - 1}
     >
       {/* Rendering all pages beforehand so they are cached by browser */}
-      <div className="cache">
+      <div className="hidden">
         {pages.map((page) => (
           <div>{page}</div>
         ))}
       </div>
-
       <div
         className={
           fullscreen ? 'icon arrow back fullscreen' : 'icon arrow back'
@@ -176,23 +176,21 @@ export default function ImagesSlider(props) {
       >
         <MdKeyboardArrowRight size="60" />
       </div>
-      <div className={fullscreen ? 'fullscreen-modal' : ''}>
-        <div className="slider">
-          <SwitchTransition component={null}>
-            <CSSTransition key={counter} timeout={400} classNames="fade">
-              {pages[counter]}
-            </CSSTransition>
-          </SwitchTransition>
-        </div>
-        <div
-          className={fullscreen ? 'exitfullscreen-icon' : 'hidden'}
-          role="button"
-          tabIndex={0}
-          onClick={() => setFullScreen(false)}
-          onKeyDown={() => () => setFullScreen(false)}
-        >
-          <MdFullscreenExit size="40" />
-        </div>
+      <div className={fullscreen ? 'slider fullscreen' : 'slider'}>
+        <SwitchTransition component={null}>
+          <CSSTransition key={counter} timeout={400} classNames="fade">
+            {pages[counter]}
+          </CSSTransition>
+        </SwitchTransition>
+      </div>
+      <div
+        className={fullscreen ? 'exitfullscreen-icon' : 'hidden'}
+        role="button"
+        tabIndex={0}
+        onClick={() => setFullScreen(false)}
+        onKeyDown={() => () => setFullScreen(false)}
+      >
+        <MdFullscreenExit size="40" />
       </div>
     </SliderStyles>
   );
