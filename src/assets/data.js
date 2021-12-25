@@ -6,6 +6,20 @@ import im5 from './pictures/2017_AM_Potfolio_DiDa_page-0003 (1).jpg';
 import im6 from './pictures/2017_AM_Potfolio_DiDa_page-0017.jpg';
 
 const data = {
+  contacts: [
+    {
+      name: 'Alessandro Masoni',
+      email: 'example1@gmail.com',
+    },
+    {
+      name: 'Alessandro Masoni',
+      email: 'example2@gmail.com',
+    },
+    {
+      name: 'Alessandro Masoni',
+      email: 'example2@gmail.com',
+    },
+  ],
   home: {
     file: im1,
   },

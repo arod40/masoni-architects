@@ -120,16 +120,6 @@ export default class Home extends React.Component {
 
     this.homePage = 0;
     this.indexPage = 1;
-    this.contacts = [
-      {
-        name: 'Alessandro Masoni',
-        email: 'example1@gmail.com',
-      },
-      {
-        name: 'Alessandro Masoni',
-        email: 'example2@gmail.com',
-      },
-    ];
   }
 
   buildPages = (images, fullscreen) => {
@@ -307,7 +297,10 @@ export default class Home extends React.Component {
           </CSSTransition>
         </SwitchTransition>
         <div className="footer">
-          <ContactsFooter contacts={this.contacts} />
+          <ContactsFooter
+            contacts={data.contacts}
+            mediaQueryLimitPixels={mediaQueryLimitPixels}
+          />
         </div>
       </HomeLayout>
     );

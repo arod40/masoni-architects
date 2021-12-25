@@ -20,7 +20,7 @@ const ContactsStyle = styled.div`
     overflow-y: hidden;
     .contact {
       padding: 10px;
-      font-size: 2vh;
+      font-size: 16px;
       span {
         margin: 0 2px;
       }
@@ -36,45 +36,50 @@ const ContactsStyle = styled.div`
       li {
         display: inline-block;
       }
-      .email-span {
+      .email {
         cursor: pointer;
+        transition-property: background-color box-shadow;
+        transition: ease 0.2s;
+        border-radius: 3px;
       }
-      .email-span:hover {
-        text-shadow: 2px 2px 4px #000000;
+      .email:hover {
+        background-color: var(--white);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+    }
+  }
+
+  @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
+    .contacts {
+      flex-direction: column;
+      .contact {
+        padding: 0;
+        font-size: 3.5vw;
       }
     }
   }
 `;
 
 export default function ContactsFooter(props) {
-  const { contacts } = props;
+  const { contacts, mediaQueryLimitPixels } = props;
   return (
-    <ContactsStyle>
+    <ContactsStyle mediaQueryLimitPixels={mediaQueryLimitPixels}>
+      <ReactTooltip
+        effect="solid"
+        afterShow={(event) => {
+          navigator.clipboard.writeText(event.target.innerText);
+          setTimeout(ReactTooltip.hide, 1200);
+        }}
+        type="success"
+      />
       <div className="contacts">
-        {contacts.map((contact) => (
-          <div key={contact.name} className="contact">
+        {contacts.map((contact, index) => (
+          <div key={index} className="contact">
             <ul>
               <li>{contact.name}:</li>
-              <li>
-                <ReactTooltip
-                  effect="solid"
-                  afterShow={() => setTimeout(ReactTooltip.hide, 1200)}
-                  type="success"
-                />
-                <span
-                  className="email-span"
-                  key="hola"
-                  onClick={() => {
-                    navigator.clipboard.writeText(contact.email);
-                  }}
-                  onKeyDown={() => {
-                    navigator.clipboard.writeText(contact.email);
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  data-tip="Email copied!"
-                  data-event="click"
-                >
+              <li className="email">
+                <span data-tip="Email copied!" data-event="click">
                   {contact.email}
                 </span>
                 <span>
