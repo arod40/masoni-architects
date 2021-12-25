@@ -20,25 +20,6 @@ const SliderStyles = styled.div`
     height: 100vh;
     width: 100vw;
   }
-  /* img.fullscreen {
-    max-height: 100vh;
-    width: 100vw;
-    z-index: 200;
-  } */
-  /* .fullscreen-modal {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    opacity: 1;
-    background-color: var(--gray-1);
-    z-index: 200;
-    display: flex;
-    padding-bottom: 60px;
-    align-items: center;
-    justify-content: center;
-  } */
   .hidden {
     display: none;
   }
@@ -58,6 +39,7 @@ const SliderStyles = styled.div`
   .arrow {
     position: absolute;
     top: 50%;
+    z-index: 100;
   }
   .arrow.fullscreen {
     z-index: 300;
