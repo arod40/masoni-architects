@@ -26,6 +26,9 @@ const IconsMenuStyle = styled.div`
     justify-content: flex-end;
     margin-right: 1%;
     margin-top: 0;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     .icon {
       margin: 0 20px 0 20px;
     }
