@@ -40,6 +40,8 @@ const PageStyle = styled.div`
         : `box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)`};
     background-color: ${(props) =>
       props.fullscreen ? `var(--gray-1)` : `var(--white)`};
+    max-height: ${(props) => props.heightOnWideScreenVH}vh;
+    overflow-y: auto;
   }
   .page-wrapper.left {
     justify-content: flex-end;
@@ -61,6 +63,7 @@ const PageStyle = styled.div`
 
     .page-wrapper {
       width: 100%;
+      max-height: ${(props) => props.heightOnStrechScreenVH}vh;
     }
   }
 `;

@@ -51,7 +51,6 @@ const HomeLayout = styled.div`
     margin: auto;
     height: ${100 - wideScreenFooterHeightVH}vh;
     width: ${100 - wideScreenNavWidthVW}vw;
-    overflow-y: auto;
   }
   .images-area.fullscreen {
     height: 100vh;
