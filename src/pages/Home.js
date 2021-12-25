@@ -105,6 +105,7 @@ export default class Home extends React.Component {
     this.state = {
       counter: 0,
       fullscreen: false,
+      isWide: window.screen.availWidth > mediaQueryLimitPixels,
     };
 
     // Reading image list
@@ -120,12 +121,17 @@ export default class Home extends React.Component {
 
     this.homePage = 0;
     this.indexPage = 1;
+
+    window.addEventListener('resize', this.handleResize);
   }
 
-  buildPages = (images, fullscreen) => {
-    // Building slider pages
-    const isHorizontal = window.screen.availWidth > mediaQueryLimitPixels;
+  handleResize = () => {
+    this.setState({ isWide: window.screen.availWidth > mediaQueryLimitPixels });
+  };
 
+  buildPages = (images, fullscreen) => {
+    const { isWide } = this.state;
+    // Building slider pages
     const pages = [];
 
     pages.push(
@@ -146,7 +152,7 @@ export default class Home extends React.Component {
 
     //   Dictionary to jump correctly when clicking index entries
     const pageToCounter = [0];
-    if (isHorizontal) {
+    if (isWide) {
       for (let i = 1; i < images.length; i += 1) {
         pageToCounter.push(Math.floor((i + 1) / 2) + 1);
       }
@@ -182,11 +188,11 @@ export default class Home extends React.Component {
       groupedPagesContent.push([pagesContent[i], pagesContent[i + 1]]);
     }
 
-    const content = isHorizontal ? groupedPagesContent : pagesContent;
+    const content = isWide ? groupedPagesContent : pagesContent;
     content.forEach((page) =>
       pages.push(
         <Page
-          isDouble={isHorizontal}
+          isDouble={isWide}
           content={page}
           mediaQueryLimitPixels={mediaQueryLimitPixels}
           widthOnWideScreenVW={widthOnWideScreenVW}
