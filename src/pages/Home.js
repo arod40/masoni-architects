@@ -109,13 +109,13 @@ export default class Home extends React.Component {
 
     // Reading image list
     this.images = [
-      data.home.file,
+      data.homepage.file,
       ...Array.from(
         Object.keys(data.pages).map((page) => [page, data.pages[page].file])
       )
         .sort()
         .map((elem) => elem[1]),
-      data.contact.file,
+      data.contactpage.file,
     ];
 
     this.homePage = 0;
@@ -135,7 +135,7 @@ export default class Home extends React.Component {
 
     pages.push(
       <Page
-        content={<img src={data.home.file} alt="" />}
+        content={<img src={data.homepage.file} alt="" />}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         widthOnWideScreenVW={widthOnWideScreenVW}
         widthOnStrechScreenVW={widthOnStrechScreenVW}
@@ -205,7 +205,7 @@ export default class Home extends React.Component {
 
     pages.push(
       <Page
-        content={<img src={data.contact.file} alt="" />}
+        content={<img src={data.contactpage.file} alt="" />}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         widthOnWideScreenVW={widthOnWideScreenVW}
         widthOnStrechScreenVW={widthOnStrechScreenVW}

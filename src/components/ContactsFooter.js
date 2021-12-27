@@ -77,7 +77,6 @@ export default function ContactsFooter(props) {
         {contacts.map((contact, index) => (
           <div key={index} className="contact">
             <ul>
-              <li>{contact.name}:</li>
               <li className="email">
                 <span data-tip="Email copied!" data-event="click">
                   {contact.email}
