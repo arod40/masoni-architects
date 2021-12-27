@@ -28,5 +28,8 @@ const GlobalStyles = createGlobalStyle`
   button{
     outline: none
   }
+  img{
+    pointer-events: none;
+  }
 `;
 export default GlobalStyles;
