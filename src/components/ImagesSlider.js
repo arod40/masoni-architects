@@ -24,7 +24,7 @@ const SliderStyles = styled.div`
   .hidden {
     display: none;
   }
-  .exitfullscreen-icon {
+  .exitfullscreen {
     position: fixed;
     bottom: 10px;
     right: 10px;
@@ -51,6 +51,9 @@ const SliderStyles = styled.div`
     &:hover {
       opacity: 1;
     }
+  }
+  .icon {
+    filter: drop-shadow(2px 2px 2px rgb(0 0 0));
   }
   .arrow.fullscreen {
     z-index: 300;
@@ -89,11 +92,6 @@ const SliderStyles = styled.div`
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
     .slider {
       height: ${(props) => props.heightOnStrechScreenVH}vh;
-    }
-    .icon {
-      &:hover {
-        transform: translateY(0);
-      }
     }
   }
 `;
@@ -194,7 +192,7 @@ export default function ImagesSlider(props) {
         </SwitchTransition>
       </div>
       <div
-        className={fullscreen ? 'exitfullscreen-icon' : 'hidden'}
+        className={fullscreen ? 'exitfullscreen icon' : 'hidden'}
         role="button"
         tabIndex={0}
         onClick={() => {

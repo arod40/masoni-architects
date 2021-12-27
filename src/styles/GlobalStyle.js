@@ -17,7 +17,7 @@ const GlobalStyles = createGlobalStyle`
   html{
     font-size: 10px;
     font-family: var(---typo-text);
-    background-color: var(--gray-1);
+    background-color: var(--black);
   }
   ul,li{
     list-style: none;
