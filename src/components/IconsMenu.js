@@ -4,11 +4,10 @@ import styled from 'styled-components';
 const IconsMenuStyle = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  margin-top: 50%;
   .icon {
-    margin: 20px 0 20px 0;
+    margin: 20px 0 20px 10px;
     color: white;
     transition: 0.25s ease;
     &:hover {
@@ -17,6 +16,8 @@ const IconsMenuStyle = styled.div`
       filter: drop-shadow(3px 5px 2px rgb(255 255 255 / 0.4));
     }
     svg {
+      width: 35px;
+      height: 35px;
       max-height: 10vh;
       max-width: 10vw;
     }
@@ -24,13 +25,12 @@ const IconsMenuStyle = styled.div`
   @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
     flex-direction: row;
     justify-content: flex-end;
-    margin-right: 1%;
     margin-top: 0;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
     .icon {
-      margin: 0 20px 0 20px;
+      margin: 0 10px 0 20px;
     }
   }
 `;
