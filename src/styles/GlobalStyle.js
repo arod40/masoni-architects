@@ -31,5 +31,13 @@ const GlobalStyles = createGlobalStyle`
   img{
     pointer-events: none;
   }
+  .icon {
+    color: white;
+    opacity: 0.7;
+    transition: 0.25s ease;
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;
 export default GlobalStyles;

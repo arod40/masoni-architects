@@ -8,13 +8,6 @@ const IconsMenuStyle = styled.div`
   justify-content: center;
   .icon {
     margin: 20px 0 20px 10px;
-    color: white;
-    transition: 0.25s ease;
-    &:hover {
-      transform: scale(1.3);
-      transform: translateY(-1em);
-      filter: drop-shadow(3px 5px 2px rgb(255 255 255 / 0.4));
-    }
     svg {
       width: 35px;
       height: 35px;

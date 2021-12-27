@@ -39,8 +39,18 @@ const SliderStyles = styled.div`
   }
   .arrow {
     position: absolute;
-    top: 50%;
     z-index: 100;
+    height: 120px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    transform: translateY(-30%);
+    transition: 0.25s ease;
+    &:hover {
+      opacity: 1;
+    }
   }
   .arrow.fullscreen {
     z-index: 300;
@@ -54,16 +64,6 @@ const SliderStyles = styled.div`
     visibility: ${(props) =>
       props.counter === props.lastPage ? 'hidden' : 'visible'};
     right: 0;
-  }
-  .icon {
-    color: white;
-    opacity: 0.5;
-    filter: drop-shadow(2px 2px 2px rgb(0 0 0));
-    transition: 0.25s ease;
-    &:hover {
-      transform: scale(1.3);
-      transform: translateY(-1em);
-    }
   }
   .fade-enter {
     opacity: 0;
