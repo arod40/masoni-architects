@@ -13,6 +13,7 @@ const PageStyle = styled.div`
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
+  position: relative;
   ${(props) => (props.fullscreen ? `padding: 1%` : ``)};
 
   .double-page {
@@ -29,19 +30,31 @@ const PageStyle = styled.div`
     max-width: 100%;
     object-fit: contain;
   }
-
   .page-wrapper {
     width: 50%;
     height: 100%;
     display: flex;
-    ${(props) =>
-      props.fullscreen
-        ? ``
-        : `box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)`};
+
     background-color: ${(props) =>
       props.fullscreen ? `var(--black)` : `var(--white)`};
     max-height: ${(props) => props.heightOnWideScreenVH}vh;
     overflow-y: auto;
+  }
+  .midshadow {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    opacity: 1;
+    ${(props) =>
+      props.fullscreen
+        ? ``
+        : `box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)`};
+  }
+  .midshadow.left {
+    left: 0;
+  }
+  .midshadow.right {
+    left: 50%;
   }
   .page-wrapper.left {
     justify-content: flex-end;
@@ -90,10 +103,14 @@ export default function Page(props) {
       fullscreen={fullscreen}
     >
       {isDouble ? (
-        <div className="double-page">
-          <div className="page-wrapper left">{content[0]}</div>
-          <div className="page-wrapper right">{content[1]}</div>
-        </div>
+        <>
+          <div className="midshadow left" />
+          <div className="midshadow right" />
+          <div className="double-page">
+            <div className="page-wrapper left">{content[0]}</div>
+            <div className="page-wrapper right">{content[1]}</div>
+          </div>
+        </>
       ) : (
         <div className="page-wrapper center">{content}</div>
       )}
