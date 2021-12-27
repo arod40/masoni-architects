@@ -6,6 +6,7 @@ import {
   MdKeyboardArrowRight,
 } from 'react-icons/md';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { useState } from 'react/cjs/react.development';
 
 const SliderStyles = styled.div`
   position: relative;
@@ -112,6 +113,9 @@ export default function ImagesSlider(props) {
   } = props;
   const numberOfPages = pages.length;
 
+  const [firstTouchX, setFirstTouchX] = useState(null);
+  const [currentTouchX, setCurrentTouchX] = useState(null);
+
   return (
     <SliderStyles
       widthOnWideScreenVW={widthOnWideScreenVW}
@@ -158,7 +162,31 @@ export default function ImagesSlider(props) {
       >
         <MdKeyboardArrowRight size="60" />
       </div>
-      <div className={fullscreen ? 'slider fullscreen' : 'slider'}>
+      <div
+        className={fullscreen ? 'slider fullscreen' : 'slider'}
+        onTouchStart={(event) => {
+          setFirstTouchX(event.targetTouches[0].clientX);
+          setCurrentTouchX(event.targetTouches[0].clientX);
+        }}
+        onTouchMove={(event) => {
+          setCurrentTouchX(event.targetTouches[0].clientX);
+        }}
+        onTouchEnd={(event) => {
+          console.log(currentTouchX - firstTouchX);
+          if (
+            event.changedTouches[0].clientX - firstTouchX < -100 &&
+            counter < numberOfPages - 1
+          ) {
+            setCounter((counter + 1 + numberOfPages) % numberOfPages);
+          } else if (
+            event.changedTouches[0].clientX - firstTouchX > 100 &&
+            counter > 0
+          ) {
+            setCounter((counter - 1 + numberOfPages) % numberOfPages);
+          }
+          setCurrentTouchX(firstTouchX);
+        }}
+      >
         <SwitchTransition component={null}>
           <CSSTransition key={counter} timeout={400} classNames="fade">
             {pages[counter]}
