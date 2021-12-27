@@ -274,8 +274,14 @@ export default class Home extends React.Component {
               key="fullscreen-icon"
               role="button"
               tabIndex={0}
-              onClick={() => this.setFullScreen(true)}
-              onKeyDown={() => () => this.setFullScreen(true)}
+              onClick={() => {
+                document.body.requestFullscreen();
+                this.setFullScreen(true);
+              }}
+              onKeyDown={() => () => {
+                document.body.requestFullscreen();
+                this.setFullScreen(true);
+              }}
             >
               <MdFullscreen size="40" />
             </div>

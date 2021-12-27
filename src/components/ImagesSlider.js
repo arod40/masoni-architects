@@ -197,8 +197,14 @@ export default function ImagesSlider(props) {
         className={fullscreen ? 'exitfullscreen-icon' : 'hidden'}
         role="button"
         tabIndex={0}
-        onClick={() => setFullScreen(false)}
-        onKeyDown={() => () => setFullScreen(false)}
+        onClick={() => {
+          document.exitFullscreen();
+          setFullScreen(false);
+        }}
+        onKeyDown={() => () => {
+          document.exitFullscreen();
+          setFullScreen(false);
+        }}
       >
         <MdFullscreenExit size="40" />
       </div>
