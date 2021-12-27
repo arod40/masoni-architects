@@ -21,6 +21,7 @@ const ContactsStyle = styled.div`
     .contact {
       padding: 10px;
       font-size: 16px;
+      color: var(--white);
       span {
         margin: 0 2px;
       }

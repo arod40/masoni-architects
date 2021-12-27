@@ -94,6 +94,7 @@ const IndexPageStyle = styled.div`
     'title'
     'index-entries';
   grid-template-rows: 1fr 9fr;
+  background-color: var(--white);
   h1 {
     text-align: center;
     margin: 5% 0 2% 0;
