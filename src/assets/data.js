@@ -9,6 +9,8 @@ const data = {
   contacts: [
     {
       email: 'arch.alessandromasoni@gmail.com',
+      linkedin: 'https://www.linkedin.com/in/alessandro-masoni-2a18b161',
+      orcid: 'https://orcid.org/0000-0002-7572-712X',
     },
   ],
   homepage: {
