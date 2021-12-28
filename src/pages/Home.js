@@ -49,8 +49,6 @@ const HomeLayout = styled.div`
   .images-area {
     grid-area: images;
     margin: auto;
-    height: ${100 - wideScreenFooterHeightVH}vh;
-    width: ${100 - wideScreenNavWidthVW}vw;
   }
   .fade-enter {
     opacity: 0;
@@ -81,10 +79,6 @@ const HomeLayout = styled.div`
       'menu '
       'images'
       'footer';
-    .images-area {
-      height: ${100 - strechScreenNavHeight - strechScreenFooterHeight}vh;
-      width: 100vw;
-    }
   }
 `;
 
@@ -118,16 +112,15 @@ export default class Home extends React.Component {
     this.setState({ isWide: window.screen.availWidth > mediaQueryLimitPixels });
   };
 
-  buildPages = (images) => {
-    const { isWide } = this.state;
+  buildPages = (images, isWide, width, height) => {
     // Building slider pages
     const pages = [];
 
     pages.push(
       <Page
         content={<img src={data.homepage.file} alt="" />}
-        maxWidthVW={isWide ? widthOnWideScreenVW : widthOnWideScreenVW}
-        maxHeightVH={isWide ? heightOnWideScreenVH : heightOnStrechScreenVH}
+        maxWidthVW={width}
+        maxHeightVH={height}
         pagesRatio={pagesRatio}
       />
     );
@@ -178,8 +171,8 @@ export default class Home extends React.Component {
         <Page
           isDouble={isWide}
           content={page}
-          maxWidthVW={isWide ? widthOnWideScreenVW : widthOnWideScreenVW}
-          maxHeightVH={isWide ? heightOnWideScreenVH : heightOnStrechScreenVH}
+          maxWidthVW={width}
+          maxHeightVH={height}
           pagesRatio={pagesRatio}
         />
       )
@@ -188,8 +181,8 @@ export default class Home extends React.Component {
     pages.push(
       <Page
         content={<img src={data.contactpage.file} alt="" />}
-        maxWidthVW={isWide ? widthOnWideScreenVW : widthOnWideScreenVW}
-        maxHeightVH={isWide ? heightOnWideScreenVH : heightOnStrechScreenVH}
+        maxWidthVW={width}
+        maxHeightVH={height}
         pagesRatio={pagesRatio}
       />
     );
@@ -208,7 +201,15 @@ export default class Home extends React.Component {
   render() {
     const { counter, fullscreen, isWide } = this.state;
 
-    const pages = this.buildPages(this.images);
+    let width = isWide ? widthOnWideScreenVW : widthOnStrechScreenVW;
+    let height = isWide ? heightOnWideScreenVH : heightOnStrechScreenVH;
+
+    if (!fullscreen) {
+      width -= 20;
+      height -= 20;
+    }
+
+    const pages = this.buildPages(this.images, isWide, width, height);
     this.contactPage = pages.length - 1;
     return (
       <HomeLayout>
@@ -277,8 +278,8 @@ export default class Home extends React.Component {
         <div className="images-area">
           <ImagesSlider
             pages={pages}
-            widthVW={isWide ? widthOnWideScreenVW : widthOnStrechScreenVW}
-            heightVH={isWide ? heightOnWideScreenVH : heightOnStrechScreenVH}
+            widthVW={width}
+            heightVH={height}
             counter={counter}
             setCounter={this.setCounter}
           />
