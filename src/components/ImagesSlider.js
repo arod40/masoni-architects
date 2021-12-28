@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
-import { useState } from 'react/cjs/react.development';
 
 const SliderStyles = styled.div`
   position: relative;
