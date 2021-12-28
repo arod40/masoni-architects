@@ -7,8 +7,7 @@ const IndexCardStyle = styled.div`
   transition-property: box-shadow background-color;
   cursor: pointer;
   &:hover {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    background-color: lightgray;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
   }
   .card-grid {
     display: grid;
@@ -138,7 +137,7 @@ export default function IndexPage(props) {
         {indexes.map((pageData) => (
           <li key={pageData.file}>
             <IndexCard
-              thumbnail={pageData.file}
+              thumbnail={pageData.thumbnail}
               header={pageData.header}
               year={pageData.year}
               subheader={pageData.subheader}

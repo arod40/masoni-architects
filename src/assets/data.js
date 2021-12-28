@@ -28,6 +28,7 @@ const data = {
       year: 2019,
       index: true,
       pages: [1, 2],
+      thumbnail: im2,
     },
     2: {
       file: im3,
@@ -41,6 +42,7 @@ const data = {
       year: 2017,
       index: true,
       pages: [3, 4],
+      thumbnail: im4,
     },
     4: {
       file: im5,
