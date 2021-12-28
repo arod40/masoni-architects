@@ -1,7 +1,13 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { MdHome, MdPerson, MdFullscreen, MdList } from 'react-icons/md';
+import {
+  MdHome,
+  MdPerson,
+  MdFullscreen,
+  MdList,
+  MdFullscreenExit,
+} from 'react-icons/md';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
@@ -36,26 +42,15 @@ const HomeLayout = styled.div`
   .menu-bar {
     grid-area: menu;
     z-index: 100;
-    transition: ease 0.5s;
-    transition-property: transform;
-    transform: translateX(${(props) => (props.fullscreen ? '-100%' : '0')});
   }
   .footer {
     grid-area: footer;
-    transition: ease 0.5s;
-    transition-property: transform;
-    transform: translateY(${(props) => (props.fullscreen ? '100%' : '0')});
   }
   .images-area {
     grid-area: images;
     margin: auto;
     height: ${100 - wideScreenFooterHeightVH}vh;
     width: ${100 - wideScreenNavWidthVW}vw;
-  }
-  .images-area.fullscreen {
-    height: 100vh;
-    width: 100vw;
-    position: fixed;
   }
   .fade-enter {
     opacity: 0;
@@ -86,11 +81,6 @@ const HomeLayout = styled.div`
       'menu '
       'images'
       'footer';
-    .menu-bar {
-      transition: ease 0.5s;
-      transition-property: transform;
-      transform: translateY(${(props) => (props.fullscreen ? '-100%' : '0')});
-    }
     .images-area {
       height: ${100 - strechScreenNavHeight - strechScreenFooterHeight}vh;
       width: 100vw;
@@ -128,7 +118,7 @@ export default class Home extends React.Component {
     this.setState({ isWide: window.screen.availWidth > mediaQueryLimitPixels });
   };
 
-  buildPages = (images, fullscreen) => {
+  buildPages = (images) => {
     const { isWide } = this.state;
     // Building slider pages
     const pages = [];
@@ -141,7 +131,6 @@ export default class Home extends React.Component {
         widthOnStrechScreenVW={widthOnStrechScreenVW}
         heightOnWideScreenVH={heightOnWideScreenVH}
         heightOnStrechScreenVH={heightOnStrechScreenVH}
-        fullscreen={fullscreen}
       />
     );
 
@@ -168,14 +157,12 @@ export default class Home extends React.Component {
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         isTitlePage
         pageToCounter={pageToCounter}
-        fullscreen={fullscreen}
       />,
       <IndexPage
         indexes={indexablePages.slice(7)}
         setCounter={this.setCounter}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         pageToCounter={pageToCounter}
-        fullscreen={fullscreen}
       />,
       ...images
         .slice(1, images.length - 1)
@@ -198,7 +185,6 @@ export default class Home extends React.Component {
           widthOnStrechScreenVW={widthOnStrechScreenVW}
           heightOnWideScreenVH={heightOnWideScreenVH}
           heightOnStrechScreenVH={heightOnStrechScreenVH}
-          fullscreen={fullscreen}
         />
       )
     );
@@ -211,7 +197,6 @@ export default class Home extends React.Component {
         widthOnStrechScreenVW={widthOnStrechScreenVW}
         heightOnWideScreenVH={heightOnWideScreenVH}
         heightOnStrechScreenVH={heightOnStrechScreenVH}
-        fullscreen={fullscreen}
       />
     );
 
@@ -229,10 +214,10 @@ export default class Home extends React.Component {
   render() {
     const { counter, fullscreen } = this.state;
 
-    const pages = this.buildPages(this.images, fullscreen);
+    const pages = this.buildPages(this.images);
     this.contactPage = pages.length - 1;
     return (
-      <HomeLayout fullscreen={fullscreen}>
+      <HomeLayout>
         <div className="menu-bar">
           <IconsMenu mediaQueryLimitPixels={mediaQueryLimitPixels}>
             <div
@@ -246,7 +231,7 @@ export default class Home extends React.Component {
                 this.setCounter(this.homePage);
               }}
             >
-              <MdHome size="40" />
+              <MdHome />
             </div>
             <div
               key="list-icon"
@@ -255,7 +240,7 @@ export default class Home extends React.Component {
               onClick={() => this.setCounter(this.indexPage)}
               onKeyDown={() => this.setCounter(this.indexPage)}
             >
-              <MdList size="40" />
+              <MdList />
             </div>
             <div
               key="person-icon"
@@ -268,45 +253,45 @@ export default class Home extends React.Component {
                 this.setCounter(this.contactPage);
               }}
             >
-              <MdPerson size="40" />
+              <MdPerson />
             </div>
             <div
               key="fullscreen-icon"
               role="button"
               tabIndex={0}
               onClick={() => {
-                document.body.requestFullscreen();
-                this.setFullScreen(true);
+                if (fullscreen) {
+                  document.exitFullscreen();
+                } else {
+                  document.body.requestFullscreen();
+                }
+                this.setFullScreen(!fullscreen);
               }}
               onKeyDown={() => () => {
-                document.body.requestFullscreen();
-                this.setFullScreen(true);
+                if (fullscreen) {
+                  document.exitFullscreen();
+                } else {
+                  document.body.requestFullscreen();
+                }
+                this.setFullScreen(!fullscreen);
               }}
             >
-              <MdFullscreen size="40" />
+              {fullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
             </div>
           </IconsMenu>
         </div>
-        <SwitchTransition component={null}>
-          <CSSTransition key={fullscreen} timeout={400} classNames="fade">
-            <div
-              className={fullscreen ? 'images-area fullscreen' : 'images-area'}
-            >
-              <ImagesSlider
-                pages={pages}
-                mediaQueryLimitPixels={mediaQueryLimitPixels}
-                widthOnWideScreenVW={widthOnWideScreenVW}
-                widthOnStrechScreenVW={widthOnStrechScreenVW}
-                heightOnWideScreenVH={heightOnWideScreenVH}
-                heightOnStrechScreenVH={heightOnStrechScreenVH}
-                counter={counter}
-                setCounter={this.setCounter}
-                fullscreen={fullscreen}
-                setFullScreen={this.setFullScreen}
-              />
-            </div>
-          </CSSTransition>
-        </SwitchTransition>
+        <div className="images-area">
+          <ImagesSlider
+            pages={pages}
+            mediaQueryLimitPixels={mediaQueryLimitPixels}
+            widthOnWideScreenVW={widthOnWideScreenVW}
+            widthOnStrechScreenVW={widthOnStrechScreenVW}
+            heightOnWideScreenVH={heightOnWideScreenVH}
+            heightOnStrechScreenVH={heightOnStrechScreenVH}
+            counter={counter}
+            setCounter={this.setCounter}
+          />
+        </div>
         <div className="footer">
           <ContactsFooter
             contacts={data.contacts}

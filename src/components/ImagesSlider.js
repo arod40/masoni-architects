@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  MdFullscreenExit,
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowRight,
-} from 'react-icons/md';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { useState } from 'react/cjs/react.development';
 
@@ -17,25 +13,8 @@ const SliderStyles = styled.div`
     justify-content: center;
     height: ${(props) => props.heightOnWideScreenVH}vh;
   }
-  .slider.fullscreen {
-    height: 100vh;
-    width: 100vw;
-  }
   .hidden {
     display: none;
-  }
-  .exitfullscreen {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    color: white;
-    transition: 0.25s ease;
-    &:hover {
-      transform: scale(1.3);
-      transform: translateY(-1em);
-      filter: drop-shadow(3px 5px 2px rgb(255 255 255 / 0.4));
-    }
-    z-index: 200;
   }
   .arrow {
     position: absolute;
@@ -54,10 +33,6 @@ const SliderStyles = styled.div`
   }
   .icon {
     filter: drop-shadow(2px 2px 2px rgb(0 0 0));
-  }
-  .arrow.fullscreen {
-    z-index: 300;
-    position: fixed;
   }
   .arrow.back {
     visibility: ${(props) => (props.counter === 0 ? 'hidden' : 'visible')};
@@ -106,8 +81,6 @@ export default function ImagesSlider(props) {
     widthOnStrechScreenVW,
     heightOnWideScreenVH,
     heightOnStrechScreenVH,
-    fullscreen,
-    setFullScreen,
   } = props;
   const numberOfPages = pages.length;
 
@@ -131,9 +104,7 @@ export default function ImagesSlider(props) {
         ))}
       </div>
       <div
-        className={
-          fullscreen ? 'icon arrow back fullscreen' : 'icon arrow back'
-        }
+        className="icon arrow back"
         role="button"
         tabIndex={0}
         onClick={() =>
@@ -146,9 +117,7 @@ export default function ImagesSlider(props) {
         <MdKeyboardArrowLeft size="60" />
       </div>
       <div
-        className={
-          fullscreen ? 'icon arrow forward fullscreen' : 'icon arrow forward'
-        }
+        className="icon arrow forward"
         role="button"
         tabIndex={0}
         onClick={() =>
@@ -161,7 +130,7 @@ export default function ImagesSlider(props) {
         <MdKeyboardArrowRight size="60" />
       </div>
       <div
-        className={fullscreen ? 'slider fullscreen' : 'slider'}
+        className="slider"
         onTouchStart={(event) => {
           setFirstTouchX(event.targetTouches[0].clientX);
           setCurrentTouchX(event.targetTouches[0].clientX);
@@ -190,21 +159,6 @@ export default function ImagesSlider(props) {
             {pages[counter]}
           </CSSTransition>
         </SwitchTransition>
-      </div>
-      <div
-        className={fullscreen ? 'exitfullscreen icon' : 'hidden'}
-        role="button"
-        tabIndex={0}
-        onClick={() => {
-          document.exitFullscreen();
-          setFullScreen(false);
-        }}
-        onKeyDown={() => () => {
-          document.exitFullscreen();
-          setFullScreen(false);
-        }}
-      >
-        <MdFullscreenExit size="40" />
       </div>
     </SliderStyles>
   );
