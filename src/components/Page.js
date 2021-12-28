@@ -3,8 +3,10 @@ import styled from 'styled-components';
 const PageStyle = styled.div`
   width: 100%;
   height: 100%;
-  max-height: ${(props) => (props.maxWidthVW * props.pagesRatio) / 2}vw;
-  max-width: ${(props) => (2 * props.maxHeightVH) / props.pagesRatio}vh;
+  max-height: ${(props) =>
+    (props.maxWidthVW * props.pagesRatio) / (props.isDouble ? 2 : 1)}vw;
+  max-width: ${(props) =>
+    ((props.isDouble ? 2 : 1) * props.maxHeightVH) / props.pagesRatio}vh;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -19,6 +21,9 @@ const PageStyle = styled.div`
     justify-content: center;
     width: 100%;
     height: 100%;
+    .page-wrapper {
+      width: 50%;
+    }
   }
   img {
     max-height: 100%;
@@ -26,7 +31,7 @@ const PageStyle = styled.div`
     object-fit: contain;
   }
   .page-wrapper {
-    width: 50%;
+    width: 100%;
     height: 100%;
     display: flex;
     background-color: var(--white);
@@ -61,6 +66,7 @@ export default function Page(props) {
 
   return (
     <PageStyle
+      isDouble={isDouble}
       maxWidthVW={maxWidthVW}
       maxHeightVH={maxHeightVH}
       pagesRatio={pagesRatio}
