@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 const PageStyle = styled.div`
-  max-width: ${(props) => props.widthOnWideScreenVW - 20}vw;
-  width: ${(props) => props.widthOnWideScreenVW - 20}vw;
-  height: ${(props) => (props.widthOnWideScreenVW - 20) * 0.6}vw;
+  width: 100%;
+  height: 100%;
+  max-height: ${(props) => (props.maxWidthVW * props.pagesRatio) / 2}vw;
+  max-width: ${(props) => (2 * props.maxHeightVH) / props.pagesRatio}vh;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -28,10 +29,7 @@ const PageStyle = styled.div`
     width: 50%;
     height: 100%;
     display: flex;
-
     background-color: var(--white);
-    max-height: ${(props) => props.heightOnWideScreenVH}vh;
-    overflow-y: auto;
   }
   .midshadow {
     position: absolute;
@@ -56,37 +54,16 @@ const PageStyle = styled.div`
   .page-wrapper.center {
     justify-content: center;
   }
-
-  @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
-    max-width: ${(props) => props.widthOnStrechScreenVW}vw;
-    width: ${(props) => props.widthOnStrechScreenVW - 2}vw;
-    height: ${(props) => props.widthOnStrechScreenVW * 1.2}vw;
-
-    .page-wrapper {
-      width: 100%;
-      max-height: ${(props) => props.heightOnStrechScreenVH}vh;
-    }
-  }
 `;
 
 export default function Page(props) {
-  const {
-    content,
-    isDouble,
-    mediaQueryLimitPixels,
-    widthOnWideScreenVW,
-    widthOnStrechScreenVW,
-    heightOnWideScreenVH,
-    heightOnStrechScreenVH,
-  } = props;
+  const { content, isDouble, maxWidthVW, maxHeightVH, pagesRatio } = props;
 
   return (
     <PageStyle
-      mediaQueryLimitPixels={mediaQueryLimitPixels}
-      widthOnWideScreenVW={widthOnWideScreenVW}
-      widthOnStrechScreenVW={widthOnStrechScreenVW}
-      heightOnWideScreenVH={heightOnWideScreenVH}
-      heightOnStrechScreenVH={heightOnStrechScreenVH}
+      maxWidthVW={maxWidthVW}
+      maxHeightVH={maxHeightVH}
+      pagesRatio={pagesRatio}
     >
       {isDouble ? (
         <>

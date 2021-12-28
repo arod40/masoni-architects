@@ -11,7 +11,8 @@ const SliderStyles = styled.div`
     flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
-    height: ${(props) => props.heightOnWideScreenVH}vh;
+    height: ${(props) => props.heightVH}vh;
+    width: ${(props) => props.widthVW}vw;
   }
   .hidden {
     display: none;
@@ -63,25 +64,10 @@ const SliderStyles = styled.div`
     transition: 200ms ease-in;
     transition-property: transform, opacity;
   }
-
-  @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
-    .slider {
-      height: ${(props) => props.heightOnStrechScreenVH}vh;
-    }
-  }
 `;
 
 export default function ImagesSlider(props) {
-  const {
-    pages,
-    counter,
-    setCounter,
-    mediaQueryLimitPixels,
-    widthOnWideScreenVW,
-    widthOnStrechScreenVW,
-    heightOnWideScreenVH,
-    heightOnStrechScreenVH,
-  } = props;
+  const { pages, counter, setCounter, heightVH, widthVW } = props;
   const numberOfPages = pages.length;
 
   const [firstTouchX, setFirstTouchX] = useState(null);
@@ -89,11 +75,8 @@ export default function ImagesSlider(props) {
 
   return (
     <SliderStyles
-      widthOnWideScreenVW={widthOnWideScreenVW}
-      widthOnStrechScreenVW={widthOnStrechScreenVW}
-      heightOnWideScreenVH={heightOnWideScreenVH}
-      heightOnStrechScreenVH={heightOnStrechScreenVH}
-      mediaQueryLimitPixels={mediaQueryLimitPixels}
+      heightVH={heightVH}
+      widthVW={widthVW}
       counter={counter}
       lastPage={numberOfPages - 1}
     >

@@ -8,7 +8,6 @@ import {
   MdList,
   MdFullscreenExit,
 } from 'react-icons/md';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
 import ContactsFooter from '../components/ContactsFooter';
@@ -27,6 +26,7 @@ const widthOnStrechScreenVW = 100;
 const heightOnWideScreenVH = 100 - strechScreenFooterHeight;
 const heightOnStrechScreenVH =
   100 - strechScreenNavHeight - strechScreenFooterHeight;
+const pagesRatio = 1.4143;
 
 const HomeLayout = styled.div`
   display: grid;
@@ -126,11 +126,9 @@ export default class Home extends React.Component {
     pages.push(
       <Page
         content={<img src={data.homepage.file} alt="" />}
-        mediaQueryLimitPixels={mediaQueryLimitPixels}
-        widthOnWideScreenVW={widthOnWideScreenVW}
-        widthOnStrechScreenVW={widthOnStrechScreenVW}
-        heightOnWideScreenVH={heightOnWideScreenVH}
-        heightOnStrechScreenVH={heightOnStrechScreenVH}
+        maxWidthVW={isWide ? widthOnWideScreenVW : widthOnWideScreenVW}
+        maxHeightVH={isWide ? heightOnWideScreenVH : heightOnStrechScreenVH}
+        pagesRatio={pagesRatio}
       />
     );
 
@@ -180,11 +178,9 @@ export default class Home extends React.Component {
         <Page
           isDouble={isWide}
           content={page}
-          mediaQueryLimitPixels={mediaQueryLimitPixels}
-          widthOnWideScreenVW={widthOnWideScreenVW}
-          widthOnStrechScreenVW={widthOnStrechScreenVW}
-          heightOnWideScreenVH={heightOnWideScreenVH}
-          heightOnStrechScreenVH={heightOnStrechScreenVH}
+          maxWidthVW={isWide ? widthOnWideScreenVW : widthOnWideScreenVW}
+          maxHeightVH={isWide ? heightOnWideScreenVH : heightOnStrechScreenVH}
+          pagesRatio={pagesRatio}
         />
       )
     );
@@ -192,11 +188,9 @@ export default class Home extends React.Component {
     pages.push(
       <Page
         content={<img src={data.contactpage.file} alt="" />}
-        mediaQueryLimitPixels={mediaQueryLimitPixels}
-        widthOnWideScreenVW={widthOnWideScreenVW}
-        widthOnStrechScreenVW={widthOnStrechScreenVW}
-        heightOnWideScreenVH={heightOnWideScreenVH}
-        heightOnStrechScreenVH={heightOnStrechScreenVH}
+        maxWidthVW={isWide ? widthOnWideScreenVW : widthOnWideScreenVW}
+        maxHeightVH={isWide ? heightOnWideScreenVH : heightOnStrechScreenVH}
+        pagesRatio={pagesRatio}
       />
     );
 
@@ -212,7 +206,7 @@ export default class Home extends React.Component {
   };
 
   render() {
-    const { counter, fullscreen } = this.state;
+    const { counter, fullscreen, isWide } = this.state;
 
     const pages = this.buildPages(this.images);
     this.contactPage = pages.length - 1;
@@ -283,11 +277,8 @@ export default class Home extends React.Component {
         <div className="images-area">
           <ImagesSlider
             pages={pages}
-            mediaQueryLimitPixels={mediaQueryLimitPixels}
-            widthOnWideScreenVW={widthOnWideScreenVW}
-            widthOnStrechScreenVW={widthOnStrechScreenVW}
-            heightOnWideScreenVH={heightOnWideScreenVH}
-            heightOnStrechScreenVH={heightOnStrechScreenVH}
+            widthVW={isWide ? widthOnWideScreenVW : widthOnStrechScreenVW}
+            heightVH={isWide ? heightOnWideScreenVH : heightOnStrechScreenVH}
             counter={counter}
             setCounter={this.setCounter}
           />
