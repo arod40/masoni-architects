@@ -1,4 +1,4 @@
-import im1 from './pictures/2017_AM_Potfolio_DiDa_page-0001.jpg';
+import im1 from './pictures/2017_AM_Potfolio_DiDa_page-0001.png';
 import im2 from './pictures/2017_AM_Potfolio_DiDa_page-0002.jpg';
 import im3 from './pictures/2017_AM_Potfolio_DiDa_page-0002 (1).jpg';
 import im4 from './pictures/2017_AM_Potfolio_DiDa_page-0003.jpg';
