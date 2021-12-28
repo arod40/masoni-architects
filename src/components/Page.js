@@ -39,6 +39,7 @@ const PageStyle = styled.div`
     height: 100%;
     opacity: 1;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    pointer-events: none;
   }
   .midshadow.left {
     left: 0;
