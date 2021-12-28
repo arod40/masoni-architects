@@ -56,6 +56,9 @@ const ContactsStyle = styled.div`
       .contact {
         padding: 0;
         font-size: 3.5vw;
+        .email {
+          display: none;
+        }
       }
     }
   }
@@ -65,22 +68,20 @@ export default function ContactsFooter(props) {
   const { contacts, mediaQueryLimitPixels } = props;
   return (
     <ContactsStyle mediaQueryLimitPixels={mediaQueryLimitPixels}>
-      <ReactTooltip
-        effect="solid"
-        afterShow={(event) => {
-          navigator.clipboard.writeText(event.target.innerText);
-          setTimeout(ReactTooltip.hide, 1200);
-        }}
-        type="success"
-      />
       <div className="contacts">
         {contacts.map((contact, index) => (
           <div key={index} className="contact">
             <ul>
-              <li className="email">
-                <span data-tip="Email copied!" data-event="click">
-                  {contact.email}
-                </span>
+              <ReactTooltip
+                effect="solid"
+                afterShow={() => {
+                  navigator.clipboard.writeText(contact.email);
+                  setTimeout(ReactTooltip.hide, 1200);
+                }}
+                type="success"
+              />
+              <li data-tip="Email copied!" data-event="click">
+                <span className="email">{contact.email}</span>
                 <span>
                   <MdEmail />
                 </span>
