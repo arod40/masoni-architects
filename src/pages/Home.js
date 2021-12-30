@@ -119,8 +119,8 @@ export default class Home extends React.Component {
     pages.push(
       <Page
         content={<img src={data.homepage.file} alt="" />}
-        maxWidthVW={width}
-        maxHeightVH={height}
+        maxWidth={width}
+        maxHeight={height}
         pagesRatio={pagesRatio}
       />
     );
@@ -165,14 +165,16 @@ export default class Home extends React.Component {
       groupedPagesContent.push([pagesContent[i], pagesContent[i + 1]]);
     }
 
-    const content = isWide ? groupedPagesContent : pagesContent;
+    // const content = isWide ? groupedPagesContent : pagesContent;
+    const content = pagesContent;
     content.forEach((page) =>
       pages.push(
         <Page
-          isDouble={isWide}
+          // isDouble={isWide}
+          isDouble={false}
           content={page}
-          maxWidthVW={width}
-          maxHeightVH={height}
+          maxWidth={width}
+          maxHeight={height}
           pagesRatio={pagesRatio}
         />
       )
@@ -181,13 +183,27 @@ export default class Home extends React.Component {
     pages.push(
       <Page
         content={<img src={data.contactpage.file} alt="" />}
-        maxWidthVW={width}
-        maxHeightVH={height}
+        maxWidth={width}
+        maxHeight={height}
         pagesRatio={pagesRatio}
       />
     );
 
     return pages;
+  };
+
+  vwToPixels = (vwUnits) => (window.screen.availWidth * vwUnits) / 100;
+
+  vhToPixels = (vhUnits) => (window.screen.availHeight * vhUnits) / 100;
+
+  computeBookPagesSize = (widthVW, heightVH) => {
+    const widthPX = this.vwToPixels(widthVW);
+    const heightPX = this.vhToPixels(heightVH);
+    if (heightPX / widthPX > pagesRatio) {
+      return [widthPX, widthPX * pagesRatio];
+    }
+
+    return [heightPX / pagesRatio, heightPX];
   };
 
   setCounter = (value) => {
@@ -208,6 +224,11 @@ export default class Home extends React.Component {
       width -= 5;
       height -= 5;
     }
+
+    [width, height] = this.computeBookPagesSize(
+      isWide ? width / 2 : width,
+      height
+    );
 
     const pages = this.buildPages(this.images, isWide, width, height);
     this.contactPage = pages.length - 1;
@@ -278,8 +299,9 @@ export default class Home extends React.Component {
         <div className="images-area">
           <ImagesSlider
             pages={pages}
-            widthVW={width}
-            heightVH={height}
+            width={isWide ? 2 * width : width}
+            pageWidth={width}
+            height={height}
             counter={counter}
             setCounter={this.setCounter}
           />

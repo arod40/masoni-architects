@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import BookFlip from './BookFlip';
 
 const SliderStyles = styled.div`
   position: relative;
@@ -10,8 +10,8 @@ const SliderStyles = styled.div`
     flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
-    height: ${(props) => props.heightVH}vh;
-    width: ${(props) => props.widthVW}vw;
+    height: ${(props) => props.height}px;
+    width: ${(props) => props.width}px;
   }
   .hidden {
     display: none;
@@ -66,7 +66,7 @@ const SliderStyles = styled.div`
 `;
 
 export default function ImagesSlider(props) {
-  const { pages, counter, setCounter, heightVH, widthVW } = props;
+  const { pages, counter, setCounter, height, width, pageWidth } = props;
   const numberOfPages = pages.length;
 
   const [firstTouchX, setFirstTouchX] = useState(null);
@@ -74,8 +74,8 @@ export default function ImagesSlider(props) {
 
   return (
     <SliderStyles
-      heightVH={heightVH}
-      widthVW={widthVW}
+      height={height}
+      width={width}
       counter={counter}
       lastPage={numberOfPages - 1}
     >
@@ -136,11 +136,7 @@ export default function ImagesSlider(props) {
           setCurrentTouchX(firstTouchX);
         }}
       >
-        <SwitchTransition component={null}>
-          <CSSTransition key={counter} timeout={400} classNames="fade">
-            {pages[counter]}
-          </CSSTransition>
-        </SwitchTransition>
+        <BookFlip width={pageWidth} height={height} pages={pages} />
       </div>
     </SliderStyles>
   );
