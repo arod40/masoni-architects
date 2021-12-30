@@ -10,13 +10,27 @@ const Page = React.forwardRef((props, ref) => {
   );
 });
 
-export default function BookFlip(props) {
-  const { width, height, pages } = props;
-  return (
-    <HTMLFlipBook width={width} height={height} showCover>
-      {pages.map((page) => (
-        <Page content={page} />
-      ))}
-    </HTMLFlipBook>
-  );
+export default class BookFlip extends React.Component {
+  render() {
+    const { width, height, pages, slider, onPageHandler } = this.props;
+    return (
+      <>
+        <HTMLFlipBook
+          width={width}
+          height={height}
+          showCover
+          ref={(el) => {
+            this.flipBook = el;
+            slider.flipBook = el;
+          }}
+          size="stretch"
+          onFlip={(e) => onPageHandler(e.data)}
+        >
+          {pages.map((page) => (
+            <Page content={page} />
+          ))}
+        </HTMLFlipBook>
+      </>
+    );
+  }
 }

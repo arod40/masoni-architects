@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import BookFlip from './BookFlip';
@@ -35,12 +35,12 @@ const SliderStyles = styled.div`
     filter: drop-shadow(2px 2px 2px rgb(0 0 0));
   }
   .arrow.back {
-    visibility: ${(props) => (props.counter === 0 ? 'hidden' : 'visible')};
+    visibility: ${(props) => (props.currentPage === 0 ? 'hidden' : 'visible')};
     left: 0;
   }
   .arrow.forward {
     visibility: ${(props) =>
-      props.counter === props.lastPage ? 'hidden' : 'visible'};
+      props.currentPage === props.totalPage - 1 ? 'hidden' : 'visible'};
     right: 0;
   }
   .fade-enter {
@@ -65,79 +65,69 @@ const SliderStyles = styled.div`
   }
 `;
 
-export default function ImagesSlider(props) {
-  const { pages, counter, setCounter, height, width, pageWidth } = props;
-  const numberOfPages = pages.length;
+export default class ImagesSlider extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPage: 0,
+    };
+  }
 
-  const [firstTouchX, setFirstTouchX] = useState(null);
-  const [currentTouchX, setCurrentTouchX] = useState(null);
+  nextButtonClick = () => {
+    this.flipBook.pageFlip().flipNext();
+  };
 
-  return (
-    <SliderStyles
-      height={height}
-      width={width}
-      counter={counter}
-      lastPage={numberOfPages - 1}
-    >
-      {/* Rendering all pages beforehand so they are cached by browser */}
-      <div className="hidden">
-        {pages.map((page) => (
-          <div>{page}</div>
-        ))}
-      </div>
-      <div
-        className="icon arrow back"
-        role="button"
-        tabIndex={0}
-        onClick={() =>
-          setCounter((counter - 1 + numberOfPages) % numberOfPages)
-        }
-        onKeyDown={() =>
-          setCounter((counter - 1 + numberOfPages) % numberOfPages)
-        }
+  prevButtonClick = () => {
+    this.flipBook.pageFlip().flipPrev();
+  };
+
+  setCurrentPage = (value) => this.setState({ currentPage: value });
+
+  render() {
+    const { currentPage } = this.state;
+    const { pages, height, width, pageWidth } = this.props;
+
+    return (
+      <SliderStyles
+        height={height}
+        width={width}
+        currentPage={currentPage}
+        totalPage={pages.length}
       >
-        <MdKeyboardArrowLeft size="60" />
-      </div>
-      <div
-        className="icon arrow forward"
-        role="button"
-        tabIndex={0}
-        onClick={() =>
-          setCounter((counter + 1 + numberOfPages) % numberOfPages)
-        }
-        onKeyDown={() =>
-          setCounter((counter + 1 + numberOfPages) % numberOfPages)
-        }
-      >
-        <MdKeyboardArrowRight size="60" />
-      </div>
-      <div
-        className="slider"
-        onTouchStart={(event) => {
-          setFirstTouchX(event.targetTouches[0].clientX);
-          setCurrentTouchX(event.targetTouches[0].clientX);
-        }}
-        onTouchMove={(event) => {
-          setCurrentTouchX(event.targetTouches[0].clientX);
-        }}
-        onTouchEnd={(event) => {
-          console.log(currentTouchX - firstTouchX);
-          if (
-            event.changedTouches[0].clientX - firstTouchX < -100 &&
-            counter < numberOfPages - 1
-          ) {
-            setCounter((counter + 1 + numberOfPages) % numberOfPages);
-          } else if (
-            event.changedTouches[0].clientX - firstTouchX > 100 &&
-            counter > 0
-          ) {
-            setCounter((counter - 1 + numberOfPages) % numberOfPages);
-          }
-          setCurrentTouchX(firstTouchX);
-        }}
-      >
-        <BookFlip width={pageWidth} height={height} pages={pages} />
-      </div>
-    </SliderStyles>
-  );
+        {/* Rendering all pages beforehand so they are cached by browser */}
+        <div className="hidden">
+          {pages.map((page) => (
+            <div>{page}</div>
+          ))}
+        </div>
+        <div
+          className="icon arrow back"
+          role="button"
+          tabIndex={0}
+          onClick={() => this.prevButtonClick()}
+          onKeyDown={() => this.prevButtonClick()}
+        >
+          <MdKeyboardArrowLeft size="60" />
+        </div>
+        <div
+          className="icon arrow forward"
+          role="button"
+          tabIndex={0}
+          onClick={() => this.nextButtonClick()}
+          onKeyDown={() => this.nextButtonClick()}
+        >
+          <MdKeyboardArrowRight size="60" />
+        </div>
+        <div className="slider">
+          <BookFlip
+            width={pageWidth}
+            height={height}
+            pages={pages}
+            slider={this}
+            onPageHandler={this.setCurrentPage}
+          />
+        </div>
+      </SliderStyles>
+    );
+  }
 }
