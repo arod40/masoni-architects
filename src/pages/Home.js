@@ -89,6 +89,8 @@ export default class Home extends React.Component {
       counter: 0,
       fullscreen: false,
       isWide: window.screen.availWidth > mediaQueryLimitPixels,
+      screenWidthPX: window.innerWidth,
+      screenHeightPX: window.innerHeight,
     };
 
     // Reading image list
@@ -109,7 +111,11 @@ export default class Home extends React.Component {
   }
 
   handleResize = () => {
-    this.setState({ isWide: window.screen.availWidth > mediaQueryLimitPixels });
+    this.setState({
+      screenWidthPX: window.innerWidth,
+      screenHeightPX: window.innerHeight,
+      isWide: window.screen.availWidth > mediaQueryLimitPixels,
+    });
   };
 
   buildPages = (images, isWide, width, height) => {
@@ -159,19 +165,9 @@ export default class Home extends React.Component {
         .slice(1, images.length - 1)
         .map((image) => <img src={image} alt="" />),
     ];
-
-    const groupedPagesContent = [];
-    for (let i = 0; i < pagesContent.length; i += 2) {
-      groupedPagesContent.push([pagesContent[i], pagesContent[i + 1]]);
-    }
-
-    // const content = isWide ? groupedPagesContent : pagesContent;
-    const content = pagesContent;
-    content.forEach((page) =>
+    pagesContent.forEach((page) =>
       pages.push(
         <Page
-          // isDouble={isWide}
-          isDouble={false}
           content={page}
           maxWidth={width}
           maxHeight={height}
@@ -192,13 +188,15 @@ export default class Home extends React.Component {
     return pages;
   };
 
-  vwToPixels = (vwUnits) => (window.screen.availWidth * vwUnits) / 100;
+  vwToPixels = (vwUnits, screenWidthPX) =>
+    Math.floor((screenWidthPX * vwUnits) / 100);
 
-  vhToPixels = (vhUnits) => (window.screen.availHeight * vhUnits) / 100;
+  vhToPixels = (vhUnits, screenHeightPX) =>
+    Math.floor((screenHeightPX * vhUnits) / 100);
 
-  computeBookPagesSize = (widthVW, heightVH) => {
-    const widthPX = this.vwToPixels(widthVW);
-    const heightPX = this.vhToPixels(heightVH);
+  computeBookPagesSize = (widthVW, heightVH, screenWidthPX, screenHeightPX) => {
+    const widthPX = this.vwToPixels(widthVW, screenWidthPX);
+    const heightPX = this.vhToPixels(heightVH, screenHeightPX);
     if (heightPX / widthPX > pagesRatio) {
       return [widthPX, widthPX * pagesRatio];
     }
@@ -215,22 +213,30 @@ export default class Home extends React.Component {
   };
 
   render() {
-    const { counter, fullscreen, isWide } = this.state;
+    const {
+      counter,
+      fullscreen,
+      isWide,
+      screenWidthPX,
+      screenHeightPX,
+    } = this.state;
 
-    let width = isWide ? widthOnWideScreenVW : widthOnStrechScreenVW;
-    let height = isWide ? heightOnWideScreenVH : heightOnStrechScreenVH;
+    let widthVW = isWide ? widthOnWideScreenVW : widthOnStrechScreenVW;
+    let heightVH = isWide ? heightOnWideScreenVH : heightOnStrechScreenVH;
 
     if (!fullscreen) {
-      width -= 5;
-      height -= 5;
+      widthVW -= 5;
+      heightVH -= 5;
     }
 
-    [width, height] = this.computeBookPagesSize(
-      isWide ? width / 2 : width,
-      height
+    const [widthPX, heightPX] = this.computeBookPagesSize(
+      isWide ? Math.floor(widthVW / 2) : widthVW,
+      heightVH,
+      screenWidthPX,
+      screenHeightPX
     );
 
-    const pages = this.buildPages(this.images, isWide, width, height);
+    const pages = this.buildPages(this.images, isWide, widthPX, heightPX);
     this.contactPage = pages.length - 1;
     return (
       <HomeLayout>
@@ -299,9 +305,9 @@ export default class Home extends React.Component {
         <div className="images-area">
           <ImagesSlider
             pages={pages}
-            width={isWide ? 2 * width : width}
-            pageWidth={width}
-            height={height}
+            width={isWide ? 2 * widthPX : widthPX}
+            pageWidth={widthPX}
+            height={heightPX}
             counter={counter}
             setCounter={this.setCounter}
           />
