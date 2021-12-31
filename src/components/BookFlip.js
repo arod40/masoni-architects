@@ -29,7 +29,7 @@ export default class BookFlip extends React.Component {
   }
 
   render() {
-    const { width, height, pages, slider, onPageHandler } = this.props;
+    const { width, height, pages, home, onPageHandler } = this.props;
     return (
       <>
         <HTMLFlipBook
@@ -38,7 +38,7 @@ export default class BookFlip extends React.Component {
           showCover
           ref={(el) => {
             this.flipBook = el;
-            slider.flipBook = el;
+            home.flipBook = el;
           }}
           onFlip={(e) => onPageHandler(e.data)}
         >

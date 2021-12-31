@@ -66,26 +66,21 @@ const SliderStyles = styled.div`
 `;
 
 export default class ImagesSlider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentPage: 0,
-    };
-  }
-
-  nextButtonClick = () => {
-    this.flipBook.pageFlip().flipNext();
-  };
-
-  prevButtonClick = () => {
-    this.flipBook.pageFlip().flipPrev();
-  };
-
-  setCurrentPage = (value) => this.setState({ currentPage: value });
-
   render() {
-    const { currentPage } = this.state;
-    const { pages, height, width, pageWidth } = this.props;
+    const {
+      pages,
+      height,
+      width,
+      pageWidth,
+      currentPage,
+      home,
+      handleClickNext,
+      handleClickPrev,
+      handleCurrentPageChange,
+    } = this.props;
+
+    // console.log(handleClickNext);
+    // console.log(handleClickPrev);
 
     return (
       <SliderStyles
@@ -104,8 +99,8 @@ export default class ImagesSlider extends React.Component {
           className="icon arrow back"
           role="button"
           tabIndex={0}
-          onClick={() => this.prevButtonClick()}
-          onKeyDown={() => this.prevButtonClick()}
+          onClick={handleClickPrev}
+          onKeyDown={handleClickPrev}
         >
           <MdKeyboardArrowLeft size="60" />
         </div>
@@ -113,8 +108,8 @@ export default class ImagesSlider extends React.Component {
           className="icon arrow forward"
           role="button"
           tabIndex={0}
-          onClick={() => this.nextButtonClick()}
-          onKeyDown={() => this.nextButtonClick()}
+          onClick={handleClickNext}
+          onKeyDown={handleClickNext}
         >
           <MdKeyboardArrowRight size="60" />
         </div>
@@ -124,8 +119,8 @@ export default class ImagesSlider extends React.Component {
             width={pageWidth}
             height={height}
             pages={pages}
-            slider={this}
-            onPageHandler={this.setCurrentPage}
+            home={home}
+            onPageHandler={handleCurrentPageChange}
             currentPage={currentPage}
           />
         </div>

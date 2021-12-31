@@ -50,9 +50,8 @@ function IndexCard(props) {
     year,
     subheader,
     thumbnail,
-    setCounter,
+    turnToPage,
     mediaQueryLimitPixels,
-    pageToCounter,
   } = props;
 
   return (
@@ -60,10 +59,10 @@ function IndexCard(props) {
       role="button"
       tabIndex={0}
       onClick={() => {
-        setCounter(pageToCounter[pages[0]]);
+        turnToPage(pages[0] + 2); // Adding 2 to account for index pages
       }}
       onKeyDown={() => {
-        setCounter(pageToCounter[pages[0]]);
+        turnToPage(pages[0] + 2); // Adding 2 to account for index pages
       }}
       mediaQueryLimitPixels={mediaQueryLimitPixels}
     >
@@ -123,13 +122,7 @@ const IndexPageStyle = styled.div`
 `;
 
 export default function IndexPage(props) {
-  const {
-    indexes,
-    setCounter,
-    mediaQueryLimitPixels,
-    isTitlePage,
-    pageToCounter,
-  } = props;
+  const { indexes, turnToPage, mediaQueryLimitPixels, isTitlePage } = props;
   return (
     <IndexPageStyle mediaQueryLimitPixels={mediaQueryLimitPixels}>
       <h1 className={isTitlePage ? '' : 'hidden'}> Index </h1>
@@ -142,9 +135,8 @@ export default function IndexPage(props) {
               year={pageData.year}
               subheader={pageData.subheader}
               pages={pageData.pages}
-              setCounter={setCounter}
+              turnToPage={turnToPage}
               mediaQueryLimitPixels={mediaQueryLimitPixels}
-              pageToCounter={pageToCounter}
             />
           </li>
         ))}

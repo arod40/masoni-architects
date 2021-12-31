@@ -86,11 +86,11 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      counter: 0,
       fullscreen: false,
       isWide: window.screen.availWidth > mediaQueryLimitPixels,
       screenWidthPX: window.innerWidth,
       screenHeightPX: window.innerHeight,
+      currentPage: 0,
     };
 
     // Reading image list
@@ -150,16 +150,14 @@ export default class Home extends React.Component {
     const pagesContent = [
       <IndexPage
         indexes={indexablePages.slice(0, 7)}
-        setCounter={this.setCounter}
+        turnToPage={this.turnToPage}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         isTitlePage
-        pageToCounter={pageToCounter}
       />,
       <IndexPage
         indexes={indexablePages.slice(7)}
-        setCounter={this.setCounter}
+        turnToPage={this.turnToPage}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
-        pageToCounter={pageToCounter}
       />,
       ...images
         .slice(1, images.length - 1)
@@ -204,21 +202,31 @@ export default class Home extends React.Component {
     return [heightPX / pagesRatio, heightPX];
   };
 
-  setCounter = (value) => {
-    this.setState({ counter: value });
-  };
-
   setFullScreen = (value) => {
     this.setState({ fullscreen: value });
   };
 
+  handleClickNext = () => {
+    this.flipBook.pageFlip().flipNext();
+  };
+
+  handleClickPrev = () => {
+    this.flipBook.pageFlip().flipPrev();
+  };
+
+  handleCurrentPageChange = (value) => this.setState({ currentPage: value });
+
+  turnToPage = (page) => {
+    this.flipBook.pageFlip().flip(page);
+  };
+
   render() {
     const {
-      counter,
       fullscreen,
       isWide,
       screenWidthPX,
       screenHeightPX,
+      currentPage,
     } = this.state;
 
     let widthVW = isWide ? widthOnWideScreenVW : widthOnStrechScreenVW;
@@ -247,10 +255,10 @@ export default class Home extends React.Component {
               role="button"
               tabIndex={0}
               onClick={() => {
-                this.setCounter(this.homePage);
+                this.turnToPage(this.homePage);
               }}
               onKeyDown={() => {
-                this.setCounter(this.homePage);
+                this.turnToPage(this.homePage);
               }}
             >
               <MdHome />
@@ -259,8 +267,8 @@ export default class Home extends React.Component {
               key="list-icon"
               role="button"
               tabIndex={0}
-              onClick={() => this.setCounter(this.indexPage)}
-              onKeyDown={() => this.setCounter(this.indexPage)}
+              onClick={() => this.turnToPage(this.indexPage)}
+              onKeyDown={() => this.turnToPage(this.indexPage)}
             >
               <MdList />
             </div>
@@ -269,10 +277,10 @@ export default class Home extends React.Component {
               role="button"
               tabIndex={0}
               onClick={() => {
-                this.setCounter(this.contactPage);
+                this.turnToPage(this.contactPage);
               }}
               onKeyDown={() => {
-                this.setCounter(this.contactPage);
+                this.turnToPage(this.contactPage);
               }}
             >
               <MdPerson />
@@ -308,8 +316,11 @@ export default class Home extends React.Component {
             width={isWide ? 2 * widthPX : widthPX}
             pageWidth={widthPX}
             height={heightPX}
-            counter={counter}
-            setCounter={this.setCounter}
+            currentPage={currentPage}
+            home={this}
+            handleClickNext={this.handleClickNext}
+            handleClickPrev={this.handleClickPrev}
+            handleCurrentPageChange={this.handleCurrentPageChange}
           />
         </div>
         <div className="footer">
