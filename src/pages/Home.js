@@ -111,6 +111,7 @@ export default class Home extends React.Component {
     this.indexPage = 1;
 
     window.addEventListener('resize', this.handleResize);
+    window.addEventListener('keydown', this.handleKeyDown);
   }
 
   handleResize = () => {
@@ -119,6 +120,14 @@ export default class Home extends React.Component {
       screenHeightPX: window.innerHeight,
       isWide: window.screen.availWidth > mediaQueryLimitPixels,
     });
+  };
+
+  handleKeyDown = (event) => {
+    if (event.key === 'ArrowRight') {
+      this.flipBook.flipNext();
+    } else if (event.key === 'ArrowLeft') {
+      this.flipBook.flipPrev();
+    }
   };
 
   buildPages = (images, isWide, width, height) => {
