@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { PageFlip } from 'page-flip';
 import BookFlip from './BookFlip';
 
 const SliderStyles = styled.div`
