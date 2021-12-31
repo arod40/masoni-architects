@@ -30,7 +30,6 @@ export default class BookFlip extends React.Component {
       skip: null,
       nextPage: currentPage,
       firstTouchX: null,
-      currentTouchX: null,
     };
   }
 
@@ -87,11 +86,9 @@ export default class BookFlip extends React.Component {
 
   setFirstTouchX = (value) => this.setState({ firstTouchX: value });
 
-  setCurrentTouchX = (value) => this.setState({ currentTouchX: value });
-
   render() {
     const { pages, currentPage, width, height } = this.props;
-    const { firstTouchX, currentTouchX, nextPage } = this.state;
+    const { firstTouchX, nextPage } = this.state;
 
     return (
       <BookFlipStyle
@@ -104,10 +101,6 @@ export default class BookFlip extends React.Component {
           id="book"
           onTouchStart={(event) => {
             this.setFirstTouchX(event.targetTouches[0].clientX);
-            this.setCurrentTouchX(event.targetTouches[0].clientX);
-          }}
-          onTouchMove={(event) => {
-            this.setCurrentTouchX(event.targetTouches[0].clientX);
           }}
           onTouchEnd={(event) => {
             if (
@@ -121,7 +114,6 @@ export default class BookFlip extends React.Component {
             ) {
               this.flipPrev();
             }
-            this.setCurrentTouchX(firstTouchX);
           }}
         >
           {pages.map((page) => (
