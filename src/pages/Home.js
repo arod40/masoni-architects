@@ -205,8 +205,8 @@ export default class Home extends React.Component {
     let height = isWide ? heightOnWideScreenVH : heightOnStrechScreenVH;
 
     if (!fullscreen) {
-      width -= 20;
-      height -= 20;
+      width -= 5;
+      height -= 5;
     }
 
     const pages = this.buildPages(this.images, isWide, width, height);
