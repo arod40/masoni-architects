@@ -49,6 +49,9 @@ const HomeLayout = styled.div`
   .images-area {
     grid-area: images;
     margin: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
   .fade-enter {
     opacity: 0;

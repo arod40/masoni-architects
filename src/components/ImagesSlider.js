@@ -5,6 +5,9 @@ import BookFlip from './BookFlip';
 
 const SliderStyles = styled.div`
   position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   .slider {
     display: flex;
     flex-wrap: nowrap;
