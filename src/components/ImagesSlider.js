@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { PageFlip } from 'page-flip';
 import BookFlip from './BookFlip';
 
 const SliderStyles = styled.div`
@@ -79,9 +80,6 @@ export default class ImagesSlider extends React.Component {
       handleCurrentPageChange,
     } = this.props;
 
-    // console.log(handleClickNext);
-    // console.log(handleClickPrev);
-
     return (
       <SliderStyles
         height={height}
@@ -119,9 +117,9 @@ export default class ImagesSlider extends React.Component {
             width={pageWidth}
             height={height}
             pages={pages}
-            home={home}
             onPageHandler={handleCurrentPageChange}
             currentPage={currentPage}
+            home={home}
           />
         </div>
       </SliderStyles>

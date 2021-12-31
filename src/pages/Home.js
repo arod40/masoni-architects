@@ -199,7 +199,7 @@ export default class Home extends React.Component {
       return [widthPX, widthPX * pagesRatio];
     }
 
-    return [heightPX / pagesRatio, heightPX];
+    return [Math.floor(heightPX / pagesRatio), heightPX];
   };
 
   setFullScreen = (value) => {
@@ -207,17 +207,17 @@ export default class Home extends React.Component {
   };
 
   handleClickNext = () => {
-    this.flipBook.pageFlip().flipNext();
+    this.flipBook.flipNext();
   };
 
   handleClickPrev = () => {
-    this.flipBook.pageFlip().flipPrev();
+    this.flipBook.flipPrev();
   };
 
   handleCurrentPageChange = (value) => this.setState({ currentPage: value });
 
   turnToPage = (page) => {
-    this.flipBook.pageFlip().flip(page);
+    this.flipBook.flip(page);
   };
 
   render() {

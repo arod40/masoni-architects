@@ -1,52 +1,37 @@
+import { PageFlip } from 'page-flip';
 import React from 'react';
-import HTMLFlipBook from 'react-pageflip';
-
-const Page = React.forwardRef((props, ref) => {
-  const { content } = props;
-  return (
-    <div className="book-page" data-density="hard" ref={ref}>
-      {content}
-    </div>
-  );
-});
 
 export default class BookFlip extends React.Component {
-  constructor(props) {
-    super(props);
-    this.update = true;
-  }
+  componentDidMount() {
+    const { width, height, currentPage, onPageHandler, home } = this.props;
 
-  shouldComponentUpdate() {
-    const shouldUpdate = this.update;
-    this.update = true;
-    return shouldUpdate;
-  }
+    this.pageFlip = new PageFlip(document.getElementById('book'), {
+      width, // required parameter - base page width
+      height, // required parameter - base page height
+      showCover: true,
+      useMouseEvents: false,
+    });
 
-  componentDidUpdate() {
-    const { currentPage } = this.props;
-    this.update = false;
-    this.flipBook.pageFlip().turnToPage(currentPage);
+    this.pageFlip.loadFromHTML(document.querySelectorAll('.book-page'));
+
+    this.pageFlip.turnToPage(currentPage);
+
+    this.pageFlip.on('flip', (e) => onPageHandler(e.data));
+
+    home.flipBook = this.pageFlip;
   }
 
   render() {
-    const { width, height, pages, home, onPageHandler } = this.props;
+    const { pages } = this.props;
+
     return (
-      <>
-        <HTMLFlipBook
-          width={width}
-          height={height}
-          showCover
-          ref={(el) => {
-            this.flipBook = el;
-            home.flipBook = el;
-          }}
-          onFlip={(e) => onPageHandler(e.data)}
-        >
-          {pages.map((page) => (
-            <Page content={page} />
-          ))}
-        </HTMLFlipBook>
-      </>
+      <div id="book">
+        {pages.map((page) => (
+          <div className="book-page" data-density="hard">
+            {page}
+          </div>
+        ))}
+      </div>
     );
   }
 }
