@@ -1,11 +1,34 @@
 import { PageFlip } from 'page-flip';
 import React from 'react';
+import styled from 'styled-components';
+
+const containerTransform = (nextPage, totalPages) => {
+  if (nextPage === 0) {
+    return 'translateX(-25%)';
+  }
+  if (nextPage === totalPages - 1) {
+    return 'translateX(25%)';
+  }
+  return 'translateX(0)';
+};
+
+const BookFlipStyle = styled.div`
+  transition: ease 1s;
+  transition-property: transform;
+  transform: ${(props) => containerTransform(props.nextPage, props.totalPages)};
+  width: ${(props) => 2 * props.width}px;
+  height: ${(props) => props.height}px;
+`;
 
 export default class BookFlip extends React.Component {
   constructor(props) {
     super(props);
 
+    const { currentPage } = this.props;
+
     this.state = {
+      skip: null,
+      nextPage: currentPage,
       firstTouchX: null,
       currentTouchX: null,
     };
@@ -26,50 +49,88 @@ export default class BookFlip extends React.Component {
     this.pageFlip.turnToPage(currentPage);
 
     this.pageFlip.on('flip', (e) => onPageHandler(e.data));
+    this.pageFlip.on('changeOrientation', (e) => this.setSkip(e.data));
 
-    home.flipBook = this.pageFlip;
+    this.setSkip(this.pageFlip.getOrientation());
+
+    home.flipBook = this;
   }
+
+  setSkip = (orientation) => {
+    this.setState({ skip: orientation === 'portrait' ? 1 : 2 });
+  };
+
+  flipNext = () => {
+    this.setState((prevState, prevProps) => ({
+      nextPage:
+        prevProps.currentPage === prevProps.pages.length - 1
+          ? prevProps.currentPage
+          : prevProps.currentPage + prevState.skip,
+    }));
+    this.pageFlip.flipNext();
+  };
+
+  flipPrev = () => {
+    this.setState((prevState, prevProps) => ({
+      nextPage:
+        prevProps.currentPage === 0
+          ? prevProps.currentPage
+          : prevProps.currentPage - 1,
+    }));
+    this.pageFlip.flipPrev();
+  };
+
+  flip = (page) => {
+    this.setState({ nextPage: page });
+    this.pageFlip.flip(page);
+  };
 
   setFirstTouchX = (value) => this.setState({ firstTouchX: value });
 
   setCurrentTouchX = (value) => this.setState({ currentTouchX: value });
 
   render() {
-    const { pages, currentPage } = this.props;
-    const { firstTouchX, currentTouchX } = this.state;
+    const { pages, currentPage, width, height } = this.props;
+    const { firstTouchX, currentTouchX, nextPage } = this.state;
 
     return (
-      <div
-        id="book"
-        onTouchStart={(event) => {
-          this.setFirstTouchX(event.targetTouches[0].clientX);
-          this.setCurrentTouchX(event.targetTouches[0].clientX);
-        }}
-        onTouchMove={(event) => {
-          this.setCurrentTouchX(event.targetTouches[0].clientX);
-        }}
-        onTouchEnd={(event) => {
-          console.log(currentTouchX - firstTouchX);
-          if (
-            event.changedTouches[0].clientX - firstTouchX < -100 &&
-            currentPage < pages.length - 1
-          ) {
-            this.pageFlip.flipNext();
-          } else if (
-            event.changedTouches[0].clientX - firstTouchX > 100 &&
-            currentPage > 0
-          ) {
-            this.pageFlip.flipPrev();
-          }
-          this.setCurrentTouchX(firstTouchX);
-        }}
+      <BookFlipStyle
+        width={width}
+        height={height}
+        nextPage={nextPage}
+        totalPages={pages.length}
       >
-        {pages.map((page) => (
-          <div className="book-page" data-density="hard">
-            {page}
-          </div>
-        ))}
-      </div>
+        <div
+          id="book"
+          onTouchStart={(event) => {
+            this.setFirstTouchX(event.targetTouches[0].clientX);
+            this.setCurrentTouchX(event.targetTouches[0].clientX);
+          }}
+          onTouchMove={(event) => {
+            this.setCurrentTouchX(event.targetTouches[0].clientX);
+          }}
+          onTouchEnd={(event) => {
+            if (
+              event.changedTouches[0].clientX - firstTouchX < -100 &&
+              currentPage < pages.length - 1
+            ) {
+              this.flipNext();
+            } else if (
+              event.changedTouches[0].clientX - firstTouchX > 100 &&
+              currentPage > 0
+            ) {
+              this.flipPrev();
+            }
+            this.setCurrentTouchX(firstTouchX);
+          }}
+        >
+          {pages.map((page) => (
+            <div className="book-page" data-density="hard">
+              {page}
+            </div>
+          ))}
+        </div>
+      </BookFlipStyle>
     );
   }
 }
