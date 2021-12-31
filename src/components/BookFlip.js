@@ -2,7 +2,8 @@ import { PageFlip } from 'page-flip';
 import React from 'react';
 import styled from 'styled-components';
 
-const containerTransform = (nextPage, totalPages) => {
+const containerTransform = (nextPage, totalPages, skip) => {
+  if (skip === 1) return 'translateX(0)'; // Do not translate on portrait mode
   if (nextPage === 0) {
     return 'translateX(-25%)';
   }
@@ -15,7 +16,8 @@ const containerTransform = (nextPage, totalPages) => {
 const BookFlipStyle = styled.div`
   transition: ease 1s;
   transition-property: transform;
-  transform: ${(props) => containerTransform(props.nextPage, props.totalPages)};
+  transform: ${(props) =>
+    containerTransform(props.nextPage, props.totalPages, props.skip)};
   width: ${(props) => 2 * props.width}px;
   height: ${(props) => props.height}px;
 `;
@@ -88,7 +90,7 @@ export default class BookFlip extends React.Component {
 
   render() {
     const { pages, currentPage, width, height } = this.props;
-    const { firstTouchX, nextPage } = this.state;
+    const { firstTouchX, nextPage, skip } = this.state;
 
     return (
       <BookFlipStyle
@@ -96,6 +98,7 @@ export default class BookFlip extends React.Component {
         height={height}
         nextPage={nextPage}
         totalPages={pages.length}
+        skip={skip}
       >
         <div
           id="book"
