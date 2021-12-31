@@ -120,11 +120,13 @@ export default class ImagesSlider extends React.Component {
         </div>
         <div className="slider">
           <BookFlip
+            key={(width, height)}
             width={pageWidth}
             height={height}
             pages={pages}
             slider={this}
             onPageHandler={this.setCurrentPage}
+            currentPage={currentPage}
           />
         </div>
       </SliderStyles>
