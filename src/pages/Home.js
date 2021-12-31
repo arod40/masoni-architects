@@ -112,6 +112,7 @@ export default class Home extends React.Component {
 
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('fullscreenchange', this.handleFullScreenChange);
   }
 
   handleResize = () => {
@@ -128,6 +129,12 @@ export default class Home extends React.Component {
     } else if (event.key === 'ArrowLeft') {
       this.flipBook.flipPrev();
     }
+  };
+
+  handleFullScreenChange = () => {
+    this.setState((prevState, prevProps) => ({
+      fullscreen: !prevState.fullscreen,
+    }));
   };
 
   buildPages = (images, isWide, width, height) => {
@@ -212,10 +219,6 @@ export default class Home extends React.Component {
     }
 
     return [Math.floor(heightPX / pagesRatio), heightPX];
-  };
-
-  setFullScreen = (value) => {
-    this.setState({ fullscreen: value });
   };
 
   handleClickNext = () => {
@@ -307,7 +310,6 @@ export default class Home extends React.Component {
                 } else {
                   document.body.requestFullscreen();
                 }
-                this.setFullScreen(!fullscreen);
               }}
               onKeyDown={() => () => {
                 if (fullscreen) {
@@ -315,7 +317,6 @@ export default class Home extends React.Component {
                 } else {
                   document.body.requestFullscreen();
                 }
-                this.setFullScreen(!fullscreen);
               }}
             >
               {fullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
