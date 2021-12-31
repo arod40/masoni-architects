@@ -43,6 +43,7 @@ export default class BookFlip extends React.Component {
       height, // required parameter - base page height
       showCover: true,
       useMouseEvents: false,
+      maxShadowOpacity: 0.2,
     });
 
     this.pageFlip.loadFromHTML(document.querySelectorAll('.book-page'));

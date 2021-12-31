@@ -38,11 +38,8 @@ const PageStyle = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    opacity: 1;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) inset,
-      0 6px 20px 0 rgba(0, 0, 0, 0.19) inset;
-    pointer-events: none;
-    z-index: 500;
+    opacity: 0.2;
+    border-right: 1px solid black;
   }
   .page-wrapper.left {
     justify-content: flex-end;
