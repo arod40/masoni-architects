@@ -34,19 +34,15 @@ const PageStyle = styled.div`
     display: flex;
     background-color: var(--white);
   }
-  .midshadow {
+  .shadow {
     position: absolute;
-    width: 50%;
+    width: 100%;
     height: 100%;
     opacity: 1;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) inset,
+      0 6px 20px 0 rgba(0, 0, 0, 0.19) inset;
     pointer-events: none;
-  }
-  .midshadow.left {
-    left: 0;
-  }
-  .midshadow.right {
-    left: 50%;
+    z-index: 500;
   }
   .page-wrapper.left {
     justify-content: flex-end;
@@ -68,6 +64,7 @@ export default function Page(props) {
       maxHeight={maxHeight}
       pagesRatio={pagesRatio}
     >
+      <div className="shadow" />
       <div className="page-wrapper center">{content}</div>
     </PageStyle>
   );
