@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 const IndexCardStyle = styled.div`
   padding: 1%;
-  margin: 1% 1%;
+  margin: 0 1% 0 1%;
   transition: 0.3s ease;
   transition-property: box-shadow background-color;
+  height: ${(props) => props.height}px;
   cursor: pointer;
   &:hover {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
@@ -15,30 +16,29 @@ const IndexCardStyle = styled.div`
       'thumbnail header pages'
       'thumbnail subheader pages';
   }
+  /* Accounting for padding to set font size and thumbnail max-height */
+  .header {
+    grid-area: header;
+    margin: 0 10% 0 5%;
+    font-size: ${(props) => 0.8 * 0.3 * props.height}px;
+  }
+  .pages {
+    grid-area: pages;
+    font-size: ${(props) => 0.8 * 0.3 * props.height}px;
+  }
+  .subheader {
+    grid-area: subheader;
+    margin: 0 10% 0 5%;
+    font-size: ${(props) => 0.8 * 0.2 * props.height}px;
+  }
   .thumbnail {
     grid-area: thumbnail;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .header {
-    grid-area: header;
-    margin: 0 10% 0 5%;
-  }
-  .subheader {
-    grid-area: subheader;
-    margin: 0 10% 0 5%;
-  }
-  .pages {
-    grid-area: pages;
-  }
-  img {
-    max-height: 4.2vw;
-    object-fit: contain;
-  }
-  @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
     img {
-      max-height: 12vw;
+      max-height: ${(props) => 0.8 * props.height}px;
+      object-fit: contain;
     }
   }
 `;
@@ -51,7 +51,7 @@ function IndexCard(props) {
     subheader,
     thumbnail,
     turnToPage,
-    mediaQueryLimitPixels,
+    height,
   } = props;
 
   return (
@@ -64,7 +64,7 @@ function IndexCard(props) {
       onKeyDown={() => {
         turnToPage(pages[0] + 2); // Adding 2 to account for index pages
       }}
-      mediaQueryLimitPixels={mediaQueryLimitPixels}
+      height={height}
     >
       <div className="card-grid">
         <div className="thumbnail">
@@ -85,47 +85,33 @@ function IndexCard(props) {
 }
 
 const IndexPageStyle = styled.div`
-  display: grid;
-  grid-template-areas:
-    'title'
-    'index-entries';
-  grid-template-rows: 1fr 9fr;
   background-color: var(--white);
-  h1 {
-    text-align: center;
-    margin: 5% 0 2% 0;
-    grid-area: title;
+  width: 100%;
+  height: 100%;
+  .title {
+    height: 10%;
   }
-  h1.hidden {
+  .title.notshowed {
     visibility: hidden;
   }
-  height: 100%;
-  width: 100%;
-  .index-entries {
-    grid-area: index-entries;
-  }
-  li {
-    font-size: 0.95vw;
-  }
-  .subheader {
-    font-size: 0.7vw;
-  }
-
-  @media (max-width: ${(props) => props.mediaQueryLimitPixels}px) {
-    li {
-      font-size: 2.7vw;
-    }
-    .subheader {
-      font-size: 2vw;
-    }
+  h1 {
+    position: relative;
+    top: 30%;
+    text-align: center;
   }
 `;
 
 export default function IndexPage(props) {
-  const { indexes, turnToPage, mediaQueryLimitPixels, isTitlePage } = props;
+  const { indexes, turnToPage, isTitlePage, heightPX } = props;
+
+  const cardHeight = Math.floor((0.9 * heightPX) / 10);
+
+  console.log(cardHeight);
   return (
-    <IndexPageStyle mediaQueryLimitPixels={mediaQueryLimitPixels}>
-      <h1 className={isTitlePage ? '' : 'hidden'}> Index </h1>
+    <IndexPageStyle>
+      <div className={isTitlePage ? 'title' : 'title notshowed'}>
+        <h1> Index </h1>
+      </div>
       <ul className="index-entries">
         {indexes.map((pageData) => (
           <li key={pageData.file}>
@@ -136,7 +122,7 @@ export default function IndexPage(props) {
               subheader={pageData.subheader}
               pages={pageData.pages}
               turnToPage={turnToPage}
-              mediaQueryLimitPixels={mediaQueryLimitPixels}
+              height={cardHeight}
             />
           </li>
         ))}

@@ -156,15 +156,17 @@ export default class Home extends React.Component {
 
     const pagesContent = [
       <IndexPage
-        indexes={indexablePages.slice(0, 7)}
+        indexes={indexablePages.slice(0, 10)}
         turnToPage={this.turnToPage}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         isTitlePage
+        heightPX={height}
       />,
       <IndexPage
-        indexes={indexablePages.slice(7)}
+        indexes={indexablePages.slice(10)}
         turnToPage={this.turnToPage}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
+        heightPX={height}
       />,
       ...images
         .slice(1, images.length - 1)
