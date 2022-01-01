@@ -40,6 +40,7 @@ const PageStyle = styled.div`
     height: 100%;
     opacity: 0.2;
     border-right: 1px solid black;
+    pointer-events: none;
   }
   .page-wrapper.left {
     justify-content: flex-end;
