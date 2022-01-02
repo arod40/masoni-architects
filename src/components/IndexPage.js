@@ -106,21 +106,20 @@ export default function IndexPage(props) {
 
   const cardHeight = Math.floor((0.9 * heightPX) / 10);
 
-  console.log(cardHeight);
   return (
     <IndexPageStyle>
       <div className={isTitlePage ? 'title' : 'title notshowed'}>
         <h1> Index </h1>
       </div>
       <ul className="index-entries">
-        {indexes.map((pageData) => (
-          <li key={pageData.file}>
+        {indexes.map((projectData) => (
+          <li key={projectData.file}>
             <IndexCard
-              thumbnail={pageData.thumbnail}
-              header={pageData.header}
-              year={pageData.year}
-              subheader={pageData.subheader}
-              pages={pageData.pages}
+              thumbnail={projectData.thumbnail}
+              header={projectData.header}
+              year={projectData.year}
+              subheader={projectData.subheader}
+              pages={projectData.pages}
               turnToPage={turnToPage}
               height={cardHeight}
             />

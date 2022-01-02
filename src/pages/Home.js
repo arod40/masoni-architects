@@ -8,10 +8,10 @@ import {
   MdList,
   MdFullscreenExit,
 } from 'react-icons/md';
+import YAML from 'yaml';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
 import ContactsFooter from '../components/ContactsFooter';
-import data from '../assets/data';
 import Page from '../components/Page';
 import IndexPage from '../components/IndexPage';
 
@@ -89,6 +89,7 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: null,
       fullscreen: false,
       isWide: window.screen.availWidth > mediaQueryLimitPixels,
       screenWidthPX: window.innerWidth,
@@ -96,23 +97,18 @@ export default class Home extends React.Component {
       currentPage: 0,
     };
 
-    // Reading image list
-    this.images = [
-      data.homepage.file,
-      ...Array.from(
-        Object.keys(data.pages).map((page) => [page, data.pages[page].file])
-      )
-        .sort()
-        .map((elem) => elem[1]),
-      data.contactpage.file,
-    ];
-
     this.homePage = 0;
     this.indexPage = 1;
 
     window.addEventListener('resize', this.handleResize);
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('fullscreenchange', this.handleFullScreenChange);
+  }
+
+  componentDidMount() {
+    fetch('assets/alessandro/data.yml')
+      .then((response) => response.text())
+      .then((yaml) => this.setState({ data: YAML.parse(yaml) }));
   }
 
   handleResize = () => {
@@ -137,41 +133,69 @@ export default class Home extends React.Component {
     }));
   };
 
-  buildPages = (images, isWide, width, height) => {
+  resolveAsset = (name, asset) => `assets/${name}/${asset}`;
+
+  buildPages = (data, name, width, height) => {
     // Building slider pages
     const pages = [];
 
+    // Processing data
+    const images = [];
+    const indexes = [];
+
+    let lastPage = 1;
+
+    for (let i = 0; i < data.projects.length; i += 1) {
+      const project = data.projects[i];
+
+      const projectData = {
+        header: project.header,
+        subheader: project.subheader,
+        year: project.year,
+        pages: [lastPage, lastPage + project.pictures.length - 1],
+        thumbnail: this.resolveAsset(
+          name,
+          `${project.folder}/${project.thumbnail}`
+        ),
+      };
+      indexes.push(projectData);
+      lastPage += project.pictures.length;
+
+      for (let j = 0; j < project.pictures.length; j += 1) {
+        const picture = this.resolveAsset(
+          name,
+          `${project.folder}/${project.pictures[j]}`
+        );
+        images.push(picture);
+      }
+    }
+
     pages.push(
       <Page
-        content={<img src={data.homepage.file} alt="" />}
+        content={<img src={this.resolveAsset(name, data.cover_page)} alt="" />}
         maxWidth={width}
         maxHeight={height}
         pagesRatio={pagesRatio}
       />
     );
 
-    const indexablePages = Object.keys(data.pages)
-      .filter((page) => data.pages[page].index)
-      .map((page) => data.pages[page]);
-
     const pagesContent = [
       <IndexPage
-        indexes={indexablePages.slice(0, 10)}
+        indexes={indexes.slice(0, 10)}
         turnToPage={this.turnToPage}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         isTitlePage
         heightPX={height}
       />,
       <IndexPage
-        indexes={indexablePages.slice(10)}
+        indexes={indexes.slice(10)}
         turnToPage={this.turnToPage}
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         heightPX={height}
       />,
-      ...images
-        .slice(1, images.length - 1)
-        .map((image) => <img src={image} alt="" />),
+      ...images.map((image) => <img src={image} alt="" />),
     ];
+
     pagesContent.forEach((page) =>
       pages.push(
         <Page
@@ -185,7 +209,9 @@ export default class Home extends React.Component {
 
     pages.push(
       <Page
-        content={<img src={data.contactpage.file} alt="" />}
+        content={
+          <img src={this.resolveAsset(name, data.contact_page)} alt="" />
+        }
         maxWidth={width}
         maxHeight={height}
         pagesRatio={pagesRatio}
@@ -227,6 +253,7 @@ export default class Home extends React.Component {
 
   render() {
     const {
+      data,
       fullscreen,
       isWide,
       screenWidthPX,
@@ -234,105 +261,110 @@ export default class Home extends React.Component {
       currentPage,
     } = this.state;
 
-    let widthVW = isWide ? widthOnWideScreenVW : widthOnStrechScreenVW;
-    let heightVH = isWide ? heightOnWideScreenVH : heightOnStrechScreenVH;
+    const { name } = this.props;
 
-    if (!fullscreen) {
-      widthVW -= 5;
-      heightVH -= 5;
+    if (data) {
+      let widthVW = isWide ? widthOnWideScreenVW : widthOnStrechScreenVW;
+      let heightVH = isWide ? heightOnWideScreenVH : heightOnStrechScreenVH;
+
+      if (!fullscreen) {
+        widthVW -= 5;
+        heightVH -= 5;
+      }
+
+      const [widthPX, heightPX] = this.computeBookPagesSize(
+        isWide ? Math.floor(widthVW / 2) : widthVW,
+        heightVH,
+        screenWidthPX,
+        screenHeightPX
+      );
+
+      const pages = this.buildPages(data, name, widthPX, heightPX);
+      this.contactPage = pages.length - 1;
+      return (
+        <HomeLayout>
+          <div className="menu-bar">
+            <IconsMenu mediaQueryLimitPixels={mediaQueryLimitPixels}>
+              <div
+                key="home-icon"
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  this.turnToPage(this.homePage);
+                }}
+                onKeyDown={() => {
+                  this.turnToPage(this.homePage);
+                }}
+              >
+                <MdHome />
+              </div>
+              <div
+                key="list-icon"
+                role="button"
+                tabIndex={0}
+                onClick={() => this.turnToPage(this.indexPage)}
+                onKeyDown={() => this.turnToPage(this.indexPage)}
+              >
+                <MdList />
+              </div>
+              <div
+                key="person-icon"
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  this.turnToPage(this.contactPage);
+                }}
+                onKeyDown={() => {
+                  this.turnToPage(this.contactPage);
+                }}
+              >
+                <MdPerson />
+              </div>
+              <div
+                key="fullscreen-icon"
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  if (fullscreen) {
+                    document.exitFullscreen();
+                  } else {
+                    document.body.requestFullscreen();
+                  }
+                }}
+                onKeyDown={() => () => {
+                  if (fullscreen) {
+                    document.exitFullscreen();
+                  } else {
+                    document.body.requestFullscreen();
+                  }
+                }}
+              >
+                {fullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
+              </div>
+            </IconsMenu>
+          </div>
+          <div className="images-area">
+            <ImagesSlider
+              pages={pages}
+              width={isWide ? 2 * widthPX : widthPX}
+              pageWidth={widthPX}
+              height={heightPX}
+              currentPage={currentPage}
+              home={this}
+              handleClickNext={this.handleClickNext}
+              handleClickPrev={this.handleClickPrev}
+              handleCurrentPageChange={this.handleCurrentPageChange}
+            />
+          </div>
+          <div className="footer">
+            <ContactsFooter
+              contacts={[data.contacts]}
+              mediaQueryLimitPixels={mediaQueryLimitPixels}
+            />
+          </div>
+        </HomeLayout>
+      );
     }
-
-    const [widthPX, heightPX] = this.computeBookPagesSize(
-      isWide ? Math.floor(widthVW / 2) : widthVW,
-      heightVH,
-      screenWidthPX,
-      screenHeightPX
-    );
-
-    const pages = this.buildPages(this.images, isWide, widthPX, heightPX);
-    this.contactPage = pages.length - 1;
-    return (
-      <HomeLayout>
-        <div className="menu-bar">
-          <IconsMenu mediaQueryLimitPixels={mediaQueryLimitPixels}>
-            <div
-              key="home-icon"
-              role="button"
-              tabIndex={0}
-              onClick={() => {
-                this.turnToPage(this.homePage);
-              }}
-              onKeyDown={() => {
-                this.turnToPage(this.homePage);
-              }}
-            >
-              <MdHome />
-            </div>
-            <div
-              key="list-icon"
-              role="button"
-              tabIndex={0}
-              onClick={() => this.turnToPage(this.indexPage)}
-              onKeyDown={() => this.turnToPage(this.indexPage)}
-            >
-              <MdList />
-            </div>
-            <div
-              key="person-icon"
-              role="button"
-              tabIndex={0}
-              onClick={() => {
-                this.turnToPage(this.contactPage);
-              }}
-              onKeyDown={() => {
-                this.turnToPage(this.contactPage);
-              }}
-            >
-              <MdPerson />
-            </div>
-            <div
-              key="fullscreen-icon"
-              role="button"
-              tabIndex={0}
-              onClick={() => {
-                if (fullscreen) {
-                  document.exitFullscreen();
-                } else {
-                  document.body.requestFullscreen();
-                }
-              }}
-              onKeyDown={() => () => {
-                if (fullscreen) {
-                  document.exitFullscreen();
-                } else {
-                  document.body.requestFullscreen();
-                }
-              }}
-            >
-              {fullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
-            </div>
-          </IconsMenu>
-        </div>
-        <div className="images-area">
-          <ImagesSlider
-            pages={pages}
-            width={isWide ? 2 * widthPX : widthPX}
-            pageWidth={widthPX}
-            height={heightPX}
-            currentPage={currentPage}
-            home={this}
-            handleClickNext={this.handleClickNext}
-            handleClickPrev={this.handleClickPrev}
-            handleCurrentPageChange={this.handleCurrentPageChange}
-          />
-        </div>
-        <div className="footer">
-          <ContactsFooter
-            contacts={data.contacts}
-            mediaQueryLimitPixels={mediaQueryLimitPixels}
-          />
-        </div>
-      </HomeLayout>
-    );
+    return null;
   }
 }
