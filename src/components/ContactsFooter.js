@@ -80,40 +80,46 @@ export default function ContactsFooter(props) {
                 }}
                 type="success"
               />
-              <li data-tip="Email copied!" data-event="click">
-                <span className="email">{contact.email}</span>
-                <span>
-                  <MdEmail />
-                </span>
-              </li>
-              <li>
-                <span
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => {
-                    window.open(contact.linkedin);
-                  }}
-                  onKeyDown={() => {
-                    window.open(contact.linkedin);
-                  }}
-                >
-                  <LinkedInIco fill="white" />
-                </span>
-              </li>
-              <li>
-                <span
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => {
-                    window.open(contact.orcid);
-                  }}
-                  onKeyDown={() => {
-                    window.open(contact.orcid);
-                  }}
-                >
-                  <OrcidIco fill="white" />
-                </span>
-              </li>
+              {contact.email && (
+                <li data-tip="Email copied!" data-event="click">
+                  <span className="email">{contact.email}</span>
+                  <span>
+                    <MdEmail />
+                  </span>
+                </li>
+              )}
+              {contact.linkedin && (
+                <li>
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => {
+                      window.open(contact.linkedin);
+                    }}
+                    onKeyDown={() => {
+                      window.open(contact.linkedin);
+                    }}
+                  >
+                    <LinkedInIco fill="white" />
+                  </span>
+                </li>
+              )}
+              {contact.orcid && (
+                <li>
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => {
+                      window.open(contact.orcid);
+                    }}
+                    onKeyDown={() => {
+                      window.open(contact.orcid);
+                    }}
+                  >
+                    <OrcidIco fill="white" />
+                  </span>
+                </li>
+              )}
             </ul>
           </div>
         ))}

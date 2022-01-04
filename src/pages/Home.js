@@ -406,6 +406,9 @@ export default class Home extends React.Component {
         ];
       }
 
+      const contacts =
+        name !== 'generic' ? data.contacts : { email: genData.email };
+
       return (
         <HomeLayout>
           <div className="menu-bar">
@@ -439,12 +442,10 @@ export default class Home extends React.Component {
             )}
           </div>
           <div className="footer">
-            {name !== 'generic' && (
-              <ContactsFooter
-                contacts={[data.contacts]}
-                mediaQueryLimitPixels={mediaQueryLimitPixels}
-              />
-            )}
+            <ContactsFooter
+              contacts={[contacts]}
+              mediaQueryLimitPixels={mediaQueryLimitPixels}
+            />
           </div>
         </HomeLayout>
       );
