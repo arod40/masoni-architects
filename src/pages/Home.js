@@ -42,6 +42,14 @@ const HomeLayout = styled.div`
   .menu-bar {
     grid-area: menu;
     z-index: 100;
+    .avatar {
+      img {
+        max-width: 40px;
+        max-height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
   }
   .footer {
     grid-area: footer;
@@ -90,6 +98,7 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
       data: null,
+      genData: null,
       fullscreen: false,
       isWide: window.screen.availWidth > mediaQueryLimitPixels,
       screenWidthPX: window.innerWidth,
@@ -109,6 +118,10 @@ export default class Home extends React.Component {
     fetch('assets/alessandro/data.yml')
       .then((response) => response.text())
       .then((yaml) => this.setState({ data: YAML.parse(yaml) }));
+
+    fetch('assets/data.yml')
+      .then((response) => response.text())
+      .then((yaml) => this.setState({ genData: YAML.parse(yaml) }));
   }
 
   handleResize = () => {
@@ -134,6 +147,8 @@ export default class Home extends React.Component {
   };
 
   resolveAsset = (name, asset) => `assets/${name}/${asset}`;
+
+  resolveGenAsset = (asset) => `assets/${asset}`;
 
   buildPages = (data, name, width, height) => {
     // Building slider pages
@@ -254,6 +269,7 @@ export default class Home extends React.Component {
   render() {
     const {
       data,
+      genData,
       fullscreen,
       isWide,
       screenWidthPX,
@@ -263,7 +279,7 @@ export default class Home extends React.Component {
 
     const { name } = this.props;
 
-    if (data) {
+    if (data && genData) {
       let widthVW = isWide ? widthOnWideScreenVW : widthOnStrechScreenVW;
       let heightVH = isWide ? heightOnWideScreenVH : heightOnStrechScreenVH;
 
@@ -281,66 +297,92 @@ export default class Home extends React.Component {
 
       const pages = this.buildPages(data, name, widthPX, heightPX);
       this.contactPage = pages.length - 1;
+
+      let menuChildren = [];
+      if (name === 'generic') {
+        menuChildren = [
+          <div className="avatar">
+            <a href="/alessandro">
+              <img src={this.resolveGenAsset(genData.pfp.alessandro)} alt="" />
+            </a>
+          </div>,
+          <div className="avatar">
+            <a href="/andrea">
+              <img src={this.resolveGenAsset(genData.pfp.andrea)} alt="" />
+            </a>
+          </div>,
+          <div className="avatar">
+            <a href="/massimo">
+              <img src={this.resolveGenAsset(genData.pfp.massimo)} alt="" />
+            </a>
+          </div>,
+        ];
+      } else {
+        menuChildren = [
+          <div
+            key="home-icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              this.turnToPage(this.homePage);
+            }}
+            onKeyDown={() => {
+              this.turnToPage(this.homePage);
+            }}
+          >
+            <MdHome />
+          </div>,
+          <div
+            key="list-icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => this.turnToPage(this.indexPage)}
+            onKeyDown={() => this.turnToPage(this.indexPage)}
+          >
+            <MdList />
+          </div>,
+          <div
+            key="person-icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              this.turnToPage(this.contactPage);
+            }}
+            onKeyDown={() => {
+              this.turnToPage(this.contactPage);
+            }}
+          >
+            <MdPerson />
+          </div>,
+          <div
+            key="fullscreen-icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              if (fullscreen) {
+                document.exitFullscreen();
+              } else {
+                document.body.requestFullscreen();
+              }
+            }}
+            onKeyDown={() => () => {
+              if (fullscreen) {
+                document.exitFullscreen();
+              } else {
+                document.body.requestFullscreen();
+              }
+            }}
+          >
+            {fullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
+          </div>,
+        ];
+      }
+
       return (
         <HomeLayout>
           <div className="menu-bar">
             <IconsMenu mediaQueryLimitPixels={mediaQueryLimitPixels}>
-              <div
-                key="home-icon"
-                role="button"
-                tabIndex={0}
-                onClick={() => {
-                  this.turnToPage(this.homePage);
-                }}
-                onKeyDown={() => {
-                  this.turnToPage(this.homePage);
-                }}
-              >
-                <MdHome />
-              </div>
-              <div
-                key="list-icon"
-                role="button"
-                tabIndex={0}
-                onClick={() => this.turnToPage(this.indexPage)}
-                onKeyDown={() => this.turnToPage(this.indexPage)}
-              >
-                <MdList />
-              </div>
-              <div
-                key="person-icon"
-                role="button"
-                tabIndex={0}
-                onClick={() => {
-                  this.turnToPage(this.contactPage);
-                }}
-                onKeyDown={() => {
-                  this.turnToPage(this.contactPage);
-                }}
-              >
-                <MdPerson />
-              </div>
-              <div
-                key="fullscreen-icon"
-                role="button"
-                tabIndex={0}
-                onClick={() => {
-                  if (fullscreen) {
-                    document.exitFullscreen();
-                  } else {
-                    document.body.requestFullscreen();
-                  }
-                }}
-                onKeyDown={() => () => {
-                  if (fullscreen) {
-                    document.exitFullscreen();
-                  } else {
-                    document.body.requestFullscreen();
-                  }
-                }}
-              >
-                {fullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
-              </div>
+              {menuChildren}
             </IconsMenu>
           </div>
           <div className="images-area">

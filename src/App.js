@@ -16,6 +16,9 @@ export default function App() {
           <Route path="/massimo">
             <Home name="massimo" />
           </Route>
+          <Route path="/">
+            <Home name="generic" />
+          </Route>
         </Switch>
       </Router>
     </>
