@@ -28,7 +28,7 @@ const GlobalStyles = createGlobalStyle`
   button{
     outline: none
   }
-  img{
+  img.cantdownload{
     pointer-events: none;
   }
   .icon {

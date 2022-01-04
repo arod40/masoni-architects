@@ -187,7 +187,13 @@ export default class Home extends React.Component {
 
     pages.push(
       <Page
-        content={<img src={this.resolveAsset(name, data.cover_page)} alt="" />}
+        content={
+          <img
+            className="cantdownload"
+            src={this.resolveAsset(name, data.cover_page)}
+            alt=""
+          />
+        }
         maxWidth={width}
         maxHeight={height}
         pagesRatio={pagesRatio}
@@ -208,7 +214,9 @@ export default class Home extends React.Component {
         mediaQueryLimitPixels={mediaQueryLimitPixels}
         heightPX={height}
       />,
-      ...images.map((image) => <img src={image} alt="" />),
+      ...images.map((image) => (
+        <img className="cantdownload" src={image} alt="" />
+      )),
     ];
 
     pagesContent.forEach((page) =>
@@ -225,7 +233,11 @@ export default class Home extends React.Component {
     pages.push(
       <Page
         content={
-          <img src={this.resolveAsset(name, data.contact_page)} alt="" />
+          <img
+            className="cantdownload"
+            src={this.resolveAsset(name, data.contact_page)}
+            alt=""
+          />
         }
         maxWidth={width}
         maxHeight={height}
@@ -235,6 +247,21 @@ export default class Home extends React.Component {
 
     return pages;
   };
+
+  buildCoverPage = (data, width, height) => (
+    <Page
+      content={
+        <img
+          className="cantdownload"
+          src={this.resolveGenAsset(data.cover)}
+          alt=""
+        />
+      }
+      maxWidth={width}
+      maxHeight={height}
+      pagesRatio={pagesRatio}
+    />
+  );
 
   vwToPixels = (vwUnits, screenWidthPX) =>
     Math.floor((screenWidthPX * vwUnits) / 100);
@@ -296,6 +323,7 @@ export default class Home extends React.Component {
       );
 
       const pages = this.buildPages(data, name, widthPX, heightPX);
+
       this.contactPage = pages.length - 1;
 
       let menuChildren = [];
@@ -386,23 +414,37 @@ export default class Home extends React.Component {
             </IconsMenu>
           </div>
           <div className="images-area">
-            <ImagesSlider
-              pages={pages}
-              width={isWide ? 2 * widthPX : widthPX}
-              pageWidth={widthPX}
-              height={heightPX}
-              currentPage={currentPage}
-              home={this}
-              handleClickNext={this.handleClickNext}
-              handleClickPrev={this.handleClickPrev}
-              handleCurrentPageChange={this.handleCurrentPageChange}
-            />
+            {name !== 'generic' ? (
+              <ImagesSlider
+                pages={pages}
+                width={isWide ? 2 * widthPX : widthPX}
+                pageWidth={widthPX}
+                height={heightPX}
+                currentPage={currentPage}
+                home={this}
+                handleClickNext={this.handleClickNext}
+                handleClickPrev={this.handleClickPrev}
+                handleCurrentPageChange={this.handleCurrentPageChange}
+              />
+            ) : (
+              <div
+                style={{
+                  width: widthPX,
+                  height: heightPX,
+                  'background-color': 'var(--white)',
+                }}
+              >
+                {this.buildCoverPage(genData, widthPX, heightPX)}
+              </div>
+            )}
           </div>
           <div className="footer">
-            <ContactsFooter
-              contacts={[data.contacts]}
-              mediaQueryLimitPixels={mediaQueryLimitPixels}
-            />
+            {name !== 'generic' && (
+              <ContactsFooter
+                contacts={[data.contacts]}
+                mediaQueryLimitPixels={mediaQueryLimitPixels}
+              />
+            )}
           </div>
         </HomeLayout>
       );
