@@ -43,11 +43,27 @@ const HomeLayout = styled.div`
     grid-area: menu;
     z-index: 100;
     .avatar {
+      position: relative;
       img {
-        max-width: 40px;
-        max-height: 40px;
+        max-width: 60px;
+        max-height: 60px;
         object-fit: cover;
         border-radius: 50%;
+      }
+      .person-label {
+        position: absolute;
+        top: 30%;
+        font-size: 18px;
+        transform: translateX(-100%);
+        opacity: 0;
+        transition-property: transform opacity;
+        transition: ease 0.4s;
+      }
+    }
+    .avatar:hover {
+      .person-label {
+        transform: translateX(65px);
+        opacity: 1;
       }
     }
   }
@@ -60,26 +76,6 @@ const HomeLayout = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-  }
-  .fade-enter {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  .fade-enter-active {
-    opacity: 1;
-    transform: scale(1);
-    transition: 300ms ease-in;
-    transition-property: transform, opacity;
-  }
-  .fade-exit {
-    transform: scale(1);
-    opacity: 1;
-  }
-  .fade-exit-active {
-    opacity: 0;
-    transform: scale(0.96);
-    transition: 200ms ease-in;
-    transition-property: transform, opacity;
   }
   @media (max-width: ${mediaQueryLimitPixels}px) {
     grid-template-rows: ${strechScreenNavHeight}vh ${100 -
@@ -333,16 +329,19 @@ export default class Home extends React.Component {
             <a href="/alessandro">
               <img src={this.resolveGenAsset(genData.pfp.alessandro)} alt="" />
             </a>
+            <div className="person-label">Alessandro</div>
           </div>,
           <div className="avatar">
             <a href="/andrea">
               <img src={this.resolveGenAsset(genData.pfp.andrea)} alt="" />
             </a>
+            <div className="person-label">Andrea</div>
           </div>,
           <div className="avatar">
             <a href="/massimo">
               <img src={this.resolveGenAsset(genData.pfp.massimo)} alt="" />
             </a>
+            <div className="person-label">Massimo</div>
           </div>,
         ];
       } else {
