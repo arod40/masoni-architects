@@ -86,6 +86,9 @@ const HomeLayout = styled.div`
       'menu '
       'images'
       'footer';
+    .person-label {
+      display: none;
+    }
   }
 `;
 
