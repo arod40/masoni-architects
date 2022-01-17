@@ -80,22 +80,18 @@ const HomeLayout = styled.div`
   }
   .fade-enter {
     opacity: 0;
-    transform: scale(0.96);
   }
   .fade-enter-active {
     opacity: 1;
-    transform: scale(1);
-    transition: 300ms ease-in;
+    transition: 500ms ease-in;
     transition-property: transform, opacity;
   }
   .fade-exit {
-    transform: scale(1);
     opacity: 1;
   }
   .fade-exit-active {
     opacity: 0;
-    transform: scale(0.96);
-    transition: 200ms ease-in;
+    transition: 400ms ease-in;
     transition-property: transform, opacity;
   }
   .hidden {
@@ -492,19 +488,28 @@ export default class Home extends React.Component {
                 handleCurrentPageChange={this.handleCurrentPageChange}
               />
             ) : (
-              <SwitchTransition component={null}>
-                <CSSTransition key={counter} timeout={600} classNames="fade">
-                  <div
-                    style={{
-                      width: widthPX,
-                      height: heightPX,
-                      'background-color': 'var(--white)',
-                    }}
-                  >
-                    {pages[counter]}
-                  </div>
-                </CSSTransition>
-              </SwitchTransition>
+              <div
+                style={{
+                  width: widthPX,
+                  height: heightPX,
+                  position: 'relative',
+                  'background-color': 'var(--white)',
+                }}
+              >
+                <SwitchTransition component={null} mode="in-out">
+                  <CSSTransition key={counter} timeout={600} classNames="fade">
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                      }}
+                    >
+                      {pages[counter]}
+                    </div>
+                  </CSSTransition>
+                </SwitchTransition>
+              </div>
             )}
           </div>
           <div className="footer">

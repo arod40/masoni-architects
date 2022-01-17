@@ -46,26 +46,6 @@ const SliderStyles = styled.div`
       props.currentPage === props.totalPage - 1 ? 'hidden' : 'visible'};
     right: 0;
   }
-  .fade-enter {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  .fade-enter-active {
-    opacity: 1;
-    transform: scale(1);
-    transition: 300ms ease-in;
-    transition-property: transform, opacity;
-  }
-  .fade-exit {
-    transform: scale(1);
-    opacity: 1;
-  }
-  .fade-exit-active {
-    opacity: 0;
-    transform: scale(0.96);
-    transition: 200ms ease-in;
-    transition-property: transform, opacity;
-  }
 `;
 
 export default class ImagesSlider extends React.Component {
