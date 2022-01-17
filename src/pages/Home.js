@@ -9,6 +9,7 @@ import {
   MdFullscreenExit,
 } from 'react-icons/md';
 import YAML from 'yaml';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import IconsMenu from '../components/IconsMenu';
 import ImagesSlider from '../components/ImagesSlider';
 import ContactsFooter from '../components/ContactsFooter';
@@ -77,6 +78,29 @@ const HomeLayout = styled.div`
     display: flex;
     justify-content: center;
   }
+  .fade-enter {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  .fade-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: 300ms ease-in;
+    transition-property: transform, opacity;
+  }
+  .fade-exit {
+    transform: scale(1);
+    opacity: 1;
+  }
+  .fade-exit-active {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: 200ms ease-in;
+    transition-property: transform, opacity;
+  }
+  .hidden {
+    display: none;
+  }
   @media (max-width: ${mediaQueryLimitPixels}px) {
     grid-template-rows: ${strechScreenNavHeight}vh ${100 -
       strechScreenNavHeight -
@@ -103,6 +127,7 @@ export default class Home extends React.Component {
       screenWidthPX: window.innerWidth,
       screenHeightPX: window.innerHeight,
       currentPage: 0,
+      counter: 0,
     };
 
     this.homePage = 0;
@@ -120,8 +145,20 @@ export default class Home extends React.Component {
 
     fetch('assets/data.yml')
       .then((response) => response.text())
-      .then((yaml) => this.setState({ genData: YAML.parse(yaml) }));
+      .then((yaml) => {
+        const genData = YAML.parse(yaml);
+        this.setState({ genData });
+        setInterval(
+          () =>
+            this.setState({
+              counter: Math.floor(Math.random() * genData.cover_images.length),
+            }),
+          5000
+        );
+      });
   }
+
+  changeRandomCounter = () => {};
 
   handleResize = () => {
     this.setState({
@@ -247,20 +284,28 @@ export default class Home extends React.Component {
     return pages;
   };
 
-  buildCoverPage = (data, width, height) => (
-    <Page
-      content={
-        <img
-          className="cantdownload"
-          src={this.resolveGenAsset(data.cover)}
-          alt=""
+  buildCoverPages = (data, width, height) => {
+    const pages = [];
+
+    data.cover_images.forEach((image) => {
+      pages.push(
+        <Page
+          content={
+            <img
+              className="cantdownload"
+              src={this.resolveGenAsset(image)}
+              alt=""
+            />
+          }
+          maxWidth={width}
+          maxHeight={height}
+          pagesRatio={pagesRatio}
         />
-      }
-      maxWidth={width}
-      maxHeight={height}
-      pagesRatio={pagesRatio}
-    />
-  );
+      );
+    });
+
+    return pages;
+  };
 
   vwToPixels = (vwUnits, screenWidthPX) =>
     Math.floor((screenWidthPX * vwUnits) / 100);
@@ -301,9 +346,12 @@ export default class Home extends React.Component {
       screenWidthPX,
       screenHeightPX,
       currentPage,
+      counter,
     } = this.state;
 
     const { name } = this.props;
+
+    console.log(counter);
 
     if (data && genData) {
       let widthVW = isWide ? widthOnWideScreenVW : widthOnStrechScreenVW;
@@ -321,7 +369,10 @@ export default class Home extends React.Component {
         screenHeightPX
       );
 
-      const pages = this.buildPages(data, name, widthPX, heightPX);
+      const pages =
+        name === 'generic'
+          ? this.buildCoverPages(genData, widthPX, heightPX)
+          : this.buildPages(data, name, widthPX, heightPX);
 
       this.contactPage = pages.length - 1;
 
@@ -413,6 +464,12 @@ export default class Home extends React.Component {
 
       return (
         <HomeLayout>
+          {/* Rendering all pages beforehand so they are cached by browser */}
+          <div className="hidden">
+            {pages.map((page) => (
+              <div>{page}</div>
+            ))}
+          </div>
           <div className="menu-bar">
             <IconsMenu mediaQueryLimitPixels={mediaQueryLimitPixels}>
               {menuChildren}
@@ -432,15 +489,19 @@ export default class Home extends React.Component {
                 handleCurrentPageChange={this.handleCurrentPageChange}
               />
             ) : (
-              <div
-                style={{
-                  width: widthPX,
-                  height: heightPX,
-                  'background-color': 'var(--white)',
-                }}
-              >
-                {this.buildCoverPage(genData, widthPX, heightPX)}
-              </div>
+              <SwitchTransition component={null}>
+                <CSSTransition key={counter} timeout={600} classNames="fade">
+                  <div
+                    style={{
+                      width: widthPX,
+                      height: heightPX,
+                      'background-color': 'var(--white)',
+                    }}
+                  >
+                    {pages[counter]}
+                  </div>
+                </CSSTransition>
+              </SwitchTransition>
             )}
           </div>
           <div className="footer">

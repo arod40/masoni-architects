@@ -89,12 +89,6 @@ export default class ImagesSlider extends React.Component {
         currentPage={currentPage}
         totalPage={pages.length}
       >
-        {/* Rendering all pages beforehand so they are cached by browser */}
-        <div className="hidden">
-          {pages.map((page) => (
-            <div>{page}</div>
-          ))}
-        </div>
         <div
           className="icon arrow back"
           role="button"
