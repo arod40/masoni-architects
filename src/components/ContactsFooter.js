@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { ReactComponent as LinkedInIco } from '../assets/linkedin.svg';
 import { ReactComponent as OrcidIco } from '../assets/orcid.svg';
+import { ReactComponent as MailIco } from '../assets/mail.svg';
 
 const ContactsStyle = styled.div`
   display: flex;
@@ -84,7 +85,7 @@ export default function ContactsFooter(props) {
                 <li data-tip="Email copied!" data-event="click">
                   <span className="email">{contact.email}</span>
                   <span>
-                    <MdEmail />
+                    <MailIco fill="black" />
                   </span>
                 </li>
               )}
@@ -100,7 +101,7 @@ export default function ContactsFooter(props) {
                       window.open(contact.linkedin);
                     }}
                   >
-                    <LinkedInIco fill="white" />
+                    <LinkedInIco fill="black" />
                   </span>
                 </li>
               )}
@@ -116,7 +117,7 @@ export default function ContactsFooter(props) {
                       window.open(contact.orcid);
                     }}
                   >
-                    <OrcidIco fill="white" />
+                    <OrcidIco fill="black" />
                   </span>
                 </li>
               )}

@@ -1,13 +1,7 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import {
-  MdHome,
-  MdPerson,
-  MdFullscreen,
-  MdList,
-  MdFullscreenExit,
-} from 'react-icons/md';
+import { MdList } from 'react-icons/md';
 import YAML from 'yaml';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import IconsMenu from '../components/IconsMenu';
@@ -15,6 +9,11 @@ import ImagesSlider from '../components/ImagesSlider';
 import ContactsFooter from '../components/ContactsFooter';
 import Page from '../components/Page';
 import IndexPage from '../components/IndexPage';
+
+import { ReactComponent as HomeIco } from '../assets/home.svg';
+import { ReactComponent as PersonIco } from '../assets/contact.svg';
+import { ReactComponent as FullscreenIco } from '../assets/extend.svg';
+import { ReactComponent as FullscreenExitIco } from '../assets/reduce.svg';
 
 const mediaQueryLimitPixels = 600;
 const wideScreenNavWidthVW = 10;
@@ -411,7 +410,7 @@ export default class Home extends React.Component {
               this.turnToPage(this.homePage);
             }}
           >
-            <MdHome />
+            <HomeIco />
           </div>,
           <div
             key="list-icon"
@@ -433,7 +432,7 @@ export default class Home extends React.Component {
               this.turnToPage(this.contactPage);
             }}
           >
-            <MdPerson />
+            <PersonIco />
           </div>,
           <div
             key="fullscreen-icon"
@@ -454,7 +453,7 @@ export default class Home extends React.Component {
               }
             }}
           >
-            {fullscreen ? <MdFullscreenExit /> : <MdFullscreen />}
+            {fullscreen ? <FullscreenExitIco /> : <FullscreenIco />}
           </div>,
         ];
       }
