@@ -24,10 +24,10 @@ const ContactsStyle = styled.div`
     overflow-y: hidden;
     .contact {
       padding: 10px;
-      font-size: 16px;
+      font-size: 14px;
       color: var(--white);
       span {
-        margin: 0 2px;
+        margin: 0 6px;
       }
       svg {
         position: relative;
@@ -75,10 +75,11 @@ export default function ContactsFooter(props) {
             <ul>
               <ReactTooltip
                 effect="solid"
-                afterShow={() => {
-                  navigator.clipboard.writeText(contact.email);
-                  setTimeout(ReactTooltip.hide, 1200);
-                }}
+                afterShow={() =>
+                  navigator.clipboard
+                    .writeText(contact.email)
+                    .then(() => setTimeout(ReactTooltip.hide, 1200))
+                }
                 type="success"
               />
               {contact.email && (

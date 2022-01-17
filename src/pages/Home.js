@@ -53,7 +53,7 @@ const HomeLayout = styled.div`
       .person-label {
         position: absolute;
         top: 30%;
-        font-size: 18px;
+        font-size: 14px;
         transform: translateX(-100%);
         opacity: 0;
         transition-property: transform opacity;
@@ -62,7 +62,7 @@ const HomeLayout = styled.div`
     }
     .avatar:hover {
       .person-label {
-        transform: translateX(65px);
+        transform: translateX(75px);
         opacity: 1;
       }
     }
@@ -349,8 +349,6 @@ export default class Home extends React.Component {
     } = this.state;
 
     const { name } = this.props;
-
-    console.log(counter);
 
     if (data && genData) {
       let widthVW = isWide ? widthOnWideScreenVW : widthOnStrechScreenVW;

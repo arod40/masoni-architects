@@ -39,7 +39,7 @@ const PageStyle = styled.div`
     width: 100%;
     height: 100%;
     opacity: 0.2;
-    border-right: 1px solid black;
+    border-right: 2px solid black;
     pointer-events: none;
   }
   .page-wrapper.left {
