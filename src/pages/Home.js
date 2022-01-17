@@ -9,6 +9,7 @@ import ContactsFooter from '../components/ContactsFooter';
 import Page from '../components/Page';
 import IndexPage from '../components/IndexPage';
 
+import { ReactComponent as MasoniIco } from '../assets/cover.svg';
 import { ReactComponent as HomeIco } from '../assets/home.svg';
 import { ReactComponent as PersonIco } from '../assets/contact.svg';
 import { ReactComponent as FullscreenIco } from '../assets/extend.svg';
@@ -397,6 +398,11 @@ export default class Home extends React.Component {
         ];
       } else {
         menuChildren = [
+          <div key="real-home-icon">
+            <a href="/">
+              <MasoniIco />
+            </a>
+          </div>,
           <div
             key="home-icon"
             role="button"
