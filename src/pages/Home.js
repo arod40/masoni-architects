@@ -1,7 +1,6 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { MdList } from 'react-icons/md';
 import YAML from 'yaml';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import IconsMenu from '../components/IconsMenu';
@@ -14,6 +13,7 @@ import { ReactComponent as HomeIco } from '../assets/home.svg';
 import { ReactComponent as PersonIco } from '../assets/contact.svg';
 import { ReactComponent as FullscreenIco } from '../assets/extend.svg';
 import { ReactComponent as FullscreenExitIco } from '../assets/reduce.svg';
+import { ReactComponent as IndexIco } from '../assets/index.svg';
 
 const mediaQueryLimitPixels = 600;
 const wideScreenNavWidthVW = 10;
@@ -62,7 +62,7 @@ const HomeLayout = styled.div`
     }
     .avatar:hover {
       .person-label {
-        transform: translateX(75px);
+        transform: translateX(100px);
         opacity: 1;
       }
     }
@@ -417,7 +417,7 @@ export default class Home extends React.Component {
             onClick={() => this.turnToPage(this.indexPage)}
             onKeyDown={() => this.turnToPage(this.indexPage)}
           >
-            <MdList />
+            <IndexIco />
           </div>,
           <div
             key="person-icon"

@@ -33,10 +33,10 @@ const GlobalStyles = createGlobalStyle`
   }
   .icon {
     color: white;
-    opacity: 0.7;
+    opacity: 1;
     transition: 0.25s ease;
     &:hover {
-      opacity: 1;
+      opacity: 0.7;
     }
   }
 `;

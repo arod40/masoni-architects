@@ -24,7 +24,7 @@ const ContactsStyle = styled.div`
     overflow-y: hidden;
     .contact {
       padding: 10px;
-      font-size: 14px;
+      font-size: 12px;
       color: var(--white);
       span {
         margin: 0 6px;
@@ -42,11 +42,10 @@ const ContactsStyle = styled.div`
         cursor: pointer;
         transition-property: background-color box-shadow;
         transition: ease 0.2s;
-      }
-      li:hover {
-        background-color: var(--gray-1);
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        .email {
+          position: relative;
+          bottom: 3px;
+        }
       }
     }
   }
