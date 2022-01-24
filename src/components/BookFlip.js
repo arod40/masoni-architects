@@ -20,6 +20,9 @@ const BookFlipStyle = styled.div`
     containerTransform(props.nextPage, props.totalPages, props.skip)};
   width: ${(props) => 2 * props.width}px;
   height: ${(props) => props.height}px;
+  #book {
+    touch-action: pinch-zoom;
+  }
 `;
 
 export default class BookFlip extends React.Component {
