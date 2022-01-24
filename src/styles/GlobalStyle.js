@@ -13,6 +13,7 @@ const GlobalStyles = createGlobalStyle`
     --ivory: ivory;
     --typo-main: Helvetica, Arial, sans-serif;
     --typo-text: Courier New, sans-serif;
+    --type-index: Courier, sans-serif;
   }
   html{
     font-size: 10px;

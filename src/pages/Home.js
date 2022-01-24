@@ -135,7 +135,8 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    fetch('assets/alessandro/data.yml')
+    const { name } = this.props;
+    fetch(`assets/${name}/data.yml`)
       .then((response) => response.text())
       .then((yaml) => this.setState({ data: YAML.parse(yaml) }));
 

@@ -98,6 +98,8 @@ const IndexPageStyle = styled.div`
     position: relative;
     top: 30%;
     text-align: center;
+    font-family: var(--typo-index);
+    font-weight: bold;
   }
 `;
 
@@ -109,7 +111,7 @@ export default function IndexPage(props) {
   return (
     <IndexPageStyle>
       <div className={isTitlePage ? 'title' : 'title notshowed'}>
-        <h1> Index </h1>
+        <h1> index </h1>
       </div>
       <ul className="index-entries">
         {indexes.map((projectData) => (

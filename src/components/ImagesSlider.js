@@ -76,7 +76,7 @@ export default class ImagesSlider extends React.Component {
           onClick={handleClickPrev}
           onKeyDown={handleClickPrev}
         >
-          <MdKeyboardArrowLeft size="60" />
+          <MdKeyboardArrowLeft size="50" />
         </div>
         <div
           className="icon arrow forward"
@@ -85,7 +85,7 @@ export default class ImagesSlider extends React.Component {
           onClick={handleClickNext}
           onKeyDown={handleClickNext}
         >
-          <MdKeyboardArrowRight size="60" />
+          <MdKeyboardArrowRight size="50" />
         </div>
         <div className="slider">
           <BookFlip
